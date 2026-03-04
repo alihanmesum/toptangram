@@ -1,0 +1,6 @@
+{
+  "appId": "com.toptangram.app",
+  "appName": "Toptangram",
+  "webDir": "out",
+  "bundledWebRuntime": false
+}

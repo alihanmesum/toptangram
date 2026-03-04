@@ -1,0 +1,26 @@
+{
+  "name": "toptangram",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "cap:init": "npx @capacitor/cli@latest init toptangram com.toptangram.app --web-dir=out",
+    "cap:build": "next build && next export",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:open:ios": "npx cap open ios"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
+    "lucide-react": "latest",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "recharts": "^3.7.0",
+    "web-push": "^3.5.0",
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2"
+  }
+}
