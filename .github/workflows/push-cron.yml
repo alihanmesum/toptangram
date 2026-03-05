@@ -1,9 +1,9 @@
-name: 'Push Notification Cron'
+name: Push Notification Cron
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch: {}
+    - cron: */5 * * * *
+  workflow_dispatch:
 
 jobs:
   trigger-product-listener:
