@@ -1233,7 +1233,7 @@ function CartScreen({ cart, setCart }) {
       <div style={{ fontSize:48 }}>🛍</div>
       <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Sepetiniz boş</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
-        Feed'deki ürünlerin altındaki "Sepete Ekle" butonuyla talep listenizi oluşturun
+        Feed'deki ürünlerin altındaki "Talep Listesine Ekle" butonuyla talep listenizi oluşturun
       </div>
     </div>
   );
@@ -1242,13 +1242,8 @@ function CartScreen({ cart, setCart }) {
     <div style={{ height:"100%", display:"flex", flexDirection:"column", background:T.bg }}>
       <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}`,
         display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <div>
-          <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Talep Sepetim</span>
-          <div style={{ fontSize:11, color:T.muted, marginTop:2 }}>
-            Beğendiğin ürünleri mağazaya bildir, iletişime geçsinler
-          </div>
-        </div>
-        <span style={{ fontSize:12, color:T.muted }}>{cart.length} ürün</span>
+        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Sepetim</span>
+        <span style={{ fontSize:12, color:T.muted }}>{cart.length} ürün · {grouped.length} mağaza</span>
       </div>
       <div style={{ flex:1, overflowY:"auto" }}>
         {grouped.map(group => (
@@ -1321,60 +1316,44 @@ function CartScreen({ cart, setCart }) {
 // ═══════════════════════════════════════════════════════════════
 // SİPARİŞ TAKİBİ EKRANI
 // ═══════════════════════════════════════════════════════════════
-// Talep geçmişi — sepetten gönderilen talepler burada toplanır (demo)
 const MOCK_TALEPLER = [];
+
+
 
 function TalepScreen({ talepler, onStore }) {
   if (!talepler || talepler.length === 0) return (
-    <div style={{ flex:1, display:"flex", flexDirection:"column",
-      alignItems:"center", justifyContent:"center", gap:14, padding:24, background:T.bg }}>
+    <div style={{ display:"flex", flexDirection:"column",
+      alignItems:"center", justifyContent:"center", gap:14, padding:"40px 24px", background:T.bg }}>
       <div style={{ fontSize:48 }}>📋</div>
       <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Henüz talep yok</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center", lineHeight:1.6 }}>
-        Ürünleri sepete ekleyip mağazaya talep gönderdiğinde burada görünür.
+        Ürünleri talep listesine ekleyip mağazaya bildir.
       </div>
     </div>
   );
-
   return (
-    <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
-      <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}` }}>
-        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Taleplerim</span>
-        <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>
-          Mağazalara gönderdiğin taleplerin listesi
-        </div>
-      </div>
-      {talepler.map((talep, i) => (
-        <div key={i} style={{ margin:"10px 14px", background:T.card,
-          border:`1px solid ${T.border}`, borderRadius:16, overflow:"hidden" }}>
-          <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center",
-            background:T.raised, borderBottom:`1px solid ${T.border}` }}>
-            <img src={talep.storeAvatar} style={{ width:32, height:32, borderRadius:16, objectFit:"cover" }}/>
+    <div style={{ overflowY:"auto", background:T.bg }}>
+      {talepler.map((t,i) => (
+        <div key={i} style={{ margin:"10px 14px", background:T.card, border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
+          <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center", background:T.raised, borderBottom:"1px solid "+T.border }}>
+            <img src={t.storeAvatar} style={{ width:32, height:32, borderRadius:16, objectFit:"cover" }}/>
             <div style={{ flex:1 }}>
-              <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{talep.storeName}</div>
-              <div style={{ fontSize:11, color:T.muted }}>{talep.date}</div>
+              <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.storeName}</div>
+              <div style={{ fontSize:11, color:T.muted }}>{t.date}</div>
             </div>
-            <div style={{ padding:"4px 10px", borderRadius:8,
-              background:`${T.teal}18`, color:T.teal, fontSize:11, fontWeight:700 }}>
-              ✓ Talep Gönderildi
-            </div>
+            <div style={{ padding:"4px 10px", borderRadius:8, background:T.teal+"18", color:T.teal, fontSize:11, fontWeight:700 }}>✓ Gönderildi</div>
           </div>
-          {talep.items.map((item, j) => (
-            <div key={j} style={{ display:"flex", gap:10, padding:"10px 14px",
-              borderBottom:`1px solid ${T.border}`, alignItems:"center" }}>
-              <img src={item.thumb} style={{ width:46, height:46, borderRadius:8, objectFit:"cover", flexShrink:0 }}/>
+          {t.items?.map((item,j) => (
+            <div key={j} style={{ padding:"10px 14px", display:"flex", gap:10, borderBottom:"1px solid "+T.border, alignItems:"center" }}>
               <div style={{ flex:1 }}>
                 <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{item.name}</div>
                 {item.variant && <div style={{ fontSize:11, color:T.muted }}>{item.variant}</div>}
-                <div style={{ fontSize:12, color:T.green, fontWeight:700 }}>{item.qty} adet · {item.price}₺/adet</div>
+                <div style={{ fontSize:12, color:T.green, fontWeight:700 }}>{item.qty} adet</div>
               </div>
             </div>
           ))}
           <div style={{ padding:"10px 14px" }}>
-            <button onClick={()=>onStore(talep.storeId)}
-              style={{ width:"100%", padding:"9px 0", borderRadius:10, background:"none",
-                border:`1.5px solid ${T.border2}`, color:T.text2, fontSize:12,
-                fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
+            <button onClick={()=>onStore(t.storeId)} style={{ width:"100%", padding:"9px 0", borderRadius:10, background:"none", border:"1.5px solid "+T.border2, color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
               Mağazayla İletişime Geç →
             </button>
           </div>
@@ -1386,9 +1365,6 @@ function TalepScreen({ talepler, onStore }) {
 }
 
 
-// ═══════════════════════════════════════════════════════════════
-// 8. MESSAGES (Inbox)
-// ═══════════════════════════════════════════════════════════════
 function Messages({ initialStoreId, onClearInitial }) {
   const [convs, setConvs] = useState(INIT_MESSAGES);
   const [active, setActive] = useState(null);
@@ -1506,7 +1482,7 @@ function Messages({ initialStoreId, onClearInitial }) {
 // ═══════════════════════════════════════════════════════════════
 // STORE PROFILE — İletişime Geç modal + collections
 // ═══════════════════════════════════════════════════════════════
-function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
+function StoreProf({ storeId, onBack, myId, role, onSendDM, onLogout }) {
   const store = STORES.find(s=>s.id===storeId);
   const [follow, setFollow] = useState("none");
   const [editing, setEditing] = useState(false);
@@ -1912,14 +1888,14 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
 // ═══════════════════════════════════════════════════════════════
 // 8. MY PROFILE — Beğenilenler + Kaydedilenler + Takip Edilen Mağazalar
 // ═══════════════════════════════════════════════════════════════
-function MyProfile({ role, onStore, onSendDM }) {
+function MyProfile({ role, onStore, onSendDM, onLogout }) {
   const [profileTab, setProfileTab] = useState("talepler");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const liked = INIT_PRODUCTS.filter(p=>p.liked);
   const saved = INIT_PRODUCTS.filter(p=>p.saved);
   const followedStores = STORES.slice(0,2);
 
-  if (role === "store") return <StoreProf storeId="st1" onBack={()=>{}} myId="st1" role={role} onSendDM={onSendDM}/>;
+  if (role === "store") return <StoreProf storeId="st1" onBack={()=>{}} myId="st1" role={role} onSendDM={onSendDM} onLogout={onLogout}/>;
 
   return (
     <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
@@ -1939,9 +1915,19 @@ function MyProfile({ role, onStore, onSendDM }) {
         </div>
         <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:4, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <span>Müşteri Hesabım</span>
-          <button onClick={()=>setSettingsOpen(true)} style={{ background:"none", border:"none", cursor:"pointer" }}>
-            <Ic n="settings" color={T.muted} size={20}/>
-          </button>
+          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+            <button onClick={()=>setSettingsOpen(true)} style={{ background:"none", border:"none", cursor:"pointer",
+              width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center",
+              borderRadius:10, background:T.raised }}>
+              <Ic n="settings" color={T.muted} size={18}/>
+            </button>
+            <button onClick={onLogout} style={{ padding:"7px 14px", borderRadius:10,
+              background:T.raised, border:"1.5px solid "+T.border2, cursor:"pointer",
+              fontSize:12, fontWeight:700, color:T.rose, fontFamily:"inherit",
+              display:"flex", alignItems:"center", gap:5 }}>
+              Çıkış Yap
+            </button>
+          </div>
         </div>
         <div style={{ fontSize:13, color:T.muted, marginBottom:14 }}>Toptan alım araştırıyorum</div>
 
@@ -2015,65 +2001,37 @@ function MyProfile({ role, onStore, onSendDM }) {
 // GELEN TALEPLER — Mağaza paneli
 // ═══════════════════════════════════════════════════════════════
 const DEMO_GELEN = [
-  {
-    id:"t1", musteriAd:"Ahmet Y.", tarih:"Bugün 11:23",
-    urunler:[
-      { name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12 },
-      { name:"Viskon Midi Elbise", variant:"Siyah", qty:12 },
-    ]
-  },
-  {
-    id:"t2", musteriAd:"Fatma K.", tarih:"Dün 16:44",
-    urunler:[
-      { name:"Viskon Midi Elbise", variant:"Beyaz", qty:24 },
-    ]
-  },
+  { id:"t1", musteriAd:"Ahmet Y.", tarih:"Bugün 11:23",
+    urunler:[{ name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12 },{ name:"Viskon Midi Elbise", variant:"Siyah", qty:12 }] },
+  { id:"t2", musteriAd:"Fatma K.", tarih:"Dün 16:44",
+    urunler:[{ name:"Viskon Midi Elbise", variant:"Beyaz", qty:24 }] },
 ];
 
 function GelenTaleplerScreen() {
   const [talepler] = useState(DEMO_GELEN);
-
   return (
     <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
-      <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}` }}>
+      <div style={{ padding:"14px 16px", borderBottom:"1px solid "+T.border }}>
         <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Gelen Talepler</div>
-        <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>
-          Müşterilerin sepetten ilettiği ürün talepleri
-        </div>
+        <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>Müşterilerin sepetten ilettiği ürün talepleri</div>
       </div>
-
-      {talepler.length === 0 ? (
-        <div style={{ display:"flex", flexDirection:"column", alignItems:"center",
-          justifyContent:"center", height:"70%", gap:14, padding:24 }}>
-          <div style={{ fontSize:48 }}>📭</div>
-          <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Henüz talep yok</div>
-          <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
-            Müşteriler ürünlerini sepete ekleyip talep gönderdiğinde burada görünür.
+      {talepler.length === 0
+        ? <div style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", height:"70%", gap:14, padding:24 }}>
+            <div style={{ fontSize:48 }}>📭</div>
+            <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Henüz talep yok</div>
           </div>
-        </div>
-      ) : (
-        talepler.map(t => (
-          <div key={t.id} style={{ margin:"10px 14px", background:T.card,
-            border:`1px solid ${T.border}`, borderRadius:16, overflow:"hidden" }}>
-            {/* Müşteri başlık */}
-            <div style={{ padding:"12px 14px", background:T.raised,
-              borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", gap:10 }}>
-              <div style={{ width:36, height:36, borderRadius:18, background:T.brand+"22",
-                display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>👤</div>
+        : talepler.map(t => (
+          <div key={t.id} style={{ margin:"10px 14px", background:T.card, border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
+            <div style={{ padding:"12px 14px", background:T.raised, borderBottom:"1px solid "+T.border, display:"flex", alignItems:"center", gap:10 }}>
+              <div style={{ width:36, height:36, borderRadius:18, background:T.brand+"22", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>👤</div>
               <div style={{ flex:1 }}>
                 <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.musteriAd}</div>
                 <div style={{ fontSize:11, color:T.muted }}>{t.tarih}</div>
               </div>
-              <div style={{ padding:"4px 10px", borderRadius:8,
-                background:T.brand+"18", color:T.brand, fontSize:11, fontWeight:700 }}>
-                🆕 Yeni
-              </div>
+              <div style={{ padding:"4px 10px", borderRadius:8, background:T.brand+"18", color:T.brand, fontSize:11, fontWeight:700 }}>🆕 Yeni</div>
             </div>
-
-            {/* Talep edilen ürünler */}
             {t.urunler.map((u,i) => (
-              <div key={i} style={{ padding:"10px 14px", display:"flex", gap:10,
-                borderBottom:`1px solid ${T.border}`, alignItems:"center" }}>
+              <div key={i} style={{ padding:"10px 14px", display:"flex", gap:10, borderBottom:"1px solid "+T.border, alignItems:"center" }}>
                 <div style={{ width:8, height:8, borderRadius:4, background:T.teal, flexShrink:0 }}/>
                 <div style={{ flex:1 }}>
                   <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{u.name}</div>
@@ -2082,20 +2040,14 @@ function GelenTaleplerScreen() {
                 <div style={{ fontSize:13, fontWeight:800, color:T.green }}>{u.qty} adet</div>
               </div>
             ))}
-
-            {/* İletişime geç */}
             <div style={{ padding:"10px 14px" }}>
-              <div style={{ fontSize:11, color:T.muted, marginBottom:8, textAlign:"center" }}>
-                Bu talep WhatsApp üzerinden iletildi. Müşteriyle doğrudan iletişime geçin.
-              </div>
-              <div style={{ padding:"10px 14px", background:T.raised, borderRadius:12,
-                fontSize:12, color:T.teal, textAlign:"center", fontWeight:700 }}>
+              <div style={{ padding:"10px 14px", background:T.raised, borderRadius:12, fontSize:12, color:T.teal, textAlign:"center", fontWeight:700 }}>
                 ✓ Talep WhatsApp'a iletildi
               </div>
             </div>
           </div>
         ))
-      )}
+      }
       <div style={{ height:70 }}/>
     </div>
   );
@@ -2186,7 +2138,7 @@ function Upload({ store, onNotify, toast }) {
           {uploading?`${prog}%`:"Yayınla"}
         </Btn>
       </div>
-      <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16 }}>
+      <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16, WebkitOverflowScrolling:"touch" }}>
         <div onClick={()=>!preview&&fileRef.current?.click()}
           style={{ width:"100%", aspectRatio:"4/3", borderRadius:16, overflow:"hidden",
             border:`2px dashed ${preview?"transparent":T.border2}`,
@@ -2314,7 +2266,7 @@ function Upload({ store, onNotify, toast }) {
 // ═══════════════════════════════════════════════════════════════
 // STORE SETTINGS — Firma İnfo, Logo, Güvenlik, İstatistikler
 // ═══════════════════════════════════════════════════════════════
-function StoreSettings({ onBack, storeId, role }) {
+function StoreSettings({ onBack, storeId, role, onLogout }) {
   // Ensure only stores can access this
   if (role !== "store") return null;
   
@@ -2383,6 +2335,12 @@ function StoreSettings({ onBack, storeId, role }) {
           <Ic n="close" color={T.text} size={22}/>
         </button>
         <span style={{ fontWeight:800, fontSize:15, color:T.text, flex:1 }}>Mağaza Ayarları</span>
+        <button onClick={()=>{ try{localStorage.removeItem("toptangram_session");}catch{} onLogout?.(); }}
+          style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
+            border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
+            fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
+          Çıkış Yap
+        </button>
       </div>
 
       {/* Tab switcher */}
@@ -2662,7 +2620,7 @@ function CustomerAccount({ onBack, role }) {
   if (legalType) return <LegalModal type={legalType} onClose={()=>setLegalType(null)}/>;
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", background: T.bg }}>
+    <div style={{ position:"absolute", inset:0, zIndex:200, background:T.bg, display:"flex", flexDirection:"column" }}>
       {/* Header */}
       <div style={{
         display: "flex", alignItems: "center", padding: "12px 16px",
@@ -3402,8 +3360,8 @@ export default function App() {
           </div>
         </div>
 
-        {/* Notification bell — sadece feed/explore ekranlarında göster */}
-        {authed && !storeId && tab !== "profile" && tab !== "upload" && <div style={{ position:"absolute", top:48, right:18, zIndex:60 }}>
+        {/* Notification bell — sadece giriş sonrası göster */}
+        {authed && <div style={{ position:"absolute", top:48, right:18, zIndex:60 }}>
           <button onClick={async ()=>{
             if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') {
               try { await Notification.requestPermission(); } catch(e){}
@@ -3427,7 +3385,7 @@ export default function App() {
             : !authed
               ? <Auth onLogin={(r)=>{ setRole(r); setAuthed(true); }}/>
               : storeId
-              ? <StoreProf storeId={storeId} onBack={()=>setStoreId(null)} myId="st1" role={role} onSendDM={handleSendDM}/>
+              ? <StoreProf storeId={storeId} onBack={()=>setStoreId(null)} myId="st1" role={role} onSendDM={handleSendDM} onLogout={()=>{ setAuthed(false); setTab("feed"); setStoreId(null); }}/>
               : <>
                   {tab==="feed"     && <Feed products={INIT_PRODUCTS} onStory={handleOpenStory} onStore={setStoreId} onAddToCart={addToCart} onSendDM={handleSendDM}/>}
                   {tab==="explore"  && <Explore onStore={setStoreId} interactedTags={interactedTags}/>}
@@ -3435,7 +3393,7 @@ export default function App() {
                   {tab==="messages" && <Messages initialStoreId={dmStoreId} onClearInitial={()=>setDmStoreId(null)}/>}
                   {tab==="upload"   && role==="store" && <Upload store={STORES[0]} onNotify={handleNewNotification} toast={toast}/>}
                   {tab==="talepler" && role==="store" && <GelenTaleplerScreen/>}
-                  {tab==="profile"  && <MyProfile role={role} onStore={setStoreId} onSendDM={handleSendDM}/>}
+                  {tab==="profile"  && <MyProfile role={role} onStore={setStoreId} onSendDM={handleSendDM} onLogout={()=>{ setAuthed(false); setTab("feed"); }}/>}
                   {story && <Story s={story} onClose={()=>setStory(null)} onNext={handleNextStory} onPrev={handlePrevStory}/>}
                   {showNotifications && <NotificationsModal items={notifications} onClose={()=>setShowNotifications(false)}/>}
                   <toast.ToastContainer/>
