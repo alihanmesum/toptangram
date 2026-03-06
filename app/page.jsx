@@ -822,7 +822,7 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
             fontFamily:"inherit", transition:"background .2s",
             display:"flex", alignItems:"center", justifyContent:"center", gap:7,
             opacity: p.inStock ? 1 : 0.6 }}>
-            {!p.inStock ? "Stok Yok" : added ? <>✓ Eklendi</> : <><Ic n="cart" size={16} color="#fff"/> Talep Listesine Ekle</>}
+            {!p.inStock ? "Stok Yok" : added ? <>✓ Eklendi</> : <><Ic n="cart" size={16} color="#fff"/> Sepete Ekle</>}
           </button>
         )}
         {isOwnProduct && (
@@ -1221,10 +1221,12 @@ function CartScreen({ cart, setCart }) {
 
   const buildWAText = (group) => {
     const lines = group.items.map(i=>{
-      const variantInfo = i.variant ? ` (${i.variant})` : "";
-      return `• ${i.name}${variantInfo} — ${i.qty} adet`;
+      const total = (parseFloat(i.price)||0)*i.qty;
+      const variantInfo = i.variant ? ` / ${i.variant}` : "";
+      return `• ${i.name}${variantInfo} — ${i.qty} adet (${i.price}₺/adet = ${total}₺)`;
     }).join("\n");
-    return encodeURIComponent(`Merhaba ${group.storeName}! Toptangram'dan aşağıdaki ürünleri inceledim, fiyat ve detay için sizinle iletişime geçmek istedim:\n\n${lines}\n\nMüsait olduğunuzda bilgi verir misiniz?`);
+    const grandTotal = group.items.reduce((s,i)=>s+(parseFloat(i.price)||0)*i.qty,0);
+    return encodeURIComponent(`Merhaba ${group.storeName}!\n\nAşağıdaki ürünleri sipariş etmek istiyorum:\n\n${lines}\n\nToplam: ${grandTotal.toLocaleString("tr")}₺\n\nLütfen onay verir misiniz?`);
   };
 
   if (cart.length === 0) return (
@@ -1233,7 +1235,7 @@ function CartScreen({ cart, setCart }) {
       <div style={{ fontSize:48 }}>🛍</div>
       <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Sepetiniz boş</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
-        Feed'deki ürünlerin altındaki "Talep Listesine Ekle" butonuyla talep listenizi oluşturun
+        Feed'deki ürünlerin altındaki "Sepete Ekle" butonunu kullanın
       </div>
     </div>
   );
@@ -1301,7 +1303,7 @@ function CartScreen({ cart, setCart }) {
                   padding:"11px 0", background:T.wa, borderRadius:11, color:"#fff",
                   fontWeight:700, fontSize:14, textDecoration:"none", fontFamily:"inherit" }}>
                 <svg width={18} height={18} viewBox="0 0 24 24" fill="#fff"><path d={IP.wa}/></svg>
-                📩 Mağazaya Talep Gönder (WhatsApp)
+                Siparişi WhatsApp ile Tamamla
               </a>
             </div>
           </div>
@@ -1316,55 +1318,155 @@ function CartScreen({ cart, setCart }) {
 // ═══════════════════════════════════════════════════════════════
 // SİPARİŞ TAKİBİ EKRANI
 // ═══════════════════════════════════════════════════════════════
-const MOCK_TALEPLER = [];
+const MOCK_ORDERS = [
+  {
+    id:"ord1", storeId:"st1", storeName:"Atlaz Studio",
+    storeAvatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80",
+    date:"3 Mart 2026", total:"3420", status:"delivered",
+    items:[
+      { name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12, price:"285" },
+    ]
+  },
+  {
+    id:"ord2", storeId:"st2", storeName:"Denim Republic",
+    storeAvatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80",
+    date:"27 Şubat 2026", total:"3480", status:"shipped",
+    items:[
+      { name:"Oversize Kargo Şort", variant:"Siyah", qty:24, price:"145" },
+    ]
+  },
+  {
+    id:"ord3", storeId:"st4", storeName:"Koza Giyim",
+    storeAvatar:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80",
+    date:"20 Şubat 2026", total:"1140", status:"preparing",
+    items:[
+      { name:"Polo Yaka Tişört", variant:"Beyaz", qty:12, price:"95" },
+    ]
+  }
+];
 
+const ORDER_STATUS = {
+  preparing: { label:"Hazırlanıyor", color:"#f5a623", icon:"⏳", step:1 },
+  shipped:   { label:"Kargoda",      color:"#8875f5", icon:"🚚", step:2 },
+  delivered: { label:"Teslim Edildi",color:"#52d98b", icon:"✓",  step:3 },
+  cancelled: { label:"İptal",        color:"#ef7070", icon:"✕",  step:0 },
+};
 
+function OrdersScreen({ onStore }) {
+  const [orders] = useState(MOCK_ORDERS);
+  const [filter, setFilter] = useState("all");
 
-function TalepScreen({ talepler, onStore }) {
-  if (!talepler || talepler.length === 0) return (
-    <div style={{ display:"flex", flexDirection:"column",
-      alignItems:"center", justifyContent:"center", gap:14, padding:"40px 24px", background:T.bg }}>
-      <div style={{ fontSize:48 }}>📋</div>
-      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Henüz talep yok</div>
-      <div style={{ fontSize:13, color:T.muted, textAlign:"center", lineHeight:1.6 }}>
-        Ürünleri talep listesine ekleyip mağazaya bildir.
+  const filtered = filter === "all" ? orders : orders.filter(o=>o.status===filter);
+
+  if (orders.length === 0) return (
+    <div style={{ height:"100%", display:"flex", flexDirection:"column",
+      alignItems:"center", justifyContent:"center", gap:14, padding:24, background:T.bg }}>
+      <div style={{ fontSize:48 }}>📦</div>
+      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Henüz sipariş yok</div>
+      <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
+        Mağaza ürünlerini sepete ekleyip WhatsApp ile sipariş verin
       </div>
     </div>
   );
+
   return (
-    <div style={{ overflowY:"auto", background:T.bg }}>
-      {talepler.map((t,i) => (
-        <div key={i} style={{ margin:"10px 14px", background:T.card, border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
-          <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center", background:T.raised, borderBottom:"1px solid "+T.border }}>
-            <img src={t.storeAvatar} style={{ width:32, height:32, borderRadius:16, objectFit:"cover" }}/>
-            <div style={{ flex:1 }}>
-              <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.storeName}</div>
-              <div style={{ fontSize:11, color:T.muted }}>{t.date}</div>
-            </div>
-            <div style={{ padding:"4px 10px", borderRadius:8, background:T.teal+"18", color:T.teal, fontSize:11, fontWeight:700 }}>✓ Gönderildi</div>
-          </div>
-          {t.items?.map((item,j) => (
-            <div key={j} style={{ padding:"10px 14px", display:"flex", gap:10, borderBottom:"1px solid "+T.border, alignItems:"center" }}>
+    <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
+      <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}`,
+        display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Siparişlerim</span>
+        <span style={{ fontSize:12, color:T.muted }}>{orders.length} sipariş</span>
+      </div>
+
+      {/* Status filter */}
+      <div style={{ display:"flex", gap:8, padding:"10px 16px", overflowX:"auto", scrollbarWidth:"none" }}>
+        {[["all","Tümü"],["preparing","⏳ Hazırlanıyor"],["shipped","🚚 Kargoda"],["delivered","✓ Teslim"]].map(([v,l])=>(
+          <button key={v} onClick={()=>setFilter(v)} style={{
+            padding:"6px 14px", borderRadius:20, border:"none", cursor:"pointer",
+            background:filter===v?T.brand:T.raised, color:filter===v?"#fff":T.muted,
+            fontSize:12, fontWeight:700, fontFamily:"inherit", whiteSpace:"nowrap", flexShrink:0 }}>{l}</button>
+        ))}
+      </div>
+
+      {filtered.map(order => {
+        const st = ORDER_STATUS[order.status] || ORDER_STATUS.preparing;
+        return (
+          <div key={order.id} style={{ margin:"10px 14px", background:T.card,
+            border:`1px solid ${T.border}`, borderRadius:16, overflow:"hidden" }}>
+            {/* Store + date */}
+            <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center",
+              borderBottom:`1px solid ${T.border}`, background:T.raised }}>
+              <img src={order.storeAvatar} style={{ width:32, height:32, borderRadius:16, objectFit:"cover" }}/>
               <div style={{ flex:1 }}>
-                <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{item.name}</div>
-                {item.variant && <div style={{ fontSize:11, color:T.muted }}>{item.variant}</div>}
-                <div style={{ fontSize:12, color:T.green, fontWeight:700 }}>{item.qty} adet</div>
+                <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{order.storeName}</div>
+                <div style={{ fontSize:11, color:T.muted }}>{order.date}</div>
+              </div>
+              <div style={{ padding:"4px 10px", borderRadius:8,
+                background:`${st.color}18`, color:st.color,
+                fontSize:11, fontWeight:700, border:`1px solid ${st.color}30` }}>
+                {st.icon} {st.label}
               </div>
             </div>
-          ))}
-          <div style={{ padding:"10px 14px" }}>
-            <button onClick={()=>onStore(t.storeId)} style={{ width:"100%", padding:"9px 0", borderRadius:10, background:"none", border:"1.5px solid "+T.border2, color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
-              Mağazayla İletişime Geç →
-            </button>
+
+            {/* Sipariş adımları */}
+            <div style={{ padding:"12px 14px" }}>
+              <div style={{ display:"flex", alignItems:"center", marginBottom:12 }}>
+                {["Hazırlanıyor","Kargoda","Teslim"].map((s,i)=>(
+                  <div key={i} style={{ display:"flex", alignItems:"center", flex:i<2?1:"none" }}>
+                    <div style={{ width:22, height:22, borderRadius:11, display:"flex",
+                      alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800,
+                      background: st.step>i?T.green:st.step===i+1?T.brand:T.raised,
+                      color: st.step>i||st.step===i+1?"#fff":T.muted,
+                      border:`2px solid ${st.step>i?T.green:st.step===i+1?T.brand:T.border2}` }}>
+                      {st.step>i?"✓":i+1}
+                    </div>
+                    <div style={{ fontSize:9, color: st.step>i?T.green:st.step===i+1?T.brand:T.muted,
+                      marginLeft:4, marginRight:i<2?4:0 }}>{s}</div>
+                    {i < 2 && <div style={{ flex:1, height:2, borderRadius:1, marginRight:4,
+                      background:st.step>i+1?T.green:T.border }}/>}
+                  </div>
+                ))}
+              </div>
+              {/* Items */}
+              {order.items.map((item,i)=>(
+                <div key={i} style={{ display:"flex", justifyContent:"space-between",
+                  alignItems:"center", padding:"6px 0",
+                  borderBottom: i<order.items.length-1?`1px solid ${T.border}`:"none" }}>
+                  <div>
+                    <div style={{ fontSize:13, fontWeight:700, color:T.text }}>{item.name}</div>
+                    <div style={{ fontSize:11, color:T.muted }}>{item.variant} · {item.qty} adet</div>
+                  </div>
+                  <div style={{ fontWeight:700, fontSize:13, color:T.green }}>
+                    {(parseFloat(item.price)*item.qty).toLocaleString("tr")}₺
+                  </div>
+                </div>
+              ))}
+              <div style={{ display:"flex", justifyContent:"space-between", marginTop:10,
+                paddingTop:10, borderTop:`1px solid ${T.border}` }}>
+                <span style={{ fontSize:12, color:T.muted }}>Toplam</span>
+                <span style={{ fontSize:16, fontWeight:800, color:T.text }}>{parseFloat(order.total).toLocaleString("tr")}₺</span>
+              </div>
+            </div>
+
+            {/* Mağazaya git */}
+            <div style={{ padding:"0 14px 12px" }}>
+              <button onClick={()=>onStore(order.storeId)}
+                style={{ width:"100%", padding:"9px 0", borderRadius:10,
+                  background:"none", border:`1.5px solid ${T.border2}`,
+                  color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
+                Mağazaya Git →
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
       <div style={{ height:70 }}/>
     </div>
   );
 }
 
-
+// ═══════════════════════════════════════════════════════════════
+// 8. MESSAGES (Inbox)
+// ═══════════════════════════════════════════════════════════════
 function Messages({ initialStoreId, onClearInitial }) {
   const [convs, setConvs] = useState(INIT_MESSAGES);
   const [active, setActive] = useState(null);
@@ -1482,7 +1584,7 @@ function Messages({ initialStoreId, onClearInitial }) {
 // ═══════════════════════════════════════════════════════════════
 // STORE PROFILE — İletişime Geç modal + collections
 // ═══════════════════════════════════════════════════════════════
-function StoreProf({ storeId, onBack, myId, role, onSendDM, onLogout }) {
+function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
   const store = STORES.find(s=>s.id===storeId);
   const [follow, setFollow] = useState("none");
   const [editing, setEditing] = useState(false);
@@ -1888,14 +1990,14 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM, onLogout }) {
 // ═══════════════════════════════════════════════════════════════
 // 8. MY PROFILE — Beğenilenler + Kaydedilenler + Takip Edilen Mağazalar
 // ═══════════════════════════════════════════════════════════════
-function MyProfile({ role, onStore, onSendDM, onLogout }) {
-  const [profileTab, setProfileTab] = useState("talepler");
+function MyProfile({ role, onStore, onSendDM }) {
+  const [profileTab, setProfileTab] = useState("liked");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const liked = INIT_PRODUCTS.filter(p=>p.liked);
   const saved = INIT_PRODUCTS.filter(p=>p.saved);
   const followedStores = STORES.slice(0,2);
 
-  if (role === "store") return <StoreProf storeId="st1" onBack={()=>{}} myId="st1" role={role} onSendDM={onSendDM} onLogout={onLogout}/>;
+  if (role === "store") return <StoreProf storeId="st1" onBack={()=>{}} myId="st1" role={role} onSendDM={onSendDM}/>;
 
   return (
     <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
@@ -1915,19 +2017,9 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
         </div>
         <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:4, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <span>Müşteri Hesabım</span>
-          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-            <button onClick={()=>setSettingsOpen(true)} style={{ background:"none", border:"none", cursor:"pointer",
-              width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center",
-              borderRadius:10, background:T.raised }}>
-              <Ic n="settings" color={T.muted} size={18}/>
-            </button>
-            <button onClick={onLogout} style={{ padding:"7px 14px", borderRadius:10,
-              background:T.raised, border:"1.5px solid "+T.border2, cursor:"pointer",
-              fontSize:12, fontWeight:700, color:T.rose, fontFamily:"inherit",
-              display:"flex", alignItems:"center", gap:5 }}>
-              Çıkış Yap
-            </button>
-          </div>
+          <button onClick={()=>setSettingsOpen(true)} style={{ background:"none", border:"none", cursor:"pointer" }}>
+            <Ic n="settings" color={T.muted} size={20}/>
+          </button>
         </div>
         <div style={{ fontSize:13, color:T.muted, marginBottom:14 }}>Toptan alım araştırıyorum</div>
 
@@ -1953,7 +2045,7 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
 
       {/* Tabs: Siparişler / Beğenilenler / Kaydedilenler */}
       <div style={{ display:"flex", borderTop:`1px solid ${T.border}`, borderBottom:`1px solid ${T.border}` }}>
-        {[["talepler","📋 Talepler"],["liked","❤️ Beğeni"],["saved","🔖 Kayıt"]].map(([id,label])=>(
+        {[["orders","📦 Sipariş"],["liked","❤️ Beğeni"],["saved","🔖 Kayıt"]].map(([id,label])=>(
           <button key={id} onClick={()=>setProfileTab(id)} style={{ flex:1, padding:"11px 0",
             background:"none", border:"none", cursor:"pointer", fontSize:11, fontWeight:700,
             color:profileTab===id?T.text:T.muted, fontFamily:"inherit",
@@ -1963,8 +2055,8 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
         ))}
       </div>
 
-      {profileTab==="talepler"
-        ? <TalepScreen talepler={MOCK_TALEPLER} onStore={onStore}/>
+      {profileTab==="orders"
+        ? <OrdersScreen onStore={onStore}/>
         : (
           <>
             <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:2 }}>
@@ -1992,63 +2084,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
 
       {/* Customer Settings Modal */}
       {settingsOpen && <CustomerAccount onBack={()=>setSettingsOpen(false)} role={role}/>}
-    </div>
-  );
-}
-
-
-// ═══════════════════════════════════════════════════════════════
-// GELEN TALEPLER — Mağaza paneli
-// ═══════════════════════════════════════════════════════════════
-const DEMO_GELEN = [
-  { id:"t1", musteriAd:"Ahmet Y.", tarih:"Bugün 11:23",
-    urunler:[{ name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12 },{ name:"Viskon Midi Elbise", variant:"Siyah", qty:12 }] },
-  { id:"t2", musteriAd:"Fatma K.", tarih:"Dün 16:44",
-    urunler:[{ name:"Viskon Midi Elbise", variant:"Beyaz", qty:24 }] },
-];
-
-function GelenTaleplerScreen() {
-  const [talepler] = useState(DEMO_GELEN);
-  return (
-    <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
-      <div style={{ padding:"14px 16px", borderBottom:"1px solid "+T.border }}>
-        <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Gelen Talepler</div>
-        <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>Müşterilerin sepetten ilettiği ürün talepleri</div>
-      </div>
-      {talepler.length === 0
-        ? <div style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", height:"70%", gap:14, padding:24 }}>
-            <div style={{ fontSize:48 }}>📭</div>
-            <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Henüz talep yok</div>
-          </div>
-        : talepler.map(t => (
-          <div key={t.id} style={{ margin:"10px 14px", background:T.card, border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
-            <div style={{ padding:"12px 14px", background:T.raised, borderBottom:"1px solid "+T.border, display:"flex", alignItems:"center", gap:10 }}>
-              <div style={{ width:36, height:36, borderRadius:18, background:T.brand+"22", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>👤</div>
-              <div style={{ flex:1 }}>
-                <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.musteriAd}</div>
-                <div style={{ fontSize:11, color:T.muted }}>{t.tarih}</div>
-              </div>
-              <div style={{ padding:"4px 10px", borderRadius:8, background:T.brand+"18", color:T.brand, fontSize:11, fontWeight:700 }}>🆕 Yeni</div>
-            </div>
-            {t.urunler.map((u,i) => (
-              <div key={i} style={{ padding:"10px 14px", display:"flex", gap:10, borderBottom:"1px solid "+T.border, alignItems:"center" }}>
-                <div style={{ width:8, height:8, borderRadius:4, background:T.teal, flexShrink:0 }}/>
-                <div style={{ flex:1 }}>
-                  <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{u.name}</div>
-                  {u.variant && <div style={{ fontSize:11, color:T.muted }}>{u.variant}</div>}
-                </div>
-                <div style={{ fontSize:13, fontWeight:800, color:T.green }}>{u.qty} adet</div>
-              </div>
-            ))}
-            <div style={{ padding:"10px 14px" }}>
-              <div style={{ padding:"10px 14px", background:T.raised, borderRadius:12, fontSize:12, color:T.teal, textAlign:"center", fontWeight:700 }}>
-                ✓ Talep WhatsApp'a iletildi
-              </div>
-            </div>
-          </div>
-        ))
-      }
-      <div style={{ height:70 }}/>
     </div>
   );
 }
@@ -2138,7 +2173,7 @@ function Upload({ store, onNotify, toast }) {
           {uploading?`${prog}%`:"Yayınla"}
         </Btn>
       </div>
-      <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16, WebkitOverflowScrolling:"touch" }}>
+      <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16 }}>
         <div onClick={()=>!preview&&fileRef.current?.click()}
           style={{ width:"100%", aspectRatio:"4/3", borderRadius:16, overflow:"hidden",
             border:`2px dashed ${preview?"transparent":T.border2}`,
@@ -2266,7 +2301,7 @@ function Upload({ store, onNotify, toast }) {
 // ═══════════════════════════════════════════════════════════════
 // STORE SETTINGS — Firma İnfo, Logo, Güvenlik, İstatistikler
 // ═══════════════════════════════════════════════════════════════
-function StoreSettings({ onBack, storeId, role, onLogout }) {
+function StoreSettings({ onBack, storeId, role }) {
   // Ensure only stores can access this
   if (role !== "store") return null;
   
@@ -2335,12 +2370,6 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
           <Ic n="close" color={T.text} size={22}/>
         </button>
         <span style={{ fontWeight:800, fontSize:15, color:T.text, flex:1 }}>Mağaza Ayarları</span>
-        <button onClick={()=>{ try{localStorage.removeItem("toptangram_session");}catch{} onLogout?.(); }}
-          style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
-            border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
-            fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
-          Çıkış Yap
-        </button>
       </div>
 
       {/* Tab switcher */}
@@ -2620,7 +2649,7 @@ function CustomerAccount({ onBack, role }) {
   if (legalType) return <LegalModal type={legalType} onClose={()=>setLegalType(null)}/>;
 
   return (
-    <div style={{ position:"absolute", inset:0, zIndex:200, background:T.bg, display:"flex", flexDirection:"column" }}>
+    <div style={{ height: "100%", overflowY: "auto", background: T.bg }}>
       {/* Header */}
       <div style={{
         display: "flex", alignItems: "center", padding: "12px 16px",
@@ -2767,7 +2796,7 @@ function CustomerAccount({ onBack, role }) {
 // ═══════════════════════════════════════════════════════════════
 function TabBar({ active, set, role, cartCount, msgCount }) {
   const tabs = role==="store"
-    ? [{id:"feed",n:"home"},{id:"explore",n:"search"},{id:"upload",n:"plus"},{id:"talepler",n:"cart"},{id:"profile",n:"person"}]
+    ? [{id:"feed",n:"home"},{id:"explore",n:"search"},{id:"upload",n:"plus"},{id:"messages",n:"msg"},{id:"profile",n:"person"}]
     : [{id:"feed",n:"home"},{id:"explore",n:"search"},{id:"cart",n:"cart"},{id:"messages",n:"msg"},{id:"profile",n:"person"}];
 
   return (
@@ -3158,11 +3187,10 @@ function SplashScreen() {
 // ═══════════════════════════════════════════════════════════════
 export default function App() {
   const toast = useToast();
-  const [onboarded, setOnboarded] = useState(() => {
-    try { return !!localStorage.getItem("toptangram_onboarded"); } catch { return false; }
-  });
+  const [onboarded, setOnboarded] = useState(false);
   const [authed, setAuthed] = useState(false);
   const [role, setRole] = useState("customer");
+  const [_hydrated, setHydrated] = useState(false);
   const [tab, setTab] = useState("feed");
   const [story, setStory] = useState(null);
   const [storyIdx, setStoryIdx] = useState(0);
@@ -3201,6 +3229,19 @@ export default function App() {
     };
   }, []);
   
+  // Hydration sonrası localStorage oku
+  useEffect(() => {
+    setHydrated(true);
+    try {
+      if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
+      const saved = localStorage.getItem("toptangram_session");
+      if (saved) {
+        const { role: r } = JSON.parse(saved);
+        if (r) { setRole(r); setAuthed(true); }
+      }
+    } catch {}
+  }, []);
+
   // Story navigation
   const handleNextStory = () => {
     const nextIdx = storyIdx + 1;
@@ -3325,6 +3366,16 @@ export default function App() {
     return () => window.removeEventListener('toptangram:addToCart', handler);
   }, [addToCart]);
 
+  if (!_hydrated) return (
+    <div style={{ fontFamily:"'DM Sans',system-ui,sans-serif", background:"#080810",
+      minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center" }}>
+      <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
+        <Logo size={52}/>
+        <div style={{ fontSize:13, color:"#6b6b8a", fontWeight:600 }}>Yükleniyor…</div>
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ fontFamily:"'DM Sans','Helvetica Neue',system-ui,sans-serif", background:"#0a0a0f",
       minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", padding:"16px 0" }}>
@@ -3385,15 +3436,14 @@ export default function App() {
             : !authed
               ? <Auth onLogin={(r)=>{ setRole(r); setAuthed(true); }}/>
               : storeId
-              ? <StoreProf storeId={storeId} onBack={()=>setStoreId(null)} myId="st1" role={role} onSendDM={handleSendDM} onLogout={()=>{ setAuthed(false); setTab("feed"); setStoreId(null); }}/>
+              ? <StoreProf storeId={storeId} onBack={()=>setStoreId(null)} myId="st1" role={role} onSendDM={handleSendDM}/>
               : <>
                   {tab==="feed"     && <Feed products={INIT_PRODUCTS} onStory={handleOpenStory} onStore={setStoreId} onAddToCart={addToCart} onSendDM={handleSendDM}/>}
                   {tab==="explore"  && <Explore onStore={setStoreId} interactedTags={interactedTags}/>}
                   {tab==="cart"     && <CartScreen cart={cart} setCart={setCart}/>}
                   {tab==="messages" && <Messages initialStoreId={dmStoreId} onClearInitial={()=>setDmStoreId(null)}/>}
                   {tab==="upload"   && role==="store" && <Upload store={STORES[0]} onNotify={handleNewNotification} toast={toast}/>}
-                  {tab==="talepler" && role==="store" && <GelenTaleplerScreen/>}
-                  {tab==="profile"  && <MyProfile role={role} onStore={setStoreId} onSendDM={handleSendDM} onLogout={()=>{ setAuthed(false); setTab("feed"); }}/>}
+                  {tab==="profile"  && <MyProfile role={role} onStore={setStoreId} onSendDM={handleSendDM}/>}
                   {story && <Story s={story} onClose={()=>setStory(null)} onNext={handleNextStory} onPrev={handlePrevStory}/>}
                   {showNotifications && <NotificationsModal items={notifications} onClose={()=>setShowNotifications(false)}/>}
                   <toast.ToastContainer/>
