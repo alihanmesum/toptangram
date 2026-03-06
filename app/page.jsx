@@ -1980,7 +1980,7 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
       })()}
 
       {/* Settings modal */}
-      {settingsOpen && <StoreSettings onBack={()=>setSettingsOpen(false)} storeId={storeId} role={role}/>}
+      {settingsOpen && <StoreSettings onBack={()=>setSettingsOpen(false)} storeId={store.id} role={role}/>}
 
       {contactOpen && <ContactModal store={store} onClose={()=>setContactOpen(false)}/>}
     </div>
@@ -2017,9 +2017,19 @@ function MyProfile({ role, onStore, onSendDM }) {
         </div>
         <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:4, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
           <span>Müşteri Hesabım</span>
-          <button onClick={()=>setSettingsOpen(true)} style={{ background:"none", border:"none", cursor:"pointer" }}>
-            <Ic n="settings" color={T.muted} size={20}/>
-          </button>
+          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+            <button onClick={()=>setSettingsOpen(true)} style={{ background:"none", border:"none", cursor:"pointer", width:36, height:36, display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <Ic n="settings" color={T.muted} size={20}/>
+            </button>
+            <button onClick={()=>{
+              try { localStorage.removeItem("toptangram_session"); } catch {}
+              window.location.reload();
+            }} style={{ background:T.raised, border:"1.5px solid "+T.border2, borderRadius:10,
+              padding:"6px 12px", cursor:"pointer", fontSize:12, fontWeight:700,
+              color:T.muted, fontFamily:"inherit", display:"flex", alignItems:"center", gap:5 }}>
+              <Ic n="close" size={13} color={T.muted}/> Çıkış
+            </button>
+          </div>
         </div>
         <div style={{ fontSize:13, color:T.muted, marginBottom:14 }}>Toptan alım araştırıyorum</div>
 
@@ -2306,6 +2316,7 @@ function StoreSettings({ onBack, storeId, role }) {
   if (role !== "store") return null;
   
   const store = STORES.find(s=>s.id===storeId) || STORES[0];
+  const allProducts = INIT_PRODUCTS.filter(p => p.storeId === (store?.id || storeId));
   const [tab, setTab] = useState("info");
   const [firmName, setFirmName] = useState(store.name);
   const [username, setUsername] = useState(store.username || "");
@@ -2362,18 +2373,26 @@ function StoreSettings({ onBack, storeId, role }) {
   ];
 
   return (
-    <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
+    <div style={{ position:"absolute", inset:0, zIndex:100, background:T.bg, display:"flex", flexDirection:"column" }}>
       {/* Header */}
       <div style={{ display:"flex", alignItems:"center", padding:"12px 16px",
-        borderBottom:`1px solid ${T.border}`, position:"sticky", top:0, background:T.bg, zIndex:10 }}>
+        borderBottom:`1px solid ${T.border}`, background:T.bg, flexShrink:0 }}>
         <button onClick={onBack} style={{ background:"none", border:"none", cursor:"pointer", marginRight:10 }}>
-          <Ic n="close" color={T.text} size={22}/>
+          <Ic n="arrow" color={T.text} size={22} sx={{ transform:"rotate(180deg)" }}/>
         </button>
         <span style={{ fontWeight:800, fontSize:15, color:T.text, flex:1 }}>Mağaza Ayarları</span>
+        <button onClick={()=>{
+          try { localStorage.removeItem("toptangram_session"); } catch {}
+          window.location.reload();
+        }} style={{ background:T.raised, border:"1.5px solid "+T.border2, borderRadius:10,
+          padding:"6px 12px", cursor:"pointer", fontSize:12, fontWeight:700,
+          color:T.muted, fontFamily:"inherit", display:"flex", alignItems:"center", gap:5 }}>
+          <Ic n="close" size={13} color={T.muted}/> Çıkış
+        </button>
       </div>
 
       {/* Tab switcher */}
-      <div style={{ display:"flex", borderBottom:`1px solid ${T.border}`, background:T.surface }}>
+      <div style={{ display:"flex", borderBottom:`1px solid ${T.border}`, background:T.surface, flexShrink:0 }}>
         {[["info", "ℹ️ Bilgiler"], ["security", "🔒 Güvenlik"], ["stats", "📊 İstatistik"], ["legal", "📋 Legal"]].map(([id, label]) => (
           <button key={id} onClick={() => setTab(id)} style={{
             flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
@@ -2649,7 +2668,7 @@ function CustomerAccount({ onBack, role }) {
   if (legalType) return <LegalModal type={legalType} onClose={()=>setLegalType(null)}/>;
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", background: T.bg }}>
+    <div style={{ position:"absolute", inset:0, zIndex:100, background: T.bg, overflowY:"auto" }}>
       {/* Header */}
       <div style={{
         display: "flex", alignItems: "center", padding: "12px 16px",
@@ -3389,8 +3408,8 @@ export default function App() {
           </div>
         </div>
 
-        {/* Notification bell — sadece giriş sonrası göster */}
-        {authed && <div style={{ position:"absolute", top:48, right:18, zIndex:60 }}>
+        {/* Notification bell — sadece giriş sonrası göster, mağaza profilinde gizle */}
+        {authed && !storeId && <div style={{ position:"absolute", top:48, right:18, zIndex:60 }}>
           <button onClick={async ()=>{
             if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') {
               try { await Notification.requestPermission(); } catch(e){}
@@ -3453,4 +3472,3 @@ export default function App() {
     </div>
   );
 }
-console.log("TEST GÜNCELLEMESİ 2026");
