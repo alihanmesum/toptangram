@@ -3453,3 +3453,4 @@ export default function App() {
     </div>
   );
 }
+console.log("TEST GÜNCELLEMESİ 2026");
