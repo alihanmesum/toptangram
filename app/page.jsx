@@ -535,7 +535,7 @@ function Auth({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
   const [verify, setVerify] = useState(false);
-
+const [remember, setRemember] = useState(false);
   // Username kontrolü (debounced)
   useEffect(() => {
     if (mode !== "register" || role !== "store" || !username) { setUsernameError(""); return; }
