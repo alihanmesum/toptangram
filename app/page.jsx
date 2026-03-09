@@ -324,7 +324,6 @@ const Field = ({ label, value, onChange, type="text", placeholder, icon, multi, 
               color:disabled?T.muted:T.text, fontSize:14, resize:"none", fontFamily:"inherit", lineHeight:1.6, cursor:disabled?"not-allowed":"text" }}/>
         : <input value={value} onChange={e=>onChange(e.target.value)} type={type} placeholder={placeholder}
             disabled={disabled}
-            onKeyDown={e=>{ if(e.key==="Enter") e.preventDefault(); }}
             style={{ flex:1, background:"none", border:"none", outline:"none", padding:"12px 0",
               color:disabled?T.muted:T.text, fontSize:14, fontFamily:"inherit", cursor:disabled?"not-allowed":"text" }}/>
       }
@@ -535,6 +534,7 @@ function Auth({ onLogin }) {
   const [usernameError, setUsernameError] = useState("");
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
+  const [remember, setRemember] = useState(false);
   const [verify, setVerify] = useState(false);
 
   // Username kontrolü (debounced)
@@ -571,6 +571,7 @@ function Auth({ onLogin }) {
         });
         if (error) { setAuthError(error.message); return; }
         if (role === "store" && data.user) {
+          // Mağaza profili oluştur
           await supabase.from("stores").insert([{
             user_id: data.user.id,
             name: name || email.split("@")[0],
@@ -578,12 +579,7 @@ function Auth({ onLogin }) {
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
         }
-        if (data.session) {
-          onLogin(role, data.user.id);
-        } else {
-          setAuthError("Hesap olusturuldu! Giris yapabilirsiniz.");
-          setMode("login");
-        }
+        setVerify(true);
       }
     } catch (e) {
       setAuthError("Bir hata oluştu, tekrar deneyin");
@@ -3405,17 +3401,7 @@ export default function App() {
     } catch {}
 
     const init = async () => {
-      // Eski sahte session varsa temizle
-      const { data: { session: existing } } = await supabase.auth.getSession();
-      if (existing?.user) {
-        // Gerçek Supabase session — kontrol et
-        const { data: profile } = await supabase.from("profiles").select("id").eq("id", existing.user.id).maybeSingle();
-        if (!profile) {
-          // Profile yok = sahte/eski session, temizle
-          await supabase.auth.signOut();
-          return;
-        }
-      }
+      // Supabase'den gerçek session kontrol
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
@@ -3563,7 +3549,7 @@ export default function App() {
       try {
         const { data } = await supabase
           .from("products")
-          .select("*, stores(id, name, username, avatar_url, phone, city, verified, followers)")
+          .select("*, stores(id, name, username, avatar_url, city, verified)")
           .eq("in_stock", true)
           .order("created_at", { ascending: false })
           .limit(50);
