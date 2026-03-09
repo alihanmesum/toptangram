@@ -30,14 +30,16 @@ export async function uploadProductImage(file, storeId) {
   return data.publicUrl;
 }
 
-export async function saveProduct({ name, price, imageUrl, storeId, phone }) {
+export async function saveProduct({ name, price, imageUrl, storeId, storeUuid, phone }) {
   const { data, error } = await supabase.from('products')
     .insert([{ 
       name, 
       price: parseFloat(price), 
       image_url: imageUrl, 
-      store_id: storeId, 
-      whatsapp_number: phone 
+      store_id: storeId,
+      store_uuid: storeUuid || null,
+      whatsapp_number: phone,
+      in_stock: true,
     }])
     .select().single();
     
@@ -530,54 +532,59 @@ function Auth({ onLogin }) {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
-  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
   const [verify, setVerify] = useState(false);
 
-  // Check localStorage on mount
+  // Username kontrolü (debounced)
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem("toptangram_session");
-      if (saved) { const s = JSON.parse(saved); onLogin(s.role); }
-    } catch {}
-  }, []);
-
-  // Check username availability when typing (debounced)
-  useEffect(() => {
-    if (mode !== "register" || role !== "store" || !username) {
-      setUsernameError("");
-      return;
-    }
-    
-    const timer = setTimeout(async () => {
-      const result = await checkUsernameAvailability(username);
-      if (!result.available) {
-        setUsernameError("Bu kullanıcı adı zaten alınmış");
-      } else {
-        setUsernameError("");
-      }
+    if (mode !== "register" || role !== "store" || !username) { setUsernameError(""); return; }
+    const t = setTimeout(async () => {
+      const { data } = await supabase.from("stores").select("id").eq("username", username.toLowerCase()).maybeSingle();
+      setUsernameError(data ? "Bu kullanıcı adı zaten alınmış" : "");
     }, 500);
-    
-    return () => clearTimeout(timer);
+    return () => clearTimeout(t);
   }, [username, mode, role]);
 
-  const submit = () => {
-    if (!email) return;
-    if (role === "store" && mode === "register" && !username) {
-      setUsernameError("Kullanıcı adı gerekli");
-      return;
-    }
+  const submit = async () => {
+    setAuthError("");
+    if (!email || !pass) { setAuthError("E-posta ve şifre gerekli"); return; }
+    if (mode === "register" && role === "store" && !username) { setUsernameError("Kullanıcı adı gerekli"); return; }
     if (usernameError) return;
-    
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      if (mode === "register") { setVerify(true); return; }
-      if (remember) {
-        try { localStorage.setItem("toptangram_session", JSON.stringify({ role, email })); } catch {}
+    try {
+      if (mode === "login") {
+        // ── GİRİŞ ──────────────────────────────────────
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
+        if (error) { setAuthError(error.message === "Invalid login credentials" ? "E-posta veya şifre hatalı" : error.message); return; }
+        // Role belirle: stores tablosunda kaydı var mı?
+        const { data: store } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
+        const userRole = store ? "store" : "customer";
+        try { localStorage.setItem("toptangram_session", JSON.stringify({ role: userRole, email })); } catch {}
+        onLogin(userRole, data.user.id);
+      } else {
+        // ── KAYIT ──────────────────────────────────────
+        const { data, error } = await supabase.auth.signUp({
+          email, password: pass,
+          options: { data: { role, full_name: name } }
+        });
+        if (error) { setAuthError(error.message); return; }
+        if (role === "store" && data.user) {
+          // Mağaza profili oluştur
+          await supabase.from("stores").insert([{
+            user_id: data.user.id,
+            name: name || email.split("@")[0],
+            username: username.toLowerCase(),
+            bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
+          }]);
+        }
+        setVerify(true);
       }
-      onLogin(role);
-    }, 900);
+    } catch (e) {
+      setAuthError("Bir hata oluştu, tekrar deneyin");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (verify) return (
@@ -586,17 +593,11 @@ function Auth({ onLogin }) {
       <div style={{ width:72, height:72, borderRadius:36, background:`${T.brand}18`,
         display:"flex", alignItems:"center", justifyContent:"center", fontSize:36 }}>📧</div>
       <div style={{ textAlign:"center" }}>
-        <div style={{ fontWeight:800, fontSize:20, color:T.text, marginBottom:6 }}>E-posta Doğrula</div>
-        <div style={{ fontSize:13, color:T.text2 }}>{email} adresine kod gönderdik</div>
+        <div style={{ fontWeight:800, fontSize:20, color:T.text, marginBottom:6 }}>E-postanı Onayla</div>
+        <div style={{ fontSize:13, color:T.text2 }}>{email} adresine doğrulama linki gönderdik.</div>
+        <div style={{ fontSize:12, color:T.muted, marginTop:8 }}>Linke tıkladıktan sonra giriş yapabilirsin.</div>
       </div>
-      <div style={{ display:"flex", gap:8 }}>
-        {[0,1,2,3,4,5].map(i => (
-          <input key={i} maxLength={1} style={{ width:42, height:50, borderRadius:10, textAlign:"center",
-            fontSize:20, fontWeight:700, background:T.raised, border:`1.5px solid ${T.border2}`,
-            color:T.text, outline:"none", fontFamily:"inherit" }}/>
-        ))}
-      </div>
-      <Btn full onClick={() => onLogin(role)} sx={{ borderRadius:12, height:48 }}>Hesabı Onayla</Btn>
+      <Btn full onClick={()=>setVerify(false)} sx={{ borderRadius:12, height:48 }}>Geri Dön</Btn>
     </div>
   );
 
@@ -631,6 +632,12 @@ function Auth({ onLogin }) {
         )}
         <Field label="E-posta" value={email} onChange={setEmail} type="email" placeholder="ornek@email.com" icon="mail"/>
         <Field label="Şifre" value={pass} onChange={setPass} type="password" placeholder="••••••••" icon="lock"/>
+        {authError && (
+          <div style={{ padding:"10px 14px", borderRadius:10, background:T.rose+"18",
+            border:"1px solid "+T.rose, fontSize:13, color:T.rose, fontWeight:600 }}>
+            ⚠️ {authError}
+          </div>
+        )}
         {/* Beni Hatırla */}
         <label style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
           <div onClick={()=>setRemember(r=>!r)} style={{ width:20, height:20, borderRadius:6,
@@ -822,7 +829,7 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
             fontFamily:"inherit", transition:"background .2s",
             display:"flex", alignItems:"center", justifyContent:"center", gap:7,
             opacity: p.inStock ? 1 : 0.6 }}>
-            {!p.inStock ? "Stok Yok" : added ? <>✓ Eklendi</> : <><Ic n="cart" size={16} color="#fff"/> Talep Listesine Ekle</>}
+            {!p.inStock ? "Stok Yok" : added ? <>✓ Eklendi</> : <><Ic n="cart" size={16} color="#fff"/> Sepete Ekle</>}
           </button>
         )}
         {isOwnProduct && (
@@ -1201,7 +1208,7 @@ function Explore({ onStore, interactedTags }) {
 // ═══════════════════════════════════════════════════════════════
 // 2. CART — Mağaza bazlı gruplandırma
 // ═══════════════════════════════════════════════════════════════
-function CartScreen({ cart, setCart }) {
+function CartScreen({ cart, setCart, userId }) {
   const grouped = useMemo(() => {
     const groups = {};
     cart.forEach(item => {
@@ -1235,7 +1242,7 @@ function CartScreen({ cart, setCart }) {
       <div style={{ fontSize:48 }}>🛍</div>
       <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Sepetiniz boş</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
-        Feed'deki ürünlerin altındaki "Talep Listesine Ekle" butonuyla talep listenizi oluşturun
+        Feed'deki ürünlerin altındaki "Sepete Ekle" butonunu kullanın
       </div>
     </div>
   );
@@ -1298,12 +1305,23 @@ function CartScreen({ cart, setCart }) {
             {/* WA order button per store */}
             <div style={{ padding:"12px 14px" }}>
               <a href={`https://wa.me/${group.storePhone}?text=${buildWAText(group)}`}
+                onClick={async ()=>{
+                  // Talebi Supabase'e kaydet
+                  try {
+                    await supabase.from("requests").insert([{
+                      customer_id: userId || null,
+                      store_id: group.storeId,
+                      items: group.items.map(i=>({ name:i.name, variant:i.variant, qty:i.qty, price:i.price })),
+                      status: "pending"
+                    }]);
+                  } catch(e) { console.error("Talep kaydedilemedi:", e); }
+                }}
                 target="_blank" rel="noreferrer"
                 style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:8,
                   padding:"11px 0", background:T.wa, borderRadius:11, color:"#fff",
                   fontWeight:700, fontSize:14, textDecoration:"none", fontFamily:"inherit" }}>
                 <svg width={18} height={18} viewBox="0 0 24 24" fill="#fff"><path d={IP.wa}/></svg>
-                📩 Mağazaya Talep Gönder (WhatsApp)
+                Siparişi WhatsApp ile Tamamla
               </a>
             </div>
           </div>
@@ -1318,47 +1336,155 @@ function CartScreen({ cart, setCart }) {
 // ═══════════════════════════════════════════════════════════════
 // SİPARİŞ TAKİBİ EKRANI
 // ═══════════════════════════════════════════════════════════════
-const MOCK_TALEPLER = [];
+const MOCK_ORDERS = [
+  {
+    id:"ord1", storeId:"st1", storeName:"Atlaz Studio",
+    storeAvatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80",
+    date:"3 Mart 2026", total:"3420", status:"delivered",
+    items:[
+      { name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12, price:"285" },
+    ]
+  },
+  {
+    id:"ord2", storeId:"st2", storeName:"Denim Republic",
+    storeAvatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80",
+    date:"27 Şubat 2026", total:"3480", status:"shipped",
+    items:[
+      { name:"Oversize Kargo Şort", variant:"Siyah", qty:24, price:"145" },
+    ]
+  },
+  {
+    id:"ord3", storeId:"st4", storeName:"Koza Giyim",
+    storeAvatar:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80",
+    date:"20 Şubat 2026", total:"1140", status:"preparing",
+    items:[
+      { name:"Polo Yaka Tişört", variant:"Beyaz", qty:12, price:"95" },
+    ]
+  }
+];
 
-function TalepScreen({ talepler, onStore }) {
-  if (!talepler || talepler.length === 0) return (
-    <div style={{ display:"flex", flexDirection:"column", alignItems:"center",
-      justifyContent:"center", gap:14, padding:"40px 24px" }}>
-      <div style={{ fontSize:48 }}>📋</div>
-      <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Henüz talep yok</div>
-      <div style={{ fontSize:13, color:T.muted, textAlign:"center", lineHeight:1.6 }}>
-        Ürünleri talep listesine ekleyip mağazaya bildir.
+const ORDER_STATUS = {
+  preparing: { label:"Hazırlanıyor", color:"#f5a623", icon:"⏳", step:1 },
+  shipped:   { label:"Kargoda",      color:"#8875f5", icon:"🚚", step:2 },
+  delivered: { label:"Teslim Edildi",color:"#52d98b", icon:"✓",  step:3 },
+  cancelled: { label:"İptal",        color:"#ef7070", icon:"✕",  step:0 },
+};
+
+function OrdersScreen({ onStore }) {
+  const [orders] = useState(MOCK_ORDERS);
+  const [filter, setFilter] = useState("all");
+
+  const filtered = filter === "all" ? orders : orders.filter(o=>o.status===filter);
+
+  if (orders.length === 0) return (
+    <div style={{ height:"100%", display:"flex", flexDirection:"column",
+      alignItems:"center", justifyContent:"center", gap:14, padding:24, background:T.bg }}>
+      <div style={{ fontSize:48 }}>📦</div>
+      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Henüz sipariş yok</div>
+      <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
+        Mağaza ürünlerini sepete ekleyip WhatsApp ile sipariş verin
       </div>
     </div>
   );
+
   return (
-    <div style={{ overflowY:"auto" }}>
-      {talepler.map((t,i) => (
-        <div key={i} style={{ margin:"10px 14px", background:T.card,
-          border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
-          <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center",
-            background:T.raised, borderBottom:"1px solid "+T.border }}>
-            <div style={{ flex:1 }}>
-              <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.storeName}</div>
-              <div style={{ fontSize:11, color:T.muted }}>{t.date}</div>
+    <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
+      <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}`,
+        display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Siparişlerim</span>
+        <span style={{ fontSize:12, color:T.muted }}>{orders.length} sipariş</span>
+      </div>
+
+      {/* Status filter */}
+      <div style={{ display:"flex", gap:8, padding:"10px 16px", overflowX:"auto", scrollbarWidth:"none" }}>
+        {[["all","Tümü"],["preparing","⏳ Hazırlanıyor"],["shipped","🚚 Kargoda"],["delivered","✓ Teslim"]].map(([v,l])=>(
+          <button key={v} onClick={()=>setFilter(v)} style={{
+            padding:"6px 14px", borderRadius:20, border:"none", cursor:"pointer",
+            background:filter===v?T.brand:T.raised, color:filter===v?"#fff":T.muted,
+            fontSize:12, fontWeight:700, fontFamily:"inherit", whiteSpace:"nowrap", flexShrink:0 }}>{l}</button>
+        ))}
+      </div>
+
+      {filtered.map(order => {
+        const st = ORDER_STATUS[order.status] || ORDER_STATUS.preparing;
+        return (
+          <div key={order.id} style={{ margin:"10px 14px", background:T.card,
+            border:`1px solid ${T.border}`, borderRadius:16, overflow:"hidden" }}>
+            {/* Store + date */}
+            <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center",
+              borderBottom:`1px solid ${T.border}`, background:T.raised }}>
+              <img src={order.storeAvatar} style={{ width:32, height:32, borderRadius:16, objectFit:"cover" }}/>
+              <div style={{ flex:1 }}>
+                <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{order.storeName}</div>
+                <div style={{ fontSize:11, color:T.muted }}>{order.date}</div>
+              </div>
+              <div style={{ padding:"4px 10px", borderRadius:8,
+                background:`${st.color}18`, color:st.color,
+                fontSize:11, fontWeight:700, border:`1px solid ${st.color}30` }}>
+                {st.icon} {st.label}
+              </div>
             </div>
-            <div style={{ padding:"4px 10px", borderRadius:8,
-              background:T.teal+"18", color:T.teal, fontSize:11, fontWeight:700 }}>✓ Gönderildi</div>
+
+            {/* Sipariş adımları */}
+            <div style={{ padding:"12px 14px" }}>
+              <div style={{ display:"flex", alignItems:"center", marginBottom:12 }}>
+                {["Hazırlanıyor","Kargoda","Teslim"].map((s,i)=>(
+                  <div key={i} style={{ display:"flex", alignItems:"center", flex:i<2?1:"none" }}>
+                    <div style={{ width:22, height:22, borderRadius:11, display:"flex",
+                      alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800,
+                      background: st.step>i?T.green:st.step===i+1?T.brand:T.raised,
+                      color: st.step>i||st.step===i+1?"#fff":T.muted,
+                      border:`2px solid ${st.step>i?T.green:st.step===i+1?T.brand:T.border2}` }}>
+                      {st.step>i?"✓":i+1}
+                    </div>
+                    <div style={{ fontSize:9, color: st.step>i?T.green:st.step===i+1?T.brand:T.muted,
+                      marginLeft:4, marginRight:i<2?4:0 }}>{s}</div>
+                    {i < 2 && <div style={{ flex:1, height:2, borderRadius:1, marginRight:4,
+                      background:st.step>i+1?T.green:T.border }}/>}
+                  </div>
+                ))}
+              </div>
+              {/* Items */}
+              {order.items.map((item,i)=>(
+                <div key={i} style={{ display:"flex", justifyContent:"space-between",
+                  alignItems:"center", padding:"6px 0",
+                  borderBottom: i<order.items.length-1?`1px solid ${T.border}`:"none" }}>
+                  <div>
+                    <div style={{ fontSize:13, fontWeight:700, color:T.text }}>{item.name}</div>
+                    <div style={{ fontSize:11, color:T.muted }}>{item.variant} · {item.qty} adet</div>
+                  </div>
+                  <div style={{ fontWeight:700, fontSize:13, color:T.green }}>
+                    {(parseFloat(item.price)*item.qty).toLocaleString("tr")}₺
+                  </div>
+                </div>
+              ))}
+              <div style={{ display:"flex", justifyContent:"space-between", marginTop:10,
+                paddingTop:10, borderTop:`1px solid ${T.border}` }}>
+                <span style={{ fontSize:12, color:T.muted }}>Toplam</span>
+                <span style={{ fontSize:16, fontWeight:800, color:T.text }}>{parseFloat(order.total).toLocaleString("tr")}₺</span>
+              </div>
+            </div>
+
+            {/* Mağazaya git */}
+            <div style={{ padding:"0 14px 12px" }}>
+              <button onClick={()=>onStore(order.storeId)}
+                style={{ width:"100%", padding:"9px 0", borderRadius:10,
+                  background:"none", border:`1.5px solid ${T.border2}`,
+                  color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
+                Mağazaya Git →
+              </button>
+            </div>
           </div>
-          <div style={{ padding:"10px 14px" }}>
-            <button onClick={()=>onStore(t.storeId)} style={{ width:"100%", padding:"9px 0",
-              borderRadius:10, background:"none", border:"1.5px solid "+T.border2,
-              color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
-              Mağazayla İletişime Geç →
-            </button>
-          </div>
-        </div>
-      ))}
+        );
+      })}
       <div style={{ height:70 }}/>
     </div>
   );
 }
 
+// ═══════════════════════════════════════════════════════════════
+// 8. MESSAGES (Inbox)
+// ═══════════════════════════════════════════════════════════════
 function Messages({ initialStoreId, onClearInitial }) {
   const [convs, setConvs] = useState(INIT_MESSAGES);
   const [active, setActive] = useState(null);
@@ -1894,7 +2020,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
   return (
     <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
       <div style={{ padding:"20px 16px 0" }}>
-        {/* Avatar + stats */}
         <div style={{ display:"flex", gap:16, alignItems:"center", marginBottom:14 }}>
           <div style={{ width:76, height:76, borderRadius:38, overflow:"hidden", flexShrink:0,
             background:T.raised, display:"flex", alignItems:"center", justifyContent:"center" }}>
@@ -1914,8 +2039,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
             ))}
           </div>
         </div>
-
-        {/* İsim + ayarlar + çıkış */}
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4 }}>
           <div>
             <div style={{ fontWeight:800, fontSize:15, color:T.text }}>
@@ -1940,8 +2063,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
             </button>
           </div>
         </div>
-
-        {/* Takip edilen mağazalar (sadece müşteri) */}
         {role!=="store" && (
           <div style={{ marginBottom:14, marginTop:10 }}>
             <div style={{ fontSize:12, fontWeight:700, color:T.text2, marginBottom:8,
@@ -1961,8 +2082,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
           </div>
         )}
       </div>
-
-      {/* Tabs */}
       <div style={{ display:"flex", borderTop:"1px solid "+T.border, borderBottom:"1px solid "+T.border }}>
         {(role==="store"
           ? [["urunler","📦 Ürünler"],["liked","❤️ Beğeni"],["saved","🔖 Kayıt"]]
@@ -1976,10 +2095,7 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
           </button>
         ))}
       </div>
-
-      {/* Tab içerikleri */}
       {profileTab==="talepler" && role!=="store" && <TalepScreen talepler={MOCK_TALEPLER} onStore={onStore}/>}
-
       {profileTab==="urunler" && role==="store" && (
         <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:2 }}>
           {myProducts.map(p=>(
@@ -1993,7 +2109,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
           ))}
         </div>
       )}
-
       {(profileTab==="liked"||profileTab==="saved") && (
         <>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:2 }}>
@@ -2016,8 +2131,6 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
           <div style={{ height:70 }}/>
         </>
       )}
-
-      {/* Settings — tam ekran açılır */}
       {settingsOpen && role==="store" && (
         <StoreSettings onBack={()=>setSettingsOpen(false)} storeId="st1" role={role} onLogout={onLogout}/>
       )}
@@ -2031,14 +2144,56 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
 
 
 // ═══════════════════════════════════════════════════════════════
-// GELEN TALEPLER — Mağaza paneli
+// TALEP EKRANLARI
 // ═══════════════════════════════════════════════════════════════
+const MOCK_TALEPLER = [];
+
+function TalepScreen({ talepler, onStore }) {
+  if (!talepler || talepler.length === 0) return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center",
+      justifyContent:"center", gap:14, padding:"40px 24px" }}>
+      <div style={{ fontSize:48 }}>📋</div>
+      <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Henüz talep yok</div>
+      <div style={{ fontSize:13, color:T.muted, textAlign:"center", lineHeight:1.6 }}>
+        Ürünleri talep listesine ekleyip mağazaya bildir.
+      </div>
+    </div>
+  );
+  return (
+    <div style={{ overflowY:"auto" }}>
+      {talepler.map((t,i) => (
+        <div key={i} style={{ margin:"10px 14px", background:T.card,
+          border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
+          <div style={{ padding:"12px 14px", display:"flex", gap:10, alignItems:"center",
+            background:T.raised, borderBottom:"1px solid "+T.border }}>
+            <div style={{ flex:1 }}>
+              <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.storeName}</div>
+              <div style={{ fontSize:11, color:T.muted }}>{t.date}</div>
+            </div>
+            <div style={{ padding:"4px 10px", borderRadius:8,
+              background:T.teal+"18", color:T.teal, fontSize:11, fontWeight:700 }}>✓ Gönderildi</div>
+          </div>
+          <div style={{ padding:"10px 14px" }}>
+            <button onClick={()=>onStore(t.storeId)} style={{ width:"100%", padding:"9px 0",
+              borderRadius:10, background:"none", border:"1.5px solid "+T.border2,
+              color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
+              Mağazayla İletişime Geç →
+            </button>
+          </div>
+        </div>
+      ))}
+      <div style={{ height:70 }}/>
+    </div>
+  );
+}
+
 const DEMO_GELEN = [
   { id:"t1", musteriAd:"Ahmet Y.", tarih:"Bugün 11:23",
     urunler:[{ name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12 },{ name:"Viskon Midi Elbise", variant:"Siyah", qty:12 }] },
   { id:"t2", musteriAd:"Fatma K.", tarih:"Dün 16:44",
     urunler:[{ name:"Viskon Midi Elbise", variant:"Beyaz", qty:24 }] },
 ];
+
 function GelenTaleplerScreen() {
   const [talepler] = useState(DEMO_GELEN);
   return (
@@ -2047,39 +2202,33 @@ function GelenTaleplerScreen() {
         <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Gelen Talepler</div>
         <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>Müşterilerin talep listesinden ilettiği ürünler</div>
       </div>
-      {talepler.length===0
-        ? <div style={{ display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"70%",gap:14,padding:24 }}>
-            <div style={{ fontSize:48 }}>📭</div>
-            <div style={{ fontWeight:800,fontSize:16,color:T.text }}>Henüz talep yok</div>
+      {talepler.map(t=>(
+        <div key={t.id} style={{ margin:"10px 14px", background:T.card, border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
+          <div style={{ padding:"12px 14px", background:T.raised, borderBottom:"1px solid "+T.border, display:"flex", alignItems:"center", gap:10 }}>
+            <div style={{ width:36, height:36, borderRadius:18, background:T.brand+"22", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>👤</div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.musteriAd}</div>
+              <div style={{ fontSize:11, color:T.muted }}>{t.tarih}</div>
+            </div>
+            <div style={{ padding:"4px 10px", borderRadius:8, background:T.brand+"18", color:T.brand, fontSize:11, fontWeight:700 }}>🆕 Yeni</div>
           </div>
-        : talepler.map(t=>(
-          <div key={t.id} style={{ margin:"10px 14px",background:T.card,border:"1px solid "+T.border,borderRadius:16,overflow:"hidden" }}>
-            <div style={{ padding:"12px 14px",background:T.raised,borderBottom:"1px solid "+T.border,display:"flex",alignItems:"center",gap:10 }}>
-              <div style={{ width:36,height:36,borderRadius:18,background:T.brand+"22",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18 }}>👤</div>
+          {t.urunler.map((u,i)=>(
+            <div key={i} style={{ padding:"10px 14px", display:"flex", gap:10, borderBottom:"1px solid "+T.border, alignItems:"center" }}>
+              <div style={{ width:8, height:8, borderRadius:4, background:T.teal, flexShrink:0 }}/>
               <div style={{ flex:1 }}>
-                <div style={{ fontWeight:700,fontSize:13,color:T.text }}>{t.musteriAd}</div>
-                <div style={{ fontSize:11,color:T.muted }}>{t.tarih}</div>
+                <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{u.name}</div>
+                {u.variant&&<div style={{ fontSize:11, color:T.muted }}>{u.variant}</div>}
               </div>
-              <div style={{ padding:"4px 10px",borderRadius:8,background:T.brand+"18",color:T.brand,fontSize:11,fontWeight:700 }}>🆕 Yeni</div>
+              <div style={{ fontSize:13, fontWeight:800, color:T.green }}>{u.qty} adet</div>
             </div>
-            {t.urunler.map((u,i)=>(
-              <div key={i} style={{ padding:"10px 14px",display:"flex",gap:10,borderBottom:"1px solid "+T.border,alignItems:"center" }}>
-                <div style={{ width:8,height:8,borderRadius:4,background:T.teal,flexShrink:0 }}/>
-                <div style={{ flex:1 }}>
-                  <div style={{ fontWeight:700,fontSize:13,color:T.text }}>{u.name}</div>
-                  {u.variant&&<div style={{ fontSize:11,color:T.muted }}>{u.variant}</div>}
-                </div>
-                <div style={{ fontSize:13,fontWeight:800,color:T.green }}>{u.qty} adet</div>
-              </div>
-            ))}
-            <div style={{ padding:"10px 14px" }}>
-              <div style={{ padding:"10px 14px",background:T.raised,borderRadius:12,fontSize:12,color:T.teal,textAlign:"center",fontWeight:700 }}>
-                ✓ Talep WhatsApp'a iletildi
-              </div>
+          ))}
+          <div style={{ padding:"10px 14px" }}>
+            <div style={{ padding:"10px 14px", background:T.raised, borderRadius:12, fontSize:12, color:T.teal, textAlign:"center", fontWeight:700 }}>
+              ✓ Talep WhatsApp'a iletildi
             </div>
           </div>
-        ))
-      }
+        </div>
+      ))}
       <div style={{ height:70 }}/>
     </div>
   );
@@ -2088,7 +2237,7 @@ function GelenTaleplerScreen() {
 // ═══════════════════════════════════════════════════════════════
 // UPLOAD — Supabase + video desteği
 // ═══════════════════════════════════════════════════════════════
-function Upload({ store, onNotify, toast }) {
+function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
@@ -2170,7 +2319,7 @@ function Upload({ store, onNotify, toast }) {
           {uploading?`${prog}%`:"Yayınla"}
         </Btn>
       </div>
-      <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16, minHeight:0 }}>
+      <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16 }}>
         <div onClick={()=>!preview&&fileRef.current?.click()}
           style={{ width:"100%", aspectRatio:"4/3", borderRadius:16, overflow:"hidden",
             border:`2px dashed ${preview?"transparent":T.border2}`,
@@ -2368,7 +2517,7 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
           <Ic n="arrow" color={T.text} size={22} sx={{ transform:"rotate(180deg)" }}/>
         </button>
         <span style={{ fontWeight:800, fontSize:15, color:T.text, flex:1 }}>Mağaza Ayarları</span>
-        <button onClick={()=>{ try{localStorage.removeItem("toptangram_session");}catch{} onLogout?.(); }}
+        <button onClick={onLogout}
           style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
             border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
             fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
@@ -2663,7 +2812,7 @@ function CustomerAccount({ onBack, role, onLogout }) {
           <Ic n="close" color={T.text} size={22} />
         </button>
         <span style={{ fontWeight: 800, fontSize: 15, color: T.text, flex: 1 }}>Profil Ayarlarım</span>
-        <button onClick={()=>{ try{localStorage.removeItem("toptangram_session");}catch{} onLogout?.(); }}
+        <button onClick={onLogout}
           style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
             border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
             fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
@@ -3200,6 +3349,8 @@ export default function App() {
   const [onboarded, setOnboarded] = useState(false);
   const [authed, setAuthed] = useState(false);
   const [role, setRole] = useState("customer");
+  const [userId, setUserId] = useState(null);
+  const [myStoreId, setMyStoreId] = useState(null);
   const [_hydrated, setHydrated] = useState(false);
   const [tab, setTab] = useState("feed");
   const [story, setStory] = useState(null);
@@ -3239,17 +3390,30 @@ export default function App() {
     };
   }, []);
   
-  // Hydration sonrası localStorage oku
+  // Hydration sonrası localStorage + Supabase session oku
   useEffect(() => {
     setHydrated(true);
-    try {
-      if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
-      const saved = localStorage.getItem("toptangram_session");
-      if (saved) {
-        const { role: r } = JSON.parse(saved);
-        if (r) { setRole(r); setAuthed(true); }
+    const init = async () => {
+      try {
+        if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
+      } catch {}
+      // Supabase session kontrol
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
+        const r = store ? "store" : "customer";
+        setRole(r);
+        setUserId(session.user.id);
+        if (store) setMyStoreId(store.id);
+        setAuthed(true);
       }
-    } catch {}
+    };
+    init();
+    // Auth state değişikliklerini dinle
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_OUT") { setAuthed(false); setRole("customer"); setUserId(null); setMyStoreId(null); setTab("feed"); }
+    });
+    return () => subscription.unsubscribe();
   }, []);
 
   // Story navigation
@@ -3365,6 +3529,48 @@ export default function App() {
   const changeTab = useCallback((t) => { setTab(t); setStoreId(null); }, []);
   const msgCount = INIT_MESSAGES.reduce((s,m)=>s+m.unread, 0);
 
+  // Gerçek ürünleri Supabase'den çek
+  const [realProducts, setRealProducts] = useState([]);
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const { data } = await supabase
+          .from("products")
+          .select("*, stores(id, name, username, avatar_url, phone, city, verified, followers)")
+          .eq("in_stock", true)
+          .order("created_at", { ascending: false })
+          .limit(50);
+        if (data && data.length > 0) {
+          const mapped = data.map(p => ({
+            id: p.id,
+            storeId: p.store_uuid || p.store_id,
+            name: p.name,
+            price: p.price,
+            description: p.description || "",
+            tags: p.tags || [],
+            inStock: p.in_stock !== false,
+            minLot: p.min_lot || 1,
+            likes: p.likes || 0,
+            liked: false,
+            saved: false,
+            media: [{ type:"image", url: p.image_url, thumb: p.image_url }],
+            variants: [],
+            timeAgo: "yeni",
+            storeVerified: p.stores?.verified || false,
+            storeUsername: p.stores?.username || "",
+            storeAvatar: p.stores?.avatar_url || "",
+            storePhone: p.whatsapp_number || p.stores?.phone || "",
+            storeCity: p.stores?.city || "",
+            storeName: p.stores?.name || "",
+            createdAt: p.created_at,
+          }));
+          setRealProducts(mapped);
+        }
+      } catch(e) { console.error("Ürün yükleme hatası:", e); }
+    };
+    load();
+  }, [authed]);
+
   // Listen for addToCart events dispatched from product detail modal
   useEffect(() => {
     const handler = (e) => {
@@ -3444,17 +3650,36 @@ export default function App() {
           {!onboarded
             ? <Onboarding onDone={()=>{ try{localStorage.setItem("toptangram_onboarded","1");}catch{} setOnboarded(true); }}/>
             : !authed
-              ? <Auth onLogin={(r)=>{ setRole(r); setAuthed(true); }}/>
+              ? <Auth onLogin={async (r, uid)=>{ setRole(r); setUserId(uid); setAuthed(true);
+                  if (r === "store" && uid) {
+                    const { data: st } = await supabase.from("stores").select("id").eq("user_id", uid).maybeSingle();
+                    if (st) setMyStoreId(st.id);
+                  }
+                }}/>
               : storeId
               ? <StoreProf storeId={storeId} onBack={()=>setStoreId(null)} myId="st1" role={role} onSendDM={handleSendDM}/>
               : <>
-                  {tab==="feed"     && <Feed products={INIT_PRODUCTS} onStory={handleOpenStory} onStore={setStoreId} onAddToCart={addToCart} onSendDM={handleSendDM}/>}
+                  {tab==="feed"     && <Feed products={realProducts.length > 0 ? realProducts : INIT_PRODUCTS} onStory={handleOpenStory} onStore={setStoreId} onAddToCart={addToCart} onSendDM={handleSendDM}/>}
                   {tab==="explore"  && <Explore onStore={setStoreId} interactedTags={interactedTags}/>}
-                  {tab==="cart"     && <CartScreen cart={cart} setCart={setCart}/>}
+                  {tab==="cart"     && <CartScreen cart={cart} setCart={setCart} userId={userId}/>}
                   {tab==="messages" && <Messages initialStoreId={dmStoreId} onClearInitial={()=>setDmStoreId(null)}/>}
                   {tab==="talepler" && role==="store" && <GelenTaleplerScreen/>}
-                  {tab==="upload"   && role==="store" && <Upload store={STORES[0]} onNotify={handleNewNotification} toast={toast}/>}
-                  {tab==="profile"  && <MyProfile role={role} onStore={setStoreId} onSendDM={handleSendDM} onLogout={()=>{ try{localStorage.removeItem("toptangram_session");}catch{} setAuthed(false); setTab("feed"); }}/>}
+                  {tab==="upload"   && role==="store" && <Upload store={STORES[0]} storeUuid={myStoreId} userId={userId} onNotify={handleNewNotification} toast={toast} onUploaded={()=>{
+  // Ürün yüklenince feed'i yenile
+  supabase.from("products").select("*, stores(id,name,username,avatar_url,phone,city,verified,followers)").eq("in_stock",true).order("created_at",{ascending:false}).limit(50).then(({data})=>{
+    if(data?.length) setRealProducts(data.map(p=>({
+      id:p.id, storeId:p.store_uuid||p.store_id, name:p.name, price:p.price,
+      description:p.description||"", tags:p.tags||[], inStock:p.in_stock!==false,
+      minLot:p.min_lot||1, likes:p.likes||0, liked:false, saved:false,
+      media:[{type:"image",url:p.image_url,thumb:p.image_url}], variants:[],
+      timeAgo:"yeni", storeVerified:p.stores?.verified||false,
+      storeUsername:p.stores?.username||"", storeAvatar:p.stores?.avatar_url||"",
+      storePhone:p.whatsapp_number||p.stores?.phone||"",
+      storeCity:p.stores?.city||"", storeName:p.stores?.name||"", createdAt:p.created_at
+    })));
+  });
+}}/>}
+                  {tab==="profile"  && <MyProfile role={role} onStore={setStoreId} onSendDM={handleSendDM} onLogout={async ()=>{ await supabase.auth.signOut(); try{localStorage.removeItem('toptangram_session');}catch{}; }}/> }
                   {story && <Story s={story} onClose={()=>setStory(null)} onNext={handleNextStory} onPrev={handlePrevStory}/>}
                   {showNotifications && <NotificationsModal items={notifications} onClose={()=>setShowNotifications(false)}/>}
                   <toast.ToastContainer/>
