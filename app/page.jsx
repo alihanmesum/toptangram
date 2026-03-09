@@ -534,7 +534,6 @@ function Auth({ onLogin }) {
   const [usernameError, setUsernameError] = useState("");
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
-  const [remember, setRemember] = useState(false);
   const [verify, setVerify] = useState(false);
 
   // Username kontrolü (debounced)
@@ -571,15 +570,21 @@ function Auth({ onLogin }) {
         });
         if (error) { setAuthError(error.message); return; }
         if (role === "store" && data.user) {
-          // Mağaza profili oluştur
-          await supabase.from("stores").insert([{
+          const { error: storeErr } = await supabase.from("stores").insert([{
             user_id: data.user.id,
             name: name || email.split("@")[0],
             username: username.toLowerCase(),
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
+          if (storeErr) console.error("Store insert error:", storeErr);
         }
-        setVerify(true);
+        // Dogrulama kapali: direkt giris
+        if (data.session) {
+          onLogin(role, data.user.id);
+        } else {
+          setAuthError("Hesap olusturuldu! Giris yapabilirsiniz.");
+          setMode("login");
+        }
       }
     } catch (e) {
       setAuthError("Bir hata oluştu, tekrar deneyin");
@@ -3549,7 +3554,7 @@ export default function App() {
       try {
         const { data } = await supabase
           .from("products")
-          .select("*, stores(id, name, username, avatar_url, city, verified)")
+          .select("*, stores(id, name, username, avatar_url, phone, city, verified, followers)")
           .eq("in_stock", true)
           .order("created_at", { ascending: false })
           .limit(50);
