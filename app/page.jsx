@@ -578,15 +578,7 @@ function Auth({ onLogin }) {
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
         }
-        // Doğrulama kapalıysa direkt giriş yap
-        if (data.session) {
-          try { localStorage.setItem("toptangram_session", JSON.stringify({ role, email })); } catch {}
-          onLogin(role, data.user.id);
-        } else {
-          // Doğrulama açıksa giriş ekranına yönlendir
-          setAuthError("Hesap oluşturuldu! Giriş yapabilirsiniz.");
-          setMode("login");
-        }
+        setVerify(true);
       }
     } catch (e) {
       setAuthError("Bir hata oluştu, tekrar deneyin");
@@ -3398,14 +3390,17 @@ export default function App() {
     };
   }, []);
   
-  // Hydration sonrası localStorage + Supabase session oku
+  // Hydration sonrası Supabase session oku
   useEffect(() => {
     setHydrated(true);
+    // Eski sahte localStorage session'ı temizle
+    try {
+      if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
+      localStorage.removeItem("toptangram_session");
+    } catch {}
+
     const init = async () => {
-      try {
-        if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
-      } catch {}
-      // Supabase session kontrol
+      // Supabase'den gerçek session kontrol
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
@@ -3417,9 +3412,18 @@ export default function App() {
       }
     };
     init();
+
     // Auth state değişikliklerini dinle
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_OUT") { setAuthed(false); setRole("customer"); setUserId(null); setMyStoreId(null); setTab("feed"); }
+      if (event === "SIGNED_OUT") {
+        setAuthed(false); setRole("customer"); setUserId(null); setMyStoreId(null); setTab("feed");
+      } else if (event === "SIGNED_IN" && session?.user) {
+        const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
+        const r = store ? "store" : "customer";
+        setRole(r); setUserId(session.user.id);
+        if (store) setMyStoreId(store.id);
+        setAuthed(true);
+      }
     });
     return () => subscription.unsubscribe();
   }, []);
