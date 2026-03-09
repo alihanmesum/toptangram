@@ -578,7 +578,15 @@ function Auth({ onLogin }) {
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
         }
-        setVerify(true);
+        // Doğrulama kapalıysa direkt giriş yap
+        if (data.session) {
+          try { localStorage.setItem("toptangram_session", JSON.stringify({ role, email })); } catch {}
+          onLogin(role, data.user.id);
+        } else {
+          // Doğrulama açıksa giriş ekranına yönlendir
+          setAuthError("Hesap oluşturuldu! Giriş yapabilirsiniz.");
+          setMode("login");
+        }
       }
     } catch (e) {
       setAuthError("Bir hata oluştu, tekrar deneyin");
