@@ -556,23 +556,18 @@ function Auth({ onLogin }) {
     setLoading(true);
     try {
       if (mode === "login") {
-        // ── GİRİŞ ──────────────────────────────────────
         const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
-        if (error) { setAuthError(error.message === "Invalid login credentials" ? "E-posta veya şifre hatalı" : error.message); return; }
-        // Role belirle: stores tablosunda kaydı var mı?
-        const { data: store, error: storeErr } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
-        console.log("STORE QUERY:", store, storeErr, data.user.id);
-        const userRole = store ? "store" : "customer";
-        console.log("USER ROLE:", userRole);
+        if (error) { setAuthError("E-posta veya şifre hatalı"); setLoading(false); return; }
+        const { data: storeData } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
+        const userRole = storeData ? "store" : "customer";
+        setLoading(false);
         onLogin(userRole, data.user.id);
-        console.log("onLogin called with:", userRole);
       } else {
-        // ── KAYIT ──────────────────────────────────────
         const { data, error } = await supabase.auth.signUp({
           email, password: pass,
           options: { data: { role, full_name: name } }
         });
-        if (error) { setAuthError(error.message); return; }
+        if (error) { setAuthError(error.message); setLoading(false); return; }
         if (role === "store" && data.user) {
           await supabase.from("stores").insert([{
             user_id: data.user.id,
@@ -581,16 +576,16 @@ function Auth({ onLogin }) {
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
         }
+        setLoading(false);
         if (data.session) {
           onLogin(role, data.user.id);
         } else {
-          setAuthError("Hesap olusturuldu! Giris yapabilirsiniz.");
+          setAuthError("Hesap oluşturuldu! Giriş yapabilirsiniz.");
           setMode("login");
         }
       }
     } catch (e) {
       setAuthError("Bir hata oluştu, tekrar deneyin");
-    } finally {
       setLoading(false);
     }
   };
@@ -3670,7 +3665,7 @@ export default function App() {
           {!onboarded
             ? <Onboarding onDone={()=>{ try{localStorage.setItem("toptangram_onboarded","1");}catch{} setOnboarded(true); }}/>
             : !authed
-              ? <Auth onLogin={async (r, uid)=>{ console.log("onLogin callback:", r, uid); setRole(r); setUserId(uid); setAuthed(true);
+              ? <Auth onLogin={async (r, uid)=>{ setRole(r); setUserId(uid); setAuthed(true);
                   if (r === "store" && uid) {
                     const { data: st } = await supabase.from("stores").select("id").eq("user_id", uid).maybeSingle();
                     if (st) setMyStoreId(st.id);
