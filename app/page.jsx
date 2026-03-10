@@ -535,7 +535,7 @@ function Auth({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
   const [verify, setVerify] = useState(false);
-const [remember, setRemember] = useState(false);
+
   // Username kontrolü (debounced)
   useEffect(() => {
     if (mode !== "register" || role !== "store" || !username) { setUsernameError(""); return; }
@@ -558,8 +558,10 @@ const [remember, setRemember] = useState(false);
         const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
         if (error) { setAuthError(error.message === "Invalid login credentials" ? "E-posta veya şifre hatalı" : error.message); return; }
         // Role belirle: stores tablosunda kaydı var mı?
-        const { data: store } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
+        const { data: store, error: storeErr } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
+        console.log("Store query result:", store, "Error:", storeErr, "User ID:", data.user.id);
         const userRole = store ? "store" : "customer";
+        console.log("User role:", userRole);
         try { localStorage.setItem("toptangram_session", JSON.stringify({ role: userRole, email })); } catch {}
         onLogin(userRole, data.user.id);
       } else {
@@ -570,21 +572,15 @@ const [remember, setRemember] = useState(false);
         });
         if (error) { setAuthError(error.message); return; }
         if (role === "store" && data.user) {
-          const { error: storeErr } = await supabase.from("stores").insert([{
+          // Mağaza profili oluştur
+          await supabase.from("stores").insert([{
             user_id: data.user.id,
             name: name || email.split("@")[0],
             username: username.toLowerCase(),
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
-          if (storeErr) console.error("Store insert error:", storeErr);
         }
-        // Dogrulama kapali: direkt giris
-        if (data.session) {
-          onLogin(role, data.user.id);
-        } else {
-          setAuthError("Hesap olusturuldu! Giris yapabilirsiniz.");
-          setMode("login");
-        }
+        setVerify(true);
       }
     } catch (e) {
       setAuthError("Bir hata oluştu, tekrar deneyin");
