@@ -558,10 +558,8 @@ function Auth({ onLogin }) {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
         if (error) { setAuthError(error.message === "Invalid login credentials" ? "E-posta veya şifre hatalı" : error.message); return; }
         // Role belirle: stores tablosunda kaydı var mı?
-        const { data: store, error: storeErr } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
-        console.log("Store query result:", store, "Error:", storeErr, "User ID:", data.user.id);
+        const { data: store } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
         const userRole = store ? "store" : "customer";
-        console.log("User role:", userRole);
         try { localStorage.setItem("toptangram_session", JSON.stringify({ role: userRole, email })); } catch {}
         onLogin(userRole, data.user.id);
       } else {
@@ -3550,17 +3548,17 @@ export default function App() {
       try {
         const { data } = await supabase
           .from("products")
-          .select("*, stores(id, name, username, avatar_url, phone, city, verified, followers)")
+          .select("id, name, price, image_url, store_id, whatsapp_number, created_at, in_stock, min_lot, tags, likes")
           .eq("in_stock", true)
           .order("created_at", { ascending: false })
           .limit(50);
         if (data && data.length > 0) {
           const mapped = data.map(p => ({
             id: p.id,
-            storeId: p.store_uuid || p.store_id,
+            storeId: p.store_id,
             name: p.name,
             price: p.price,
-            description: p.description || "",
+            description: "",
             tags: p.tags || [],
             inStock: p.in_stock !== false,
             minLot: p.min_lot || 1,
@@ -3570,12 +3568,12 @@ export default function App() {
             media: [{ type:"image", url: p.image_url, thumb: p.image_url }],
             variants: [],
             timeAgo: "yeni",
-            storeVerified: p.stores?.verified || false,
-            storeUsername: p.stores?.username || "",
-            storeAvatar: p.stores?.avatar_url || "",
-            storePhone: p.whatsapp_number || p.stores?.phone || "",
-            storeCity: p.stores?.city || "",
-            storeName: p.stores?.name || "",
+            storeVerified: false,
+            storeUsername: "",
+            storeAvatar: "",
+            storePhone: p.whatsapp_number || "",
+            storeCity: "",
+            storeName: "",
             createdAt: p.created_at,
           }));
           setRealProducts(mapped);
@@ -3680,7 +3678,7 @@ export default function App() {
                   {tab==="talepler" && role==="store" && <GelenTaleplerScreen/>}
                   {tab==="upload"   && role==="store" && <Upload store={STORES[0]} storeUuid={myStoreId} userId={userId} onNotify={handleNewNotification} toast={toast} onUploaded={()=>{
   // Ürün yüklenince feed'i yenile
-  supabase.from("products").select("*, stores(id,name,username,avatar_url,phone,city,verified,followers)").eq("in_stock",true).order("created_at",{ascending:false}).limit(50).then(({data})=>{
+  supabase.from("products").select("id, name, price, image_url, store_id, whatsapp_number, created_at, in_stock, min_lot, tags, likes").eq("in_stock",true).order("created_at",{ascending:false}).limit(50).then(({data})=>{
     if(data?.length) setRealProducts(data.map(p=>({
       id:p.id, storeId:p.store_uuid||p.store_id, name:p.name, price:p.price,
       description:p.description||"", tags:p.tags||[], inStock:p.in_stock!==false,
