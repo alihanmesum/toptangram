@@ -560,10 +560,10 @@ function Auth({ onLogin }) {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
         if (error) { setAuthError(error.message === "Invalid login credentials" ? "E-posta veya şifre hatalı" : error.message); return; }
         // Role belirle: stores tablosunda kaydı var mı?
-        const { data: store } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
-        const userRole = store ? "store" : "customer";
-        try { localStorage.setItem("toptangram_session", JSON.stringify({ role: userRole, email })); } catch {}
-        onLogin(userRole, data.user.id);
+        // onAuthStateChange SIGNED_IN eventi tetiklenecek, o role'ü set edecek
+        // Burada sadece loading'i kapat
+        setLoading(false);
+        return;
       } else {
         // ── KAYIT ──────────────────────────────────────
         const { data, error } = await supabase.auth.signUp({
@@ -3423,7 +3423,7 @@ export default function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_OUT") {
         setAuthed(false); setRole("customer"); setUserId(null); setMyStoreId(null); setTab("feed");
-      } else if (event === "SIGNED_IN" && session?.user) {
+      } else if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED" || event === "INITIAL_SESSION") && session?.user) {
         const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
         const r = store ? "store" : "customer";
         setRole(r); setUserId(session.user.id);
