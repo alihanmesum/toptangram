@@ -1,12 +1,12 @@
 "use client";
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // SUPABASE YAPILANDIRMASI (CANLI)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 import { createClient } from '@supabase/supabase-js';
 
-// ⚠️ API anahtarlarını .env.local dosyasına taşıyın:
+// ÔÜá´©Å API anahtarlar─▒n─▒ .env.local dosyas─▒na ta┼ş─▒y─▒n:
 // NEXT_PUBLIC_SUPABASE_URL=https://ncebtxitvbbekbehesxy.supabase.co
 // NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGci...
 const supabase = createClient(
@@ -18,7 +18,7 @@ export async function uploadProductImage(file, storeId) {
   const ext = file.name.split('.').pop();
   const path = `${storeId}/${Date.now()}.${ext}`;
   
-  // 'products' bucket isminin doğruluğundan emin olun
+  // 'products' bucket isminin do─şrulu─şundan emin olun
   const { error } = await supabase.storage.from('products').upload(path, file, { 
     cacheControl: '3600', 
     upsert: false 
@@ -65,7 +65,7 @@ function getTimeAgo(timestamp) {
   const time = new Date(timestamp);
   const seconds = Math.floor((now - time) / 1000);
   
-  if (seconds < 60) return 'Şimdi';
+  if (seconds < 60) return '┼Şimdi';
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}d`;
   const hours = Math.floor(minutes / 60);
@@ -97,9 +97,9 @@ async function checkUsernameAvailability(username) {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // DESIGN TOKENS
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const T = {
   bg:"#09090f", surface:"#111118", card:"#15151e", raised:"#1b1b26",
   border:"#1e1e2e", border2:"#29293b",
@@ -111,29 +111,29 @@ const T = {
   gradStory:"linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)",
 };
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // MOCK DATA
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const STORES = [
   { id:"st1", username:"atlaz_studio", name:"Atlaz Studio",
     avatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80",
-    verified:true, followers:4820, city:"İstanbul",
-    bio:"Premium tekstil · Viskon uzmanı · Toptan sipariş alıyoruz",
-    phone:"905321234567", private:false, collections:["İlkbahar 2026","Klasik Seri","Yaz"] },
+    verified:true, followers:4820, city:"─░stanbul",
+    bio:"Premium tekstil ┬À Viskon uzman─▒ ┬À Toptan sipari┼ş al─▒yoruz",
+    phone:"905321234567", private:false, collections:["─░lkbahar 2026","Klasik Seri","Yaz"] },
   { id:"st2", username:"denim_republic", name:"Denim Republic",
     avatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80",
-    verified:true, followers:3210, city:"İzmir",
-    bio:"Denim uzmanı · Oversize koleksiyon · Min. 12 adet",
+    verified:true, followers:3210, city:"─░zmir",
+    bio:"Denim uzman─▒ ┬À Oversize koleksiyon ┬À Min. 12 adet",
     phone:"905339876543", private:false, collections:["Denim SS26","Kargo"] },
   { id:"st3", username:"pastel_mode", name:"PastelMode",
     avatar:"https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=120&q=80",
     verified:false, followers:1890, city:"Ankara",
-    bio:"Pastel tonlar · Kadın giyim",
+    bio:"Pastel tonlar ┬À Kad─▒n giyim",
     phone:"905351112233", private:true, collections:["Pastel"] },
   { id:"st4", username:"koza_giyim", name:"Koza Giyim",
     avatar:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&q=80",
     verified:false, followers:980, city:"Bursa",
-    bio:"Erkek giyim · Polo & basic",
+    bio:"Erkek giyim ┬À Polo & basic",
     phone:"905362223344", private:false, collections:["Erkek Basic"] },
 ];
 
@@ -142,32 +142,32 @@ const INIT_PRODUCTS = [
     media:[{ type:"image", url:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=85" },
            { type:"image", url:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&q=85" }],
     description:"Nefes alan viskon, 6 renk. Min. lot: 12 adet.",
-    collection:"İlkbahar 2026", tags:["viskon","elbise","kadın","toptan"],
+    collection:"─░lkbahar 2026", tags:["viskon","elbise","kad─▒n","toptan"],
     likes:1284, liked:false, saved:false, inStock:true, timeAgo:"2s", createdAt: new Date(Date.now() - 2*3600000).toISOString(),
     storeVerified:true, storeUsername:"atlaz_studio",
     storeAvatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80",
-    storePhone:"905321234567", storeCity:"İstanbul", storeName:"Atlaz Studio" },
-  { id:"p2", storeId:"st2", name:"Oversize Kargo Şort", price:"145",
+    storePhone:"905321234567", storeCity:"─░stanbul", storeName:"Atlaz Studio" },
+  { id:"p2", storeId:"st2", name:"Oversize Kargo ┼Şort", price:"145",
     media:[{ type:"video", url:"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
              thumb:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=85" }],
     description:"4 renk, S-XXL. Standart lot: 24 adet.",
-    collection:"Denim SS26", tags:["denim","şort","oversize","erkek"],
+    collection:"Denim SS26", tags:["denim","┼şort","oversize","erkek"],
     likes:876, liked:false, saved:false, inStock:true, timeAgo:"5s", createdAt: new Date(Date.now() - 5*60000).toISOString(),
     storeVerified:true, storeUsername:"denim_republic",
     storeAvatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80",
-    storePhone:"905339876543", storeCity:"İzmir", storeName:"Denim Republic" },
+    storePhone:"905339876543", storeCity:"─░zmir", storeName:"Denim Republic" },
   { id:"p3", storeId:"st3", name:"Pastel Keten Bluz", price:"190",
     media:[{ type:"image", url:"https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=600&q=85" },
            { type:"image", url:"https://images.unsplash.com/photo-1483985988355-763728e1935b?w=600&q=85" }],
     description:"5 pastel renk, S-XL. Hafif keten.",
-    collection:"Pastel", tags:["keten","bluz","pastel","kadın"],
+    collection:"Pastel", tags:["keten","bluz","pastel","kad─▒n"],
     likes:2103, liked:true, saved:true, inStock:false, timeAgo:"1g", createdAt: new Date(Date.now() - 24*3600000).toISOString(),
     storeVerified:false, storeUsername:"pastel_mode",
     storeAvatar:"https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=80&q=80",
     storePhone:"905351112233", storeCity:"Ankara", storeName:"PastelMode" },
-  { id:"p4", storeId:"st4", name:"Polo Yaka Tişört", price:"95",
+  { id:"p4", storeId:"st4", name:"Polo Yaka Ti┼ş├Ârt", price:"95",
     media:[{ type:"image", url:"https://images.unsplash.com/photo-1594938298603-c8148c4b4d7b?w=600&q=85" }],
-    description:"6 renk, S-XXL. Solmaz baskı.",
+    description:"6 renk, S-XXL. Solmaz bask─▒.",
     collection:"Erkek Basic", tags:["polo","erkek","basic","toptan"],
     likes:541, liked:false, saved:false, inStock:true, timeAgo:"2g", createdAt: new Date(Date.now() - 48*3600000).toISOString(),
     storeVerified:false, storeUsername:"koza_giyim",
@@ -185,22 +185,22 @@ const STORIES = [
 const INIT_MESSAGES = [
   { id:"m1", storeId:"st1", storeName:"Atlaz Studio",
     storeAvatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80",
-    last:"Toptan fiyatı ne kadar?", time:"2dk", unread:2,
+    last:"Toptan fiyat─▒ ne kadar?", time:"2dk", unread:2,
     messages:[
-      { id:"msg1", from:"me", text:"Merhaba! Viskon elbise için toptan fiyat alabilir miyim?", time:"10:30" },
-      { id:"msg2", from:"store", text:"Merhaba! 12 adetlik lot için 240₺/adet yapabiliriz.", time:"10:35" },
+      { id:"msg1", from:"me", text:"Merhaba! Viskon elbise i├ğin toptan fiyat alabilir miyim?", time:"10:30" },
+      { id:"msg2", from:"store", text:"Merhaba! 12 adetlik lot i├ğin 240Ôé║/adet yapabiliriz.", time:"10:35" },
     ]},
   { id:"m2", storeId:"st2", storeName:"Denim Republic",
     storeAvatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80",
-    last:"Stokta var, DM atın", time:"1s", unread:0,
+    last:"Stokta var, DM at─▒n", time:"1s", unread:0,
     messages:[
-      { id:"msg3", from:"store", text:"Merhaba, nasıl yardımcı olabilirim?", time:"09:00" },
+      { id:"msg3", from:"store", text:"Merhaba, nas─▒l yard─▒mc─▒ olabilirim?", time:"09:00" },
     ]},
 ];
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // ICON PATHS
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const IP = {
   home_f:"M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z",
   home_o:"M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z",
@@ -239,9 +239,9 @@ const IP = {
   mail:"M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z",
 };
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // BASE COMPONENTS
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // SVG Logo
 const Logo = ({ size=36 }) => (
   <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ borderRadius:10, flexShrink:0 }}>
@@ -324,7 +324,6 @@ const Field = ({ label, value, onChange, type="text", placeholder, icon, multi, 
               color:disabled?T.muted:T.text, fontSize:14, resize:"none", fontFamily:"inherit", lineHeight:1.6, cursor:disabled?"not-allowed":"text" }}/>
         : <input value={value} onChange={e=>onChange(e.target.value)} type={type} placeholder={placeholder}
             disabled={disabled}
-            onKeyDown={e=>{ if(e.key==="Enter") e.preventDefault(); }}
             style={{ flex:1, background:"none", border:"none", outline:"none", padding:"12px 0",
               color:disabled?T.muted:T.text, fontSize:14, fontFamily:"inherit", cursor:disabled?"not-allowed":"text" }}/>
       }
@@ -333,9 +332,9 @@ const Field = ({ label, value, onChange, type="text", placeholder, icon, multi, 
 );
 
 
-// ═══════════════════════════════════════════════════════════════
-// TOAST — alert() yerine kullan
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// TOAST ÔÇö alert() yerine kullan
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function useToast() {
   const [toasts, setToasts] = useState([]);
   const show = useCallback((msg, type="info") => {
@@ -352,7 +351,7 @@ function useToast() {
           color:"#fff", borderRadius:10, padding:"10px 14px", fontSize:13, fontWeight:700,
           boxShadow:"0 4px 16px rgba(0,0,0,.4)", animation:"fadeUp .25s ease",
           border:`1px solid ${t.type==="error"?T.rose:t.type==="success"?T.green:T.border2}` }}>
-          {t.type==="error"?"⚠️ ":t.type==="success"?"✓ ":""}{t.msg}
+          {t.type==="error"?"ÔÜá´©Å ":t.type==="success"?"Ô£ô ":""}{t.msg}
         </div>
       ))}
     </div>
@@ -362,7 +361,7 @@ function useToast() {
 
 // Contact Modal
 function ContactModal({ store, onClose }) {
-  const text = encodeURIComponent(`Merhaba ${store.name}! Ürünleriniz hakkında bilgi almak istiyorum.`);
+  const text = encodeURIComponent(`Merhaba ${store.name}! ├£r├╝nleriniz hakk─▒nda bilgi almak istiyorum.`);
   return (
     <div style={{ position:"absolute", inset:0, zIndex:300, background:"rgba(0,0,0,.7)",
       display:"flex", alignItems:"flex-end" }} onClick={onClose}>
@@ -371,21 +370,21 @@ function ContactModal({ store, onClose }) {
         border:`1px solid ${T.border2}` }}>
         <div style={{ width:36, height:4, background:T.dim, borderRadius:2, margin:"0 auto 20px" }}/>
         <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:16 }}>
-          {store.name} ile İletişim
+          {store.name} ile ─░leti┼şim
         </div>
         <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
           <a href={`https://wa.me/${store.phone}?text=${text}`} target="_blank" rel="noreferrer"
             style={{ display:"flex", alignItems:"center", gap:12, padding:"14px 16px",
               background:T.wa, borderRadius:12, textDecoration:"none", color:"#fff", fontWeight:700, fontSize:14 }}>
             <svg width={22} height={22} viewBox="0 0 24 24" fill="#fff"><path d={IP.wa}/></svg>
-            WhatsApp ile Mesaj Gönder
+            WhatsApp ile Mesaj G├Ânder
           </a>
           <a href={`tel:+${store.phone}`}
             style={{ display:"flex", alignItems:"center", gap:12, padding:"14px 16px",
               background:T.brandDim, border:`1.5px solid ${T.brandBorder}`,
               borderRadius:12, textDecoration:"none", color:T.brand, fontWeight:700, fontSize:14 }}>
             <Ic n="phone" size={22} color={T.brand}/>
-            Mağazayı Ara (+{store.phone})
+            Ma─şazay─▒ Ara (+{store.phone})
           </a>
         </div>
       </div>
@@ -393,9 +392,9 @@ function ContactModal({ store, onClose }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // VIDEO PLAYER (Reels/Feed video)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function VideoPlayer({ url, thumb, autoPlay=true }) {
   const ref = useRef(null);
   const [muted, setMuted] = useState(true);
@@ -442,26 +441,26 @@ function VideoPlayer({ url, thumb, autoPlay=true }) {
 }
 
 
-// ═══════════════════════════════════════════════════════════════
-// ONBOARDING — 3 sayfalık tanıtım (sadece ilk açılışta)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ONBOARDING ÔÇö 3 sayfal─▒k tan─▒t─▒m (sadece ilk a├ğ─▒l─▒┼şta)
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const ONBOARD_SLIDES = [
   {
-    emoji: "🏪",
-    title: "Toptan Giyime Hoş Geldiniz",
-    sub: "Türkiye'nin en büyük B2B toptan giyim platformu. Mağazaları keşfet, doğrudan irtibata geç.",
+    emoji: "­şÅ¬",
+    title: "Toptan Giyime Ho┼ş Geldiniz",
+    sub: "T├╝rkiye'nin en b├╝y├╝k B2B toptan giyim platformu. Ma─şazalar─▒ ke┼şfet, do─şrudan irtibata ge├ğ.",
     color: "#8875f5"
   },
   {
-    emoji: "🛒",
-    title: "Kolayca Sipariş Ver",
-    sub: "Beğendiğin ürünleri sepete ekle. Farklı renkler ve bedenler tek tıkla. WhatsApp ile tamamla.",
+    emoji: "­şøÆ",
+    title: "Kolayca Sipari┼ş Ver",
+    sub: "Be─şendi─şin ├╝r├╝nleri sepete ekle. Farkl─▒ renkler ve bedenler tek t─▒kla. WhatsApp ile tamamla.",
     color: "#34d4b0"
   },
   {
-    emoji: "💬",
-    title: "Direkt İletişim",
-    sub: "Mağazalarla uygulama içi mesajlaşın. Fiyat teklifi isteyin. Lot anlaşmaları yapın.",
+    emoji: "­şÆ¼",
+    title: "Direkt ─░leti┼şim",
+    sub: "Ma─şazalarla uygulama i├ği mesajla┼ş─▒n. Fiyat teklifi isteyin. Lot anla┼şmalar─▒ yap─▒n.",
     color: "#f472b6"
   }
 ];
@@ -515,16 +514,16 @@ function Onboarding({ onDone }) {
             background: slide.color, border:"none", color:"#fff",
             fontWeight:800, fontSize:16, cursor:"pointer", fontFamily:"inherit",
             transition:"all .2s" }}>
-          {last ? "Hemen Başla 🚀" : "İleri →"}
+          {last ? "Hemen Ba┼şla ­şÜÇ" : "─░leri ÔåÆ"}
         </button>
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 7. AUTH with "Beni Hatırla" + localStorage
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// 7. AUTH with "Beni Hat─▒rla" + localStorage
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function Auth({ onLogin }) {
   const [mode, setMode] = useState("login");
   const [role, setRole] = useState("customer");
@@ -536,56 +535,55 @@ function Auth({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState("");
   const [verify, setVerify] = useState(false);
-  const [remember, setRemember] = useState(false);
 
-  // Username kontrolü (debounced)
+  // Username kontrol├╝ (debounced)
   useEffect(() => {
     if (mode !== "register" || role !== "store" || !username) { setUsernameError(""); return; }
     const t = setTimeout(async () => {
       const { data } = await supabase.from("stores").select("id").eq("username", username.toLowerCase()).maybeSingle();
-      setUsernameError(data ? "Bu kullanıcı adı zaten alınmış" : "");
+      setUsernameError(data ? "Bu kullan─▒c─▒ ad─▒ zaten al─▒nm─▒┼ş" : "");
     }, 500);
     return () => clearTimeout(t);
   }, [username, mode, role]);
 
   const submit = async () => {
     setAuthError("");
-    if (!email || !pass) { setAuthError("E-posta ve şifre gerekli"); return; }
-    if (mode === "register" && role === "store" && !username) { setUsernameError("Kullanıcı adı gerekli"); return; }
+    if (!email || !pass) { setAuthError("E-posta ve ┼şifre gerekli"); return; }
+    if (mode === "register" && role === "store" && !username) { setUsernameError("Kullan─▒c─▒ ad─▒ gerekli"); return; }
     if (usernameError) return;
     setLoading(true);
     try {
       if (mode === "login") {
+        // ÔöÇÔöÇ G─░R─░┼Ş ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
         const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
-        if (error) { setAuthError("E-posta veya şifre hatalı"); setLoading(false); return; }
-        const { data: storeData } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
-        const userRole = storeData ? "store" : "customer";
-        setLoading(false);
+        if (error) { setAuthError(error.message === "Invalid login credentials" ? "E-posta veya ┼şifre hatal─▒" : error.message); return; }
+        // Role belirle: stores tablosunda kayd─▒ var m─▒?
+        const { data: store } = await supabase.from("stores").select("id").eq("user_id", data.user.id).maybeSingle();
+        const userRole = store ? "store" : "customer";
+        try { localStorage.setItem("toptangram_session", JSON.stringify({ role: userRole, email })); } catch {}
         onLogin(userRole, data.user.id);
       } else {
+        // ÔöÇÔöÇ KAYIT ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
         const { data, error } = await supabase.auth.signUp({
           email, password: pass,
           options: { data: { role, full_name: name } }
         });
-        if (error) { setAuthError(error.message); setLoading(false); return; }
+        if (error) { setAuthError(error.message); return; }
         if (role === "store" && data.user) {
-          await supabase.from("stores").insert([{
+          // Mağaza profili oluştur
+          const { error: storeError } = await supabase.from("stores").insert([{
             user_id: data.user.id,
             name: name || email.split("@")[0],
             username: username.toLowerCase(),
             bio: "", phone: "", city: "", avatar_url: "", verified: false, followers: 0
           }]);
+          if (storeError) { setAuthError("Mağaza profili oluşturulamadı: " + storeError.message); return; }
         }
-        setLoading(false);
-        if (data.session) {
-          onLogin(role, data.user.id);
-        } else {
-          setAuthError("Hesap oluşturuldu! Giriş yapabilirsiniz.");
-          setMode("login");
-        }
+        setVerify(true);
       }
     } catch (e) {
-      setAuthError("Bir hata oluştu, tekrar deneyin");
+      setAuthError("Bir hata olu┼ştu, tekrar deneyin");
+    } finally {
       setLoading(false);
     }
   };
@@ -594,13 +592,13 @@ function Auth({ onLogin }) {
     <div style={{ height:"100%", display:"flex", flexDirection:"column", alignItems:"center",
       justifyContent:"center", padding:28, background:T.bg, gap:20 }}>
       <div style={{ width:72, height:72, borderRadius:36, background:`${T.brand}18`,
-        display:"flex", alignItems:"center", justifyContent:"center", fontSize:36 }}>📧</div>
+        display:"flex", alignItems:"center", justifyContent:"center", fontSize:36 }}>­şôğ</div>
       <div style={{ textAlign:"center" }}>
-        <div style={{ fontWeight:800, fontSize:20, color:T.text, marginBottom:6 }}>E-postanı Onayla</div>
-        <div style={{ fontSize:13, color:T.text2 }}>{email} adresine doğrulama linki gönderdik.</div>
-        <div style={{ fontSize:12, color:T.muted, marginTop:8 }}>Linke tıkladıktan sonra giriş yapabilirsin.</div>
+        <div style={{ fontWeight:800, fontSize:20, color:T.text, marginBottom:6 }}>E-postan─▒ Onayla</div>
+        <div style={{ fontSize:13, color:T.text2 }}>{email} adresine do─şrulama linki g├Ânderdik.</div>
+        <div style={{ fontSize:12, color:T.muted, marginTop:8 }}>Linke t─▒klad─▒ktan sonra giri┼ş yapabilirsin.</div>
       </div>
-      <Btn full onClick={()=>setVerify(false)} sx={{ borderRadius:12, height:48 }}>Geri Dön</Btn>
+      <Btn full onClick={()=>setVerify(false)} sx={{ borderRadius:12, height:48 }}>Geri D├Ân</Btn>
     </div>
   );
 
@@ -618,7 +616,7 @@ function Auth({ onLogin }) {
       </div>
       <div style={{ background:T.surface, borderRadius:14, padding:4, display:"flex", marginBottom:24,
         border:`1px solid ${T.border}` }}>
-        {[["customer","👤  Alıcı / Müşteri"],["store","🏪  Mağaza / Satıcı"]].map(([r,l]) => (
+        {[["customer","­şæñ  Al─▒c─▒ / M├╝┼şteri"],["store","­şÅ¬  Ma─şaza / Sat─▒c─▒"]].map(([r,l]) => (
           <button key={r} onClick={()=>setRole(r)} style={{ flex:1, padding:"10px 0", borderRadius:10,
             background:role===r?T.brand:"transparent", border:"none",
             color:role===r?"#fff":T.muted, fontSize:13, fontWeight:700, cursor:"pointer",
@@ -626,32 +624,32 @@ function Auth({ onLogin }) {
         ))}
       </div>
       <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
-        {mode==="register" && <Field label={role==="store"?"Mağaza Adı":"Ad Soyad"} value={name} onChange={setName} placeholder={role==="store"?"Atlaz Studio":"Ahmet Yılmaz"} icon="person"/>}
+        {mode==="register" && <Field label={role==="store"?"Ma─şaza Ad─▒":"Ad Soyad"} value={name} onChange={setName} placeholder={role==="store"?"Atlaz Studio":"Ahmet Y─▒lmaz"} icon="person"/>}
         {mode==="register" && role==="store" && (
           <div>
-            <Field label="Kullanıcı Adı" value={username} onChange={setUsername} placeholder="atlazstudio" icon="person"/>
-            {usernameError && <div style={{ fontSize:12, color:T.rose, marginTop:6 }}>⚠️ {usernameError}</div>}
+            <Field label="Kullan─▒c─▒ Ad─▒" value={username} onChange={setUsername} placeholder="atlazstudio" icon="person"/>
+            {usernameError && <div style={{ fontSize:12, color:T.rose, marginTop:6 }}>ÔÜá´©Å {usernameError}</div>}
           </div>
         )}
         <Field label="E-posta" value={email} onChange={setEmail} type="email" placeholder="ornek@email.com" icon="mail"/>
-        <Field label="Şifre" value={pass} onChange={setPass} type="password" placeholder="••••••••" icon="lock"/>
+        <Field label="┼Şifre" value={pass} onChange={setPass} type="password" placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó" icon="lock"/>
         {authError && (
           <div style={{ padding:"10px 14px", borderRadius:10, background:T.rose+"18",
             border:"1px solid "+T.rose, fontSize:13, color:T.rose, fontWeight:600 }}>
-            ⚠️ {authError}
+            ÔÜá´©Å {authError}
           </div>
         )}
-        {/* Beni Hatırla */}
+        {/* Beni Hat─▒rla */}
         <label style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer" }}>
           <div onClick={()=>setRemember(r=>!r)} style={{ width:20, height:20, borderRadius:6,
             background:remember?T.brand:T.raised, border:`1.5px solid ${remember?T.brand:T.border2}`,
             display:"flex", alignItems:"center", justifyContent:"center", transition:"all .15s" }}>
             {remember && <Ic n="check" size={13} color="#fff"/>}
           </div>
-          <span style={{ fontSize:13, color:T.text2 }}>Beni Hatırla</span>
+          <span style={{ fontSize:13, color:T.text2 }}>Beni Hat─▒rla</span>
         </label>
         <Btn full onClick={submit} sx={{ borderRadius:12, height:50, marginTop:4 }}>
-          {loading ? "…" : mode==="login" ? "Giriş Yap" : "Hesap Oluştur"}
+          {loading ? "ÔÇĞ" : mode==="login" ? "Giri┼ş Yap" : "Hesap Olu┼ştur"}
         </Btn>
         {mode==="login" && <div style={{ textAlign:"right" }}>
           <button onClick={()=>{
@@ -662,7 +660,7 @@ function Auth({ onLogin }) {
               setVerify(true);
             }, 800);
           }} style={{ background:"none", border:"none", color:T.brand,
-            fontSize:13, cursor:"pointer", fontFamily:"inherit" }}>Şifremi Unuttum</button>
+            fontSize:13, cursor:"pointer", fontFamily:"inherit" }}>┼Şifremi Unuttum</button>
         </div>}
       </div>
       <div style={{ display:"flex", alignItems:"center", gap:12, margin:"20px 0" }}>
@@ -673,15 +671,15 @@ function Auth({ onLogin }) {
       <button onClick={()=>setMode(m=>m==="login"?"register":"login")} style={{ width:"100%",
         padding:"12px 0", borderRadius:12, background:"none", border:`1.5px solid ${T.border2}`,
         color:T.text2, fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"inherit" }}>
-        {mode==="login" ? "Hesabın yok mu? Kayıt Ol →" : "Zaten hesabın var mı? Giriş Yap →"}
+        {mode==="login" ? "Hesab─▒n yok mu? Kay─▒t Ol ÔåÆ" : "Zaten hesab─▒n var m─▒? Giri┼ş Yap ÔåÆ"}
       </button>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 4. PRODUCT CARD — Sepete Ekle + DM butonu, video desteği, yorum YOK
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// 4. PRODUCT CARD ÔÇö Sepete Ekle + DM butonu, video deste─şi, yorum YOK
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, role, onReport }) {
   const [p, setP] = useState(init);
   const [selectedVariant, setSelectedVariant] = useState(null);
@@ -730,7 +728,7 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
             <span style={{ fontWeight:700, fontSize:13, color:T.text }}>{p.storeUsername}</span>
             {p.storeVerified && <VBadge size={13}/>}
           </div>
-          <div style={{ fontSize:11, color:T.muted }}>{p.storeCity} · {p.collection}</div>
+          <div style={{ fontSize:11, color:T.muted }}>{p.storeCity} ┬À {p.collection}</div>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:8 }}>
           <button onClick={()=>setReportOpen(true)} style={{ background:"none", border:"none",
@@ -740,13 +738,13 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
           <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:4 }}>
             <div style={{ background:`${T.green}18`, border:`1px solid ${T.green}28`,
               borderRadius:8, padding:"4px 10px", fontSize:13, fontWeight:800, color:T.green }}>
-              {p.price} ₺
+              {p.price} Ôé║
             </div>
             <div style={{ fontSize:10, fontWeight:700, padding:"2px 8px", borderRadius:6,
               background: p.inStock ? `${T.teal}18` : `${T.rose}18`,
               color: p.inStock ? T.teal : T.rose,
               border: `1px solid ${p.inStock ? T.teal : T.rose}28` }}>
-              {p.inStock ? "● Stokta" : "○ Tükendi"}
+              {p.inStock ? "ÔùÅ Stokta" : "Ôùï T├╝kendi"}
             </div>
           </div>
         </div>
@@ -761,7 +759,7 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
           ))}
           {selectedVariant==="__error__" && (
             <div style={{ width:"100%", padding:"6px 10px", background:T.rose, borderRadius:8,
-              color:"#fff", fontSize:11, fontWeight:700 }}>⚠️ Lütfen bir seçenek seçin</div>
+              color:"#fff", fontSize:11, fontWeight:700 }}>ÔÜá´©Å L├╝tfen bir se├ğenek se├ğin</div>
           )}
         </div>
       )}
@@ -794,7 +792,7 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
         )}
       </div>
 
-      {/* Actions — Beğen, Kaydet, Paylaş (yorum YOK) */}
+      {/* Actions ÔÇö Be─şen, Kaydet, Payla┼ş (yorum YOK) */}
       <div style={{ padding:"8px 14px 4px", display:"flex", alignItems:"center" }}>
         <div style={{ display:"flex", gap:14, flex:1 }}>
           <button onClick={()=>setP(x=>({...x,liked:!x.liked,likes:x.liked?x.likes-1:x.likes+1}))}
@@ -812,14 +810,14 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
       </div>
 
       <div style={{ padding:"0 14px 4px" }}>
-        <span style={{ fontWeight:700, fontSize:13, color:T.text }}>{p.likes.toLocaleString("tr")} beğeni</span>
+        <span style={{ fontWeight:700, fontSize:13, color:T.text }}>{p.likes.toLocaleString("tr")} be─şeni</span>
       </div>
       <div style={{ padding:"0 14px 8px", fontSize:13, color:T.text2, lineHeight:1.5 }}>
         <span style={{ fontWeight:700, color:T.text }}>{p.name} </span>
         {expanded ? p.description : p.description.slice(0,70)}
         {p.description.length>70 && !expanded && (
           <button onClick={()=>setExpanded(true)} style={{ background:"none", border:"none",
-            color:T.muted, cursor:"pointer", padding:0, fontSize:13, fontFamily:"inherit" }}> …daha fazla</button>
+            color:T.muted, cursor:"pointer", padding:0, fontSize:13, fontFamily:"inherit" }}> ÔÇĞdaha fazla</button>
         )}
       </div>
 
@@ -832,20 +830,20 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
             fontFamily:"inherit", transition:"background .2s",
             display:"flex", alignItems:"center", justifyContent:"center", gap:7,
             opacity: p.inStock ? 1 : 0.6 }}>
-            {!p.inStock ? "Stok Yok" : added ? <>✓ Eklendi</> : <><Ic n="cart" size={16} color="#fff"/> Sepete Ekle</>}
+            {!p.inStock ? "Stok Yok" : added ? <>Ô£ô Eklendi</> : <><Ic n="cart" size={16} color="#fff"/> Sepete Ekle</>}
           </button>
         )}
         {isOwnProduct && (
           <div style={{ flex:1, padding:"11px", background:T.dim, borderRadius:11,
             color:T.muted, fontWeight:700, fontSize:13, textAlign:"center", fontFamily:"inherit" }}>
-            Kendi ürünü
+            Kendi ├╝r├╝n├╝
           </div>
         )}
         {!isOwnProduct && p.inStock && (
           <button onClick={()=>setOfferOpen(true)} style={{ width:44, height:44, borderRadius:11,
             background:T.raised, border:`1.5px solid ${T.border2}`,
             display:"flex", alignItems:"center", justifyContent:"center", cursor:"pointer", flexShrink:0 }}>
-            <span style={{ fontSize:16 }}>💰</span>
+            <span style={{ fontSize:16 }}>­şÆ░</span>
           </button>
         )}
         <button onClick={()=>onSendDM&&onSendDM(p)} style={{ width:44, height:44, borderRadius:11,
@@ -862,9 +860,9 @@ function ProductCard({ product:init, onStore, onAddToCart, onSendDM, myStoreId, 
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// STORY VIEWER (fixed) — with left/right navigation
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// STORY VIEWER (fixed) ÔÇö with left/right navigation
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function Story({ s, onClose, onNext, onPrev }) {
   const [prog, setProg] = useState(0);
   const closeRef = useRef(onClose);
@@ -904,22 +902,22 @@ function Story({ s, onClose, onNext, onPrev }) {
           style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.8)" }}/>
         {/* Navigation hints */}
         <div style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)",
-          fontSize:24, color:"rgba(255,255,255,.3)" }}>‹</div>
+          fontSize:24, color:"rgba(255,255,255,.3)" }}>ÔÇ╣</div>
         <div style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)",
-          fontSize:24, color:"rgba(255,255,255,.3)" }}>›</div>
+          fontSize:24, color:"rgba(255,255,255,.3)" }}>ÔÇ║</div>
       </div>
       <div style={{ padding:"12px 14px 24px", display:"flex", gap:10, alignItems:"center" }}>
         <div style={{ flex:1, border:"1px solid rgba(255,255,255,.3)", borderRadius:24,
-          padding:"10px 16px", color:"rgba(255,255,255,.4)", fontSize:13 }}>Yanıt…</div>
+          padding:"10px 16px", color:"rgba(255,255,255,.4)", fontSize:13 }}>Yan─▒tÔÇĞ</div>
         <Ic n="share" color="#fff" size={22}/>
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // FEED
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function Feed({ products, onStory, onStore, onAddToCart, onSendDM }) {
   // Sort products by createdAt (newest first)
   const sortedProducts = useMemo(() => {
@@ -980,9 +978,9 @@ function Feed({ products, onStory, onStore, onAddToCart, onSendDM }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 5+6. EXPLORE — Sadece mağaza araması + akıllı algoritma
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// 5+6. EXPLORE ÔÇö Sadece ma─şaza aramas─▒ + ak─▒ll─▒ algoritma
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function Explore({ onStore, interactedTags }) {
   const [q, setQ] = useState("");
   const [focused, setFocused] = useState(false);
@@ -1040,7 +1038,7 @@ function Explore({ onStore, interactedTags }) {
             <Ic n="search" size={17} color={T.muted}/>
             <input value={q} onChange={e=>setQ(e.target.value)}
               onFocus={()=>setFocused(true)} onBlur={()=>setFocused(false)}
-              placeholder={searchMode==="store"?"Mağaza ara (ad, şehir)…":"Ürün ara (ad, etiket)…"}
+              placeholder={searchMode==="store"?"Ma─şaza ara (ad, ┼şehir)ÔÇĞ":"├£r├╝n ara (ad, etiket)ÔÇĞ"}
               style={{ flex:1, background:"none", border:"none", outline:"none",
                 padding:"12px 0", color:T.text, fontSize:14, fontFamily:"inherit" }}/>
             {q && <button onClick={()=>setQ("")} style={{ background:"none", border:"none", cursor:"pointer" }}>
@@ -1058,7 +1056,7 @@ function Explore({ onStore, interactedTags }) {
 
         {/* Mode tabs */}
         <div style={{ display:"flex", padding:"0 14px 8px", gap:8 }}>
-          {[["store","🏪 Mağaza"],["product","📦 Ürün"]].map(([m,l])=>(
+          {[["store","­şÅ¬ Ma─şaza"],["product","­şôĞ ├£r├╝n"]].map(([m,l])=>(
             <button key={m} onClick={()=>setSearchMode(m)} style={{
               padding:"6px 16px", borderRadius:20, border:"none", cursor:"pointer",
               background: searchMode===m ? T.brand : T.raised,
@@ -1073,12 +1071,12 @@ function Explore({ onStore, interactedTags }) {
             borderTop:`1px solid ${T.border}` }}>
             {/* City filter */}
             <div>
-              <div style={{ fontSize:11, color:T.muted, fontWeight:700, marginBottom:6, marginTop:10 }}>ŞEHİR</div>
+              <div style={{ fontSize:11, color:T.muted, fontWeight:700, marginBottom:6, marginTop:10 }}>┼ŞEH─░R</div>
               <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
                 <button onClick={()=>setCityFilter(null)} style={{
                   padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer",
                   background:!cityFilter?T.brand:T.raised, color:!cityFilter?"#fff":T.muted,
-                  fontSize:11, fontWeight:700, fontFamily:"inherit" }}>Tümü</button>
+                  fontSize:11, fontWeight:700, fontFamily:"inherit" }}>T├╝m├╝</button>
                 {cities.map(c=>(
                   <button key={c} onClick={()=>setCityFilter(x=>x===c?null:c)} style={{
                     padding:"5px 12px", borderRadius:20, border:"none", cursor:"pointer",
@@ -1090,20 +1088,20 @@ function Explore({ onStore, interactedTags }) {
             {/* Price range (product mode only) */}
             {searchMode === "product" && (
               <div>
-                <div style={{ fontSize:11, color:T.muted, fontWeight:700, marginBottom:6 }}>FİYAT ARALIĞI (₺)</div>
+                <div style={{ fontSize:11, color:T.muted, fontWeight:700, marginBottom:6 }}>F─░YAT ARALI─ŞI (Ôé║)</div>
                 <div style={{ display:"flex", gap:8, alignItems:"center" }}>
                   <input value={priceMin} onChange={e=>setPriceMin(e.target.value.replace(/\D/g,""))}
                     placeholder="Min" style={{ flex:1, background:T.raised, border:`1px solid ${T.border2}`,
                       borderRadius:10, padding:"8px 12px", color:T.text, fontSize:13,
                       fontFamily:"inherit", outline:"none" }}/>
-                  <span style={{ color:T.muted }}>–</span>
+                  <span style={{ color:T.muted }}>ÔÇô</span>
                   <input value={priceMax} onChange={e=>setPriceMax(e.target.value.replace(/\D/g,""))}
                     placeholder="Max" style={{ flex:1, background:T.raised, border:`1px solid ${T.border2}`,
                       borderRadius:10, padding:"8px 12px", color:T.text, fontSize:13,
                       fontFamily:"inherit", outline:"none" }}/>
                   {(priceMin||priceMax) && (
                     <button onClick={()=>{setPriceMin("");setPriceMax("");}} style={{
-                      background:"none", border:"none", cursor:"pointer", color:T.muted, fontSize:12 }}>✕</button>
+                      background:"none", border:"none", cursor:"pointer", color:T.muted, fontSize:12 }}>Ô£ò</button>
                   )}
                 </div>
               </div>
@@ -1116,13 +1114,13 @@ function Explore({ onStore, interactedTags }) {
         <div>
           {/* Result count */}
           <div style={{ padding:"10px 16px", fontSize:12, color:T.muted }}>
-            {results.length} sonuç bulundu
+            {results.length} sonu├ğ bulundu
           </div>
           {results.length === 0
             ? <div style={{ textAlign:"center", padding:"40px 20px", color:T.muted }}>
-                <div style={{ fontSize:36, marginBottom:10 }}>🔍</div>
-                <div>"{q}" için {searchMode==="store"?"mağaza":"ürün"} bulunamadı</div>
-                {cityFilter && <div style={{ fontSize:12, marginTop:6 }}>Şehir: {cityFilter}</div>}
+                <div style={{ fontSize:36, marginBottom:10 }}>­şöı</div>
+                <div>"{q}" i├ğin {searchMode==="store"?"ma─şaza":"├╝r├╝n"} bulunamad─▒</div>
+                {cityFilter && <div style={{ fontSize:12, marginTop:6 }}>┼Şehir: {cityFilter}</div>}
               </div>
             : searchMode === "store"
               ? storeResults.map(store => (
@@ -1136,10 +1134,10 @@ function Explore({ onStore, interactedTags }) {
                       {store.verified && <VBadge size={14}/>}
                       {store.private && <Ic n="lock" size={13} color={T.muted}/>}
                     </div>
-                    <div style={{ fontSize:12, color:T.muted }}>@{store.username} · {store.city}</div>
-                    <div style={{ fontSize:11, color:T.dim }}>{store.followers.toLocaleString("tr")} takipçi</div>
+                    <div style={{ fontSize:12, color:T.muted }}>@{store.username} ┬À {store.city}</div>
+                    <div style={{ fontSize:11, color:T.dim }}>{store.followers.toLocaleString("tr")} takip├ği</div>
                   </div>
-                  <Btn v="ghost" size="sm" onClick={e=>{e.stopPropagation();onStore(store.id);}}>Gör</Btn>
+                  <Btn v="ghost" size="sm" onClick={e=>{e.stopPropagation();onStore(store.id);}}>G├Âr</Btn>
                 </div>
               ))
               : productResults.map(p => (
@@ -1148,18 +1146,18 @@ function Explore({ onStore, interactedTags }) {
                   <img src={p.media[0].url} style={{ width:60, height:60, borderRadius:10, objectFit:"cover", flexShrink:0 }}/>
                   <div style={{ flex:1 }}>
                     <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{p.name}</div>
-                    <div style={{ fontSize:12, color:T.text2 }}>{p.storeName} · {p.storeCity}</div>
-                    <div style={{ fontSize:12, color:T.green, fontWeight:700, marginTop:3 }}>{p.price}₺/adet</div>
+                    <div style={{ fontSize:12, color:T.text2 }}>{p.storeName} ┬À {p.storeCity}</div>
+                    <div style={{ fontSize:12, color:T.green, fontWeight:700, marginTop:3 }}>{p.price}Ôé║/adet</div>
                   </div>
                   <div style={{ textAlign:"right" }}>
                     <div style={{ fontSize:11, padding:"4px 10px", borderRadius:8,
                       background: p.inStock?`${T.teal}18`:T.raised,
                       color: p.inStock?T.teal:T.muted }}>
-                      {p.inStock?"Stokta":"Tükendi"}
+                      {p.inStock?"Stokta":"T├╝kendi"}
                     </div>
                     <button onClick={()=>onStore(p.storeId)} style={{ marginTop:6, fontSize:11,
                       background:"none", border:"none", color:T.brand, cursor:"pointer", fontFamily:"inherit" }}>
-                      Mağazaya Git →
+                      Ma─şazaya Git ÔåÆ
                     </button>
                   </div>
                 </div>
@@ -1171,7 +1169,7 @@ function Explore({ onStore, interactedTags }) {
           {interactedTags.length > 0 && (
             <div style={{ padding:"12px 16px 4px" }}>
               <div style={{ fontSize:12, color:T.brand, fontWeight:700, marginBottom:8 }}>
-                ✨ Seninle eşleşen ürünler
+                Ô£¿ Seninle e┼şle┼şen ├╝r├╝nler
               </div>
               <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:8 }}>
                 {interactedTags.slice(0,6).map(t => (
@@ -1185,13 +1183,13 @@ function Explore({ onStore, interactedTags }) {
           )}
           {/* Cities quick filter */}
           <div style={{ padding:"10px 16px 4px" }}>
-            <div style={{ fontSize:12, color:T.text2, fontWeight:700, marginBottom:8 }}>Şehre Göre</div>
+            <div style={{ fontSize:12, color:T.text2, fontWeight:700, marginBottom:8 }}>┼Şehre G├Âre</div>
             <div style={{ display:"flex", gap:8, overflowX:"auto", scrollbarWidth:"none" }}>
               {cities.map(c=>(
                 <button key={c} onClick={()=>{ setCityFilter(c); setShowFilters(false); }}
                   style={{ padding:"8px 14px", borderRadius:20, border:"none", cursor:"pointer",
                     background:T.raised, color:T.text2, fontSize:12, fontWeight:600,
-                    fontFamily:"inherit", whiteSpace:"nowrap", flexShrink:0 }}>📍 {c}</button>
+                    fontFamily:"inherit", whiteSpace:"nowrap", flexShrink:0 }}>­şôı {c}</button>
               ))}
             </div>
           </div>
@@ -1208,9 +1206,9 @@ function Explore({ onStore, interactedTags }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 2. CART — Mağaza bazlı gruplandırma
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// 2. CART ÔÇö Ma─şaza bazl─▒ grupland─▒rma
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function CartScreen({ cart, setCart, userId }) {
   const grouped = useMemo(() => {
     const groups = {};
@@ -1233,19 +1231,19 @@ function CartScreen({ cart, setCart, userId }) {
     const lines = group.items.map(i=>{
       const total = (parseFloat(i.price)||0)*i.qty;
       const variantInfo = i.variant ? ` / ${i.variant}` : "";
-      return `• ${i.name}${variantInfo} — ${i.qty} adet (${i.price}₺/adet = ${total}₺)`;
+      return `ÔÇó ${i.name}${variantInfo} ÔÇö ${i.qty} adet (${i.price}Ôé║/adet = ${total}Ôé║)`;
     }).join("\n");
     const grandTotal = group.items.reduce((s,i)=>s+(parseFloat(i.price)||0)*i.qty,0);
-    return encodeURIComponent(`Merhaba ${group.storeName}!\n\nAşağıdaki ürünleri sipariş etmek istiyorum:\n\n${lines}\n\nToplam: ${grandTotal.toLocaleString("tr")}₺\n\nLütfen onay verir misiniz?`);
+    return encodeURIComponent(`Merhaba ${group.storeName}!\n\nA┼şa─ş─▒daki ├╝r├╝nleri sipari┼ş etmek istiyorum:\n\n${lines}\n\nToplam: ${grandTotal.toLocaleString("tr")}Ôé║\n\nL├╝tfen onay verir misiniz?`);
   };
 
   if (cart.length === 0) return (
     <div style={{ height:"100%", display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center", background:T.bg, gap:14, padding:24 }}>
-      <div style={{ fontSize:48 }}>🛍</div>
-      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Sepetiniz boş</div>
+      <div style={{ fontSize:48 }}>­şøı</div>
+      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Sepetiniz bo┼ş</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
-        Feed'deki ürünlerin altındaki "Sepete Ekle" butonunu kullanın
+        Feed'deki ├╝r├╝nlerin alt─▒ndaki "Sepete Ekle" butonunu kullan─▒n
       </div>
     </div>
   );
@@ -1255,7 +1253,7 @@ function CartScreen({ cart, setCart, userId }) {
       <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}`,
         display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Sepetim</span>
-        <span style={{ fontSize:12, color:T.muted }}>{cart.length} ürün · {grouped.length} mağaza</span>
+        <span style={{ fontSize:12, color:T.muted }}>{cart.length} ├╝r├╝n ┬À {grouped.length} ma─şaza</span>
       </div>
       <div style={{ flex:1, overflowY:"auto" }}>
         {grouped.map(group => (
@@ -1267,7 +1265,7 @@ function CartScreen({ cart, setCart, userId }) {
               <img src={STORES.find(s=>s.id===group.storeId)?.avatar}
                 style={{ width:32, height:32, borderRadius:16, objectFit:"cover" }}/>
               <span style={{ fontWeight:700, fontSize:14, color:T.text, flex:1 }}>{group.storeName}</span>
-              <span style={{ fontSize:11, color:T.muted }}>{group.items.length} ürün</span>
+              <span style={{ fontSize:11, color:T.muted }}>{group.items.length} ├╝r├╝n</span>
             </div>
             {/* Items */}
             {group.items.map(item => (
@@ -1276,11 +1274,11 @@ function CartScreen({ cart, setCart, userId }) {
                 <img src={item.thumb} style={{ width:58, height:58, borderRadius:10, objectFit:"cover", flexShrink:0 }}/>
                 <div style={{ flex:1 }}>
                   <div style={{ fontWeight:700, fontSize:13, color:T.text, marginBottom:2 }}>{item.name}</div>
-                  <div style={{ fontSize:12, color:T.green, fontWeight:700 }}>{item.price} ₺/adet</div>
+                  <div style={{ fontSize:12, color:T.green, fontWeight:700 }}>{item.price} Ôé║/adet</div>
                   <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:6 }}>
                     <button onClick={()=>changeQty(item.id,-1)} style={{ width:28, height:28, borderRadius:8,
                       background:T.raised, border:`1px solid ${T.border2}`, color:T.text, fontSize:16,
-                      cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>−</button>
+                      cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>ÔêÆ</button>
                     <div style={{ textAlign:"center", minWidth:44 }}>
                       <div style={{ fontWeight:800, color:T.text, fontSize:14 }}>{item.qty}</div>
                       {item.minLot > 1 && <div style={{ fontSize:9, color:T.muted }}>min {item.minLot}</div>}
@@ -1290,7 +1288,7 @@ function CartScreen({ cart, setCart, userId }) {
                       cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center" }}>+</button>
                   </div>
                   <div style={{ fontSize:12, color:T.green, fontWeight:700, marginTop:4 }}>
-                    Toplam: {(parseFloat(item.price)||0) * item.qty}₺
+                    Toplam: {(parseFloat(item.price)||0) * item.qty}Ôé║
                   </div>
                 </div>
                 <button onClick={()=>removeItem(item.id)} style={{ background:"none", border:"none", cursor:"pointer" }}>
@@ -1302,7 +1300,7 @@ function CartScreen({ cart, setCart, userId }) {
             <div style={{ padding:"8px 14px 0", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
               <span style={{ fontSize:12, color:T.muted }}>Ara Toplam</span>
               <span style={{ fontSize:16, fontWeight:800, color:T.green }}>
-                {group.items.reduce((s,i)=>s+(parseFloat(i.price)||0)*i.qty, 0).toLocaleString("tr")}₺
+                {group.items.reduce((s,i)=>s+(parseFloat(i.price)||0)*i.qty, 0).toLocaleString("tr")}Ôé║
               </span>
             </div>
             {/* WA order button per store */}
@@ -1324,7 +1322,7 @@ function CartScreen({ cart, setCart, userId }) {
                   padding:"11px 0", background:T.wa, borderRadius:11, color:"#fff",
                   fontWeight:700, fontSize:14, textDecoration:"none", fontFamily:"inherit" }}>
                 <svg width={18} height={18} viewBox="0 0 24 24" fill="#fff"><path d={IP.wa}/></svg>
-                Siparişi WhatsApp ile Tamamla
+                Sipari┼şi WhatsApp ile Tamamla
               </a>
             </div>
           </div>
@@ -1336,41 +1334,41 @@ function CartScreen({ cart, setCart, userId }) {
 }
 
 
-// ═══════════════════════════════════════════════════════════════
-// SİPARİŞ TAKİBİ EKRANI
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// S─░PAR─░┼Ş TAK─░B─░ EKRANI
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const MOCK_ORDERS = [
   {
     id:"ord1", storeId:"st1", storeName:"Atlaz Studio",
     storeAvatar:"https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&q=80",
     date:"3 Mart 2026", total:"3420", status:"delivered",
     items:[
-      { name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12, price:"285" },
+      { name:"Viskon Midi Elbise", variant:"K─▒rm─▒z─▒", qty:12, price:"285" },
     ]
   },
   {
     id:"ord2", storeId:"st2", storeName:"Denim Republic",
     storeAvatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80",
-    date:"27 Şubat 2026", total:"3480", status:"shipped",
+    date:"27 ┼Şubat 2026", total:"3480", status:"shipped",
     items:[
-      { name:"Oversize Kargo Şort", variant:"Siyah", qty:24, price:"145" },
+      { name:"Oversize Kargo ┼Şort", variant:"Siyah", qty:24, price:"145" },
     ]
   },
   {
     id:"ord3", storeId:"st4", storeName:"Koza Giyim",
     storeAvatar:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&q=80",
-    date:"20 Şubat 2026", total:"1140", status:"preparing",
+    date:"20 ┼Şubat 2026", total:"1140", status:"preparing",
     items:[
-      { name:"Polo Yaka Tişört", variant:"Beyaz", qty:12, price:"95" },
+      { name:"Polo Yaka Ti┼ş├Ârt", variant:"Beyaz", qty:12, price:"95" },
     ]
   }
 ];
 
 const ORDER_STATUS = {
-  preparing: { label:"Hazırlanıyor", color:"#f5a623", icon:"⏳", step:1 },
-  shipped:   { label:"Kargoda",      color:"#8875f5", icon:"🚚", step:2 },
-  delivered: { label:"Teslim Edildi",color:"#52d98b", icon:"✓",  step:3 },
-  cancelled: { label:"İptal",        color:"#ef7070", icon:"✕",  step:0 },
+  preparing: { label:"Haz─▒rlan─▒yor", color:"#f5a623", icon:"ÔÅ│", step:1 },
+  shipped:   { label:"Kargoda",      color:"#8875f5", icon:"­şÜÜ", step:2 },
+  delivered: { label:"Teslim Edildi",color:"#52d98b", icon:"Ô£ô",  step:3 },
+  cancelled: { label:"─░ptal",        color:"#ef7070", icon:"Ô£ò",  step:0 },
 };
 
 function OrdersScreen({ onStore }) {
@@ -1382,10 +1380,10 @@ function OrdersScreen({ onStore }) {
   if (orders.length === 0) return (
     <div style={{ height:"100%", display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center", gap:14, padding:24, background:T.bg }}>
-      <div style={{ fontSize:48 }}>📦</div>
-      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Henüz sipariş yok</div>
+      <div style={{ fontSize:48 }}>­şôĞ</div>
+      <div style={{ fontWeight:800, fontSize:18, color:T.text }}>Hen├╝z sipari┼ş yok</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center" }}>
-        Mağaza ürünlerini sepete ekleyip WhatsApp ile sipariş verin
+        Ma─şaza ├╝r├╝nlerini sepete ekleyip WhatsApp ile sipari┼ş verin
       </div>
     </div>
   );
@@ -1394,13 +1392,13 @@ function OrdersScreen({ onStore }) {
     <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
       <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}`,
         display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Siparişlerim</span>
-        <span style={{ fontSize:12, color:T.muted }}>{orders.length} sipariş</span>
+        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Sipari┼şlerim</span>
+        <span style={{ fontSize:12, color:T.muted }}>{orders.length} sipari┼ş</span>
       </div>
 
       {/* Status filter */}
       <div style={{ display:"flex", gap:8, padding:"10px 16px", overflowX:"auto", scrollbarWidth:"none" }}>
-        {[["all","Tümü"],["preparing","⏳ Hazırlanıyor"],["shipped","🚚 Kargoda"],["delivered","✓ Teslim"]].map(([v,l])=>(
+        {[["all","T├╝m├╝"],["preparing","ÔÅ│ Haz─▒rlan─▒yor"],["shipped","­şÜÜ Kargoda"],["delivered","Ô£ô Teslim"]].map(([v,l])=>(
           <button key={v} onClick={()=>setFilter(v)} style={{
             padding:"6px 14px", borderRadius:20, border:"none", cursor:"pointer",
             background:filter===v?T.brand:T.raised, color:filter===v?"#fff":T.muted,
@@ -1428,17 +1426,17 @@ function OrdersScreen({ onStore }) {
               </div>
             </div>
 
-            {/* Sipariş adımları */}
+            {/* Sipari┼ş ad─▒mlar─▒ */}
             <div style={{ padding:"12px 14px" }}>
               <div style={{ display:"flex", alignItems:"center", marginBottom:12 }}>
-                {["Hazırlanıyor","Kargoda","Teslim"].map((s,i)=>(
+                {["Haz─▒rlan─▒yor","Kargoda","Teslim"].map((s,i)=>(
                   <div key={i} style={{ display:"flex", alignItems:"center", flex:i<2?1:"none" }}>
                     <div style={{ width:22, height:22, borderRadius:11, display:"flex",
                       alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:800,
                       background: st.step>i?T.green:st.step===i+1?T.brand:T.raised,
                       color: st.step>i||st.step===i+1?"#fff":T.muted,
                       border:`2px solid ${st.step>i?T.green:st.step===i+1?T.brand:T.border2}` }}>
-                      {st.step>i?"✓":i+1}
+                      {st.step>i?"Ô£ô":i+1}
                     </div>
                     <div style={{ fontSize:9, color: st.step>i?T.green:st.step===i+1?T.brand:T.muted,
                       marginLeft:4, marginRight:i<2?4:0 }}>{s}</div>
@@ -1454,27 +1452,27 @@ function OrdersScreen({ onStore }) {
                   borderBottom: i<order.items.length-1?`1px solid ${T.border}`:"none" }}>
                   <div>
                     <div style={{ fontSize:13, fontWeight:700, color:T.text }}>{item.name}</div>
-                    <div style={{ fontSize:11, color:T.muted }}>{item.variant} · {item.qty} adet</div>
+                    <div style={{ fontSize:11, color:T.muted }}>{item.variant} ┬À {item.qty} adet</div>
                   </div>
                   <div style={{ fontWeight:700, fontSize:13, color:T.green }}>
-                    {(parseFloat(item.price)*item.qty).toLocaleString("tr")}₺
+                    {(parseFloat(item.price)*item.qty).toLocaleString("tr")}Ôé║
                   </div>
                 </div>
               ))}
               <div style={{ display:"flex", justifyContent:"space-between", marginTop:10,
                 paddingTop:10, borderTop:`1px solid ${T.border}` }}>
                 <span style={{ fontSize:12, color:T.muted }}>Toplam</span>
-                <span style={{ fontSize:16, fontWeight:800, color:T.text }}>{parseFloat(order.total).toLocaleString("tr")}₺</span>
+                <span style={{ fontSize:16, fontWeight:800, color:T.text }}>{parseFloat(order.total).toLocaleString("tr")}Ôé║</span>
               </div>
             </div>
 
-            {/* Mağazaya git */}
+            {/* Ma─şazaya git */}
             <div style={{ padding:"0 14px 12px" }}>
               <button onClick={()=>onStore(order.storeId)}
                 style={{ width:"100%", padding:"9px 0", borderRadius:10,
                   background:"none", border:`1.5px solid ${T.border2}`,
                   color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
-                Mağazaya Git →
+                Ma─şazaya Git ÔåÆ
               </button>
             </div>
           </div>
@@ -1485,9 +1483,9 @@ function OrdersScreen({ onStore }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // 8. MESSAGES (Inbox)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function Messages({ initialStoreId, onClearInitial }) {
   const [convs, setConvs] = useState(INIT_MESSAGES);
   const [active, setActive] = useState(null);
@@ -1506,8 +1504,8 @@ function Messages({ initialStoreId, onClearInitial }) {
 
   const send = () => {
     if (!msgText.trim() || !active) return;
-    const newMsg = { id:"msg"+Date.now(), from:"me", text:msgText, time:"Şimdi" };
-    const updated = {...active, messages:[...active.messages, newMsg], last:msgText, time:"Şimdi", unread:0};
+    const newMsg = { id:"msg"+Date.now(), from:"me", text:msgText, time:"┼Şimdi" };
+    const updated = {...active, messages:[...active.messages, newMsg], last:msgText, time:"┼Şimdi", unread:0};
     setConvs(prev=>{
       const exists = prev.find(c=>c.id===updated.id);
       return exists ? prev.map(c=>c.id===updated.id?updated:c) : [updated,...prev];
@@ -1521,18 +1519,18 @@ function Messages({ initialStoreId, onClearInitial }) {
       <div style={{ display:"flex", alignItems:"center", gap:10, padding:"12px 14px",
         borderBottom:`1px solid ${T.border}`, background:T.surface }}>
         <button onClick={()=>setActive(null)} style={{ background:"none", border:"none",
-          cursor:"pointer", color:T.text, fontSize:20, lineHeight:1 }}>←</button>
+          cursor:"pointer", color:T.text, fontSize:20, lineHeight:1 }}>ÔåÉ</button>
         <img src={active.storeAvatar} style={{ width:36, height:36, borderRadius:18, objectFit:"cover" }}/>
         <div>
           <div style={{ fontWeight:700, fontSize:14, color:T.text }}>{active.storeName}</div>
-          <div style={{ fontSize:10, color:T.teal }}>● Mağaza hesabı</div>
+          <div style={{ fontSize:10, color:T.teal }}>ÔùÅ Ma─şaza hesab─▒</div>
         </div>
       </div>
       <div style={{ flex:1, overflowY:"auto", padding:"12px 14px", display:"flex", flexDirection:"column", gap:8 }}>
         {active.messages.length===0 && (
           <div style={{ textAlign:"center", padding:"30px 0", color:T.muted }}>
-            <div style={{ fontSize:28, marginBottom:8 }}>💬</div>
-            <div style={{ fontSize:13 }}>{active.storeName} ile sohbet başlat</div>
+            <div style={{ fontSize:28, marginBottom:8 }}>­şÆ¼</div>
+            <div style={{ fontSize:13 }}>{active.storeName} ile sohbet ba┼şlat</div>
           </div>
         )}
         {active.messages.map(m => (
@@ -1548,13 +1546,13 @@ function Messages({ initialStoreId, onClearInitial }) {
       </div>
       <div style={{ padding:"10px 14px 24px", display:"flex", gap:8, borderTop:`1px solid ${T.border}`, alignItems:"center" }}>
         <input value={msgText} onChange={e=>setMsgText(e.target.value)}
-          onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Mesaj yaz…"
+          onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Mesaj yazÔÇĞ"
           style={{ flex:1, background:T.raised, border:`1.5px solid ${T.border2}`, borderRadius:22,
             padding:"10px 16px", fontSize:13, outline:"none", color:T.text, fontFamily:"inherit" }}/>
         <button onClick={send} disabled={!msgText.trim()} style={{ background:T.brand, border:"none",
           borderRadius:22, padding:"10px 18px", color:"#fff", fontWeight:700, fontSize:13,
           cursor:msgText.trim()?"pointer":"not-allowed", opacity:msgText.trim()?1:.5, fontFamily:"inherit" }}>
-          Gönder
+          G├Ânder
         </button>
       </div>
     </div>
@@ -1566,14 +1564,14 @@ function Messages({ initialStoreId, onClearInitial }) {
         display:"flex", alignItems:"center", gap:8 }}>
         <span style={{ fontWeight:800, fontSize:16, color:T.text, flex:1 }}>Mesajlar</span>
         <div style={{ fontSize:11, color:T.muted, background:T.raised, borderRadius:8, padding:"4px 10px" }}>
-          🔒 Sadece mağazalar
+          ­şöÆ Sadece ma─şazalar
         </div>
       </div>
       {convs.length===0 && (
         <div style={{ textAlign:"center", padding:"60px 20px", color:T.muted }}>
-          <div style={{ fontSize:40, marginBottom:10 }}>💬</div>
-          <div>Henüz mesajınız yok</div>
-          <div style={{ fontSize:12, marginTop:6 }}>Ürün kartındaki DM butonunu kullanın</div>
+          <div style={{ fontSize:40, marginBottom:10 }}>­şÆ¼</div>
+          <div>Hen├╝z mesaj─▒n─▒z yok</div>
+          <div style={{ fontSize:12, marginTop:6 }}>├£r├╝n kart─▒ndaki DM butonunu kullan─▒n</div>
         </div>
       )}
       {convs.map(c => (
@@ -1602,9 +1600,9 @@ function Messages({ initialStoreId, onClearInitial }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// STORE PROFILE — İletişime Geç modal + collections
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// STORE PROFILE ÔÇö ─░leti┼şime Ge├ğ modal + collections
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
   const store = STORES.find(s=>s.id===storeId);
   const [follow, setFollow] = useState("none");
@@ -1630,7 +1628,7 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
         const data = await fetchProducts(storeId);
         if (!mounted) return;
         
-        // Sütun isimlerini uygulamanın beklediği formata eşliyoruz
+        // S├╝tun isimlerini uygulaman─▒n bekledi─şi formata e┼şliyoruz
         if (data && data.length) {
           const mapped = data.map(item => ({
             id: item.id,
@@ -1662,7 +1660,7 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
           setAllProducts([]);
         }
       } catch (err) {
-        console.error("Mapping hatası:", err);
+        console.error("Mapping hatas─▒:", err);
       } finally {
         if (mounted) setLoadingProducts(false);
       }
@@ -1693,9 +1691,9 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
             <img src={store.avatar} style={{ width:80, height:80, borderRadius:"50%",
               border:`3px solid ${T.bg}`, objectFit:"cover" }}/>
           </div>
-          {/* Stats — Takip kaldırıldı */}
+          {/* Stats ÔÇö Takip kald─▒r─▒ld─▒ */}
           <div style={{ display:"flex", gap:18, flex:1, justifyContent:"space-around" }}>
-            {[[allProducts.length,"Ürün"],[store.followers.toLocaleString("tr"),"Takipçi"]].map(([v,l]) => (
+            {[[allProducts.length,"├£r├╝n"],[store.followers.toLocaleString("tr"),"Takip├ği"]].map(([v,l]) => (
               <div key={l} style={{ textAlign:"center" }}>
                 <div style={{ fontWeight:800, fontSize:20, color:T.text }}>{v}</div>
                 <div style={{ fontSize:11, color:T.muted }}>{l}</div>
@@ -1707,49 +1705,49 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
           <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:4 }}>
             <span style={{ fontWeight:800, fontSize:15, color:T.text }}>{store.name}</span>
             {store.verified && <VBadge size={16}/>}
-            {store.private && <span style={{ fontSize:12, color:T.muted }}>🔒 Gizli</span>}
+            {store.private && <span style={{ fontSize:12, color:T.muted }}>­şöÆ Gizli</span>}
           </div>
           {editing
             ? <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
-                <Field value={bio} onChange={setBio} placeholder="Biyografi…" multi/>
+                <Field value={bio} onChange={setBio} placeholder="BiyografiÔÇĞ" multi/>
                 <Btn size="sm" onClick={()=>setEditing(false)}>Kaydet</Btn>
               </div>
             : <div style={{ fontSize:13, color:T.text2, lineHeight:1.6 }}>{bio}</div>
           }
-          {/* Güven skoru */}
+          {/* G├╝ven skoru */}
           <div style={{ display:"flex", gap:10, marginTop:10, flexWrap:"wrap" }}>
             {store.verified && (
               <div style={{ display:"flex", alignItems:"center", gap:4, padding:"4px 10px",
                 background:T.gold+"18", border:"1px solid "+T.gold+"30", borderRadius:8 }}>
                 <VBadge size={12}/>
-                <span style={{ fontSize:11, color:T.gold, fontWeight:700 }}>Doğrulanmış Mağaza</span>
+                <span style={{ fontSize:11, color:T.gold, fontWeight:700 }}>Do─şrulanm─▒┼ş Ma─şaza</span>
               </div>
             )}
             <div style={{ display:"flex", alignItems:"center", gap:4, padding:"4px 10px",
               background:T.teal+"18", border:"1px solid "+T.teal+"30", borderRadius:8 }}>
-              <span style={{ fontSize:11, color:T.teal, fontWeight:700 }}>⭐ 4.8 · 32 değerlendirme</span>
+              <span style={{ fontSize:11, color:T.teal, fontWeight:700 }}>Ô¡É 4.8 ┬À 32 de─şerlendirme</span>
             </div>
             <div style={{ display:"flex", alignItems:"center", gap:4, padding:"4px 10px",
               background:T.green+"18", border:"1px solid "+T.green+"30", borderRadius:8 }}>
-              <span style={{ fontSize:11, color:T.green, fontWeight:700 }}>🚚 Hızlı Kargo</span>
+              <span style={{ fontSize:11, color:T.green, fontWeight:700 }}>­şÜÜ H─▒zl─▒ Kargo</span>
             </div>
           </div>
         </div>
 
-        {/* Takip + İletişime Geç */}
+        {/* Takip + ─░leti┼şime Ge├ğ */}
         {!isOwn && (
           <div style={{ display:"flex", gap:8, marginBottom:14 }}>
             <button onClick={()=>setFollow(f=>f==="accepted"?"none":store.private?"pending":"accepted")}
               style={{ flex:1, padding:"9px 0", borderRadius:11, border:"none", cursor:"pointer",
                 fontWeight:700, fontSize:13, fontFamily:"inherit",
                 background:follow==="accepted"?T.raised:T.brand, color:follow==="accepted"?T.text:"#fff" }}>
-              {follow==="pending"?"⏳ Bekliyor":follow==="accepted"?"✓ Takipte":store.private?"🔒 Takip İste":"Takip Et"}
+              {follow==="pending"?"ÔÅ│ Bekliyor":follow==="accepted"?"Ô£ô Takipte":store.private?"­şöÆ Takip ─░ste":"Takip Et"}
             </button>
             <button onClick={()=>setContactOpen(true)} style={{
               flex:1, padding:"9px 0", borderRadius:11, border:`1.5px solid ${T.border2}`,
               background:T.raised, color:T.text, fontWeight:700, fontSize:13,
               cursor:"pointer", fontFamily:"inherit" }}>
-              İletişime Geç
+              ─░leti┼şime Ge├ğ
             </button>
           </div>
         )}
@@ -1759,7 +1757,7 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
           <div style={{ display:"flex", gap:8, overflowX:"auto", marginBottom:14, scrollbarWidth:"none" }}>
             <button onClick={()=>setCol(null)} style={{ padding:"6px 14px", borderRadius:20, border:"none",
               cursor:"pointer", background:!col?T.brand:T.raised, color:!col?"#fff":T.muted,
-              fontSize:12, fontWeight:600, fontFamily:"inherit", whiteSpace:"nowrap" }}>Tümü</button>
+              fontSize:12, fontWeight:600, fontFamily:"inherit", whiteSpace:"nowrap" }}>T├╝m├╝</button>
             {store.collections.map(c=>(
               <button key={c} onClick={()=>setCol(x=>x===c?null:c)} style={{ padding:"6px 14px", borderRadius:20,
                 border:"none", cursor:"pointer", whiteSpace:"nowrap",
@@ -1769,12 +1767,12 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
           </div>
         )}
 
-        {/* Katalog İndir */}
+        {/* Katalog ─░ndir */}
         {isOwn && (
           <div style={{ marginBottom:10, display:"flex", gap:8 }}>
             <button onClick={()=>{
-              const lines = allProducts.filter(p=>p.inStock).map(p=>`${p.name} — ${p.price}₺/adet | ${p.description||""}`).join("\n");
-              const text = `TOPTANGRAM KATALOG\n${store.name} | @${store.username}\n${new Date().toLocaleDateString("tr-TR")}\n\n${lines}\n\nİletişim: wa.me/${store.phone}`;
+              const lines = allProducts.filter(p=>p.inStock).map(p=>`${p.name} ÔÇö ${p.price}Ôé║/adet | ${p.description||""}`).join("\n");
+              const text = `TOPTANGRAM KATALOG\n${store.name} | @${store.username}\n${new Date().toLocaleDateString("tr-TR")}\n\n${lines}\n\n─░leti┼şim: wa.me/${store.phone}`;
               const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
               const url = URL.createObjectURL(blob);
               const a = document.createElement("a"); a.href=url; a.download=store.username+"-katalog.txt"; a.click();
@@ -1782,14 +1780,14 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
             }} style={{ padding:"8px 14px", borderRadius:11, border:"1.5px solid "+T.border2,
               background:T.raised, color:T.text2, fontWeight:700, fontSize:12,
               cursor:"pointer", fontFamily:"inherit", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
-              📋 Katalog İndir
+              ­şôï Katalog ─░ndir
             </button>
           </div>
         )}
         {/* Stock tabs */}
         <div style={{ display:"flex", borderTop:`1px solid ${T.border}`, marginBottom:2 }}>
           {[["instock",`Stokta (${allProducts.filter(p=>p.inStock).length})`],
-            ["archive",`Arşiv (${allProducts.filter(p=>!p.inStock).length})`]].map(([id,label])=>(
+            ["archive",`Ar┼şiv (${allProducts.filter(p=>!p.inStock).length})`]].map(([id,label])=>(
             <button key={id} onClick={()=>setStockTab(id)} style={{ flex:1, padding:"10px 0",
               background:"none", border:"none", cursor:"pointer", fontSize:12, fontWeight:700,
               color:stockTab===id?T.text:T.muted, fontFamily:"inherit",
@@ -1816,22 +1814,22 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
             <div style={{ position:"absolute", bottom:4, left:4, background:"rgba(0,0,0,.75)",
               borderRadius:6, padding:"2px 8px", fontSize:11, fontWeight:700,
               color: p.inStock ? T.green : T.rose }}>
-              {p.inStock ? `${p.price}₺` : "Tükendi"}
+              {p.inStock ? `${p.price}Ôé║` : "T├╝kendi"}
             </div>
           </div>
         ))}
         {products.length===0 && (
           <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px 20px", color:T.muted }}>
-            <div style={{ fontSize:32, marginBottom:8 }}>📦</div>
-            <div>{stockTab==="instock"?"Stokta ürün yok":"Arşivde ürün yok"}</div>
+            <div style={{ fontSize:32, marginBottom:8 }}>­şôĞ</div>
+            <div>{stockTab==="instock"?"Stokta ├╝r├╝n yok":"Ar┼şivde ├╝r├╝n yok"}</div>
           </div>
         )}
       </div>
       <div style={{ height:60 }}/>
 
-      {/* Product detail modal — tam ekran, tek kolon, çoklu renk sepete */}
+      {/* Product detail modal ÔÇö tam ekran, tek kolon, ├ğoklu renk sepete */}
       {selectedProduct && (() => {
-        const variants = selectedProduct.variants?.map(v=>v.name) || ["Kırmızı","Mavi","Siyah","Beyaz","Yeşil"];
+        const variants = selectedProduct.variants?.map(v=>v.name) || ["K─▒rm─▒z─▒","Mavi","Siyah","Beyaz","Ye┼şil"];
         return (
         <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.85)",
           display:"flex", alignItems:"flex-end", zIndex:500 }} onClick={()=>{setSelectedProduct(null); setProductImageIdx(0); setSelectedVariant(null); setModalCartAdded(new Set());}}>
@@ -1845,12 +1843,12 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
               <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:12 }}>
                 <span style={{ fontWeight:800, fontSize:16, color:T.text }}>{selectedProduct.title || selectedProduct.name}</span>
                 <button onClick={()=>{setSelectedProduct(null); setProductImageIdx(0); setSelectedVariant(null); setModalCartAdded(new Set());}}
-                  style={{ background:T.raised, border:"none", borderRadius:8, padding:"6px 10px", cursor:"pointer", color:T.muted, fontSize:13 }}>✕</button>
+                  style={{ background:T.raised, border:"none", borderRadius:8, padding:"6px 10px", cursor:"pointer", color:T.muted, fontSize:13 }}>Ô£ò</button>
               </div>
             </div>
 
             <div style={{ overflowY:"auto", flex:1 }}>
-              {/* Fotoğraf */}
+              {/* Foto─şraf */}
               <div style={{ position:"relative", width:"100%", aspectRatio:"1/1", background:T.bg }}>
                 {selectedProduct.media?.[productImageIdx]?.type === "video"
                   ? <video src={selectedProduct.media[productImageIdx].url} muted autoPlay loop playsInline
@@ -1863,11 +1861,11 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
                     <button onClick={()=>setProductImageIdx(i=>i===0?selectedProduct.media.length-1:i-1)}
                       style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)",
                         background:"rgba(0,0,0,.55)", border:"none", color:"#fff", width:34, height:34,
-                        borderRadius:17, cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center" }}>‹</button>
+                        borderRadius:17, cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center" }}>ÔÇ╣</button>
                     <button onClick={()=>setProductImageIdx(i=>(i+1)%selectedProduct.media.length)}
                       style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)",
                         background:"rgba(0,0,0,.55)", border:"none", color:"#fff", width:34, height:34,
-                        borderRadius:17, cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center" }}>›</button>
+                        borderRadius:17, cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center" }}>ÔÇ║</button>
                     <div style={{ position:"absolute", bottom:10, right:10, background:"rgba(0,0,0,.6)",
                       color:"#fff", padding:"3px 10px", borderRadius:20, fontSize:11, fontWeight:700 }}>
                       {productImageIdx+1}/{selectedProduct.media.length}
@@ -1880,28 +1878,28 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
                 {/* Fiyat + stok */}
                 <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:10 }}>
                   <div style={{ display:"flex", alignItems:"baseline", gap:4 }}>
-                    <span style={{ fontSize:28, fontWeight:900, color:T.green }}>₺{selectedProduct.price}</span>
+                    <span style={{ fontSize:28, fontWeight:900, color:T.green }}>Ôé║{selectedProduct.price}</span>
                     <span style={{ fontSize:12, color:T.muted }}>/adet</span>
                   </div>
                   <div style={{ fontSize:11, fontWeight:700, padding:"4px 10px", borderRadius:8,
                     background: selectedProduct.inStock ? `${T.teal}18` : `${T.rose}18`,
                     color: selectedProduct.inStock ? T.teal : T.rose,
                     border:`1px solid ${selectedProduct.inStock?T.teal:T.rose}28` }}>
-                    {selectedProduct.inStock ? "● Stokta" : "○ Tükendi"}
+                    {selectedProduct.inStock ? "ÔùÅ Stokta" : "Ôùï T├╝kendi"}
                   </div>
                 </div>
 
-                {/* Açıklama */}
+                {/* A├ğ─▒klama */}
                 {selectedProduct.description && (
                   <div style={{ fontSize:13, color:T.text2, lineHeight:1.65, marginBottom:14 }}>
                     {selectedProduct.description}
                   </div>
                 )}
 
-                {/* ── Renk / Beden seçimi — çoklu ekleme ── */}
+                {/* ÔöÇÔöÇ Renk / Beden se├ğimi ÔÇö ├ğoklu ekleme ÔöÇÔöÇ */}
                 <div style={{ marginBottom:14 }}>
                   <div style={{ fontSize:12, fontWeight:800, color:T.muted, marginBottom:8, textTransform:"uppercase", letterSpacing:.4 }}>
-                    Renk / Seçenek Seç
+                    Renk / Se├ğenek Se├ğ
                   </div>
                   <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
                     {variants.map(v => {
@@ -1914,66 +1912,66 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
                             border:`2px solid ${selected?T.brand:inCart?T.green:T.border2}`,
                             background: selected?T.brand : inCart?`${T.green}18`:T.raised,
                             color: selected?"#fff" : inCart?T.green : T.text }}>
-                          {inCart ? `✓ ${v}` : v}
+                          {inCart ? `Ô£ô ${v}` : v}
                         </button>
                       );
                     })}
                   </div>
                   {!selectedVariant && modalCartAdded.size === 0 && (
                     <div style={{ fontSize:11, color:T.muted, marginTop:6 }}>
-                      Bir renk seçip "Sepete Ekle"ye bas. Farklı renkler için tekrar seç.
+                      Bir renk se├ğip "Sepete Ekle"ye bas. Farkl─▒ renkler i├ğin tekrar se├ğ.
                     </div>
                   )}
                   {modalCartAdded.size > 0 && (
                     <div style={{ fontSize:12, color:T.green, marginTop:6, fontWeight:700 }}>
-                      ✓ {modalCartAdded.size} renk sepete eklendi
+                      Ô£ô {modalCartAdded.size} renk sepete eklendi
                     </div>
                   )}
                 </div>
 
-                {/* İletişim butonları */}
+                {/* ─░leti┼şim butonlar─▒ */}
                 <div style={{ display:"flex", gap:8, marginBottom:10 }}>
                   {selectedProduct.storePhone && !isOwn && (
-                    <a href={`https://wa.me/${String(selectedProduct.storePhone).replace(/\D/g,'')}?text=${encodeURIComponent("Ürün hakkında bilgi almak istiyorum: "+( selectedProduct.title||selectedProduct.name))}`}
+                    <a href={`https://wa.me/${String(selectedProduct.storePhone).replace(/\D/g,'')}?text=${encodeURIComponent("├£r├╝n hakk─▒nda bilgi almak istiyorum: "+( selectedProduct.title||selectedProduct.name))}`}
                       target="_blank" rel="noreferrer"
                       style={{ flex:1, padding:"11px 0", background:T.wa, color:"#fff", fontWeight:700, fontSize:13,
                         borderRadius:12, textAlign:"center", textDecoration:"none", display:"flex",
                         alignItems:"center", justifyContent:"center", gap:6 }}>
-                      💬 WhatsApp
+                      ­şÆ¼ WhatsApp
                     </a>
                   )}
                   <button onClick={()=>{setSelectedProduct(null); onSendDM && onSendDM(selectedProduct);}}
                     style={{ flex:1, padding:"11px 0", background:T.brandDim, border:`1.5px solid ${T.brandBorder}`,
                       color:T.brand, fontWeight:700, fontSize:13, borderRadius:12, cursor:"pointer",
                       fontFamily:"inherit", display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}>
-                    💌 Mesaj
+                    ­şÆî Mesaj
                   </button>
                   <button onClick={()=>{
                     navigator.clipboard?.writeText(`${window.location.origin}/#/post/${selectedProduct.id}`).catch(()=>{});
                   }} style={{ width:44, height:44, background:T.raised, border:`1.5px solid ${T.border2}`,
                     borderRadius:12, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-                    🔗
+                    ­şöù
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Sepete Ekle — sticky bottom, modal kapanmıyor */}
+            {/* Sepete Ekle ÔÇö sticky bottom, modal kapanm─▒yor */}
             <div style={{ padding:"10px 16px 24px", borderTop:`1px solid ${T.border}`, background:T.surface }}>
               <button disabled={!selectedProduct.inStock} onClick={()=>{
                 if (!selectedVariant) {
-                  // Hiç renk seçilmemişse ilk rengi otomatik seç
+                  // Hi├ğ renk se├ğilmemi┼şse ilk rengi otomatik se├ğ
                   const firstVariant = variants[0];
                   setSelectedVariant(firstVariant);
                   return;
                 }
-                // Sepete ekle — modal KAPANMAZ, başka renk seçilebilir
+                // Sepete ekle ÔÇö modal KAPANMAZ, ba┼şka renk se├ğilebilir
                 const cartEvent = new CustomEvent('toptangram:addToCart', {
                   detail: { product: selectedProduct, variant: selectedVariant }
                 });
                 window.dispatchEvent(cartEvent);
                 setModalCartAdded(prev => new Set([...prev, selectedVariant]));
-                setSelectedVariant(null); // seçimi sıfırla, kullanıcı başka renk seçsin
+                setSelectedVariant(null); // se├ğimi s─▒f─▒rla, kullan─▒c─▒ ba┼şka renk se├ğsin
               }} style={{ width:"100%", padding:"14px 0", borderRadius:14,
                 background: !selectedProduct.inStock ? T.dim : selectedVariant ? T.brand : T.raised,
                 border: selectedVariant ? "none" : `1.5px solid ${T.border2}`,
@@ -1983,9 +1981,9 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
                 display:"flex", alignItems:"center", justifyContent:"center", gap:8,
                 opacity: selectedProduct.inStock ? 1 : 0.5 }}>
                 {!selectedProduct.inStock ? "Stok Yok"
-                  : selectedVariant ? `🛒 "${selectedVariant}" Sepete Ekle`
-                  : modalCartAdded.size > 0 ? "✓ Tamamlandı — Kapat"
-                  : "Renk Seç"}
+                  : selectedVariant ? `­şøÆ "${selectedVariant}" Sepete Ekle`
+                  : modalCartAdded.size > 0 ? "Ô£ô Tamamland─▒ ÔÇö Kapat"
+                  : "Renk Se├ğ"}
               </button>
               {modalCartAdded.size > 0 && (
                 <button onClick={()=>{setSelectedProduct(null); setProductImageIdx(0); setSelectedVariant(null); setModalCartAdded(new Set());}}
@@ -2008,9 +2006,9 @@ function StoreProf({ storeId, onBack, myId, role, onSendDM }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// 8. MY PROFILE — Beğenilenler + Kaydedilenler + Takip Edilen Mağazalar
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// 8. MY PROFILE ÔÇö Be─şenilenler + Kaydedilenler + Takip Edilen Ma─şazalar
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function MyProfile({ role, onStore, onSendDM, onLogout }) {
   const [profileTab, setProfileTab] = useState("talepler");
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -2028,12 +2026,12 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
             background:T.raised, display:"flex", alignItems:"center", justifyContent:"center" }}>
             {role==="store"
               ? <img src={myStore.avatar} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
-              : <span style={{ fontSize:34 }}>👤</span>}
+              : <span style={{ fontSize:34 }}>­şæñ</span>}
           </div>
           <div style={{ display:"flex", gap:14, flex:1, justifyContent:"space-around" }}>
             {(role==="store"
-              ? [[myProducts.length,"Ürün"],[myStore.followers.toLocaleString("tr"),"Takipçi"]]
-              : [["4","Talep"],["2","Takip"],["12","Beğeni"]]
+              ? [[myProducts.length,"├£r├╝n"],[myStore.followers.toLocaleString("tr"),"Takip├ği"]]
+              : [["4","Talep"],["2","Takip"],["12","Be─şeni"]]
             ).map(([v,l])=>(
               <div key={l} style={{ textAlign:"center" }}>
                 <div style={{ fontWeight:800, fontSize:18, color:T.text }}>{v}</div>
@@ -2045,10 +2043,10 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
         <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:4 }}>
           <div>
             <div style={{ fontWeight:800, fontSize:15, color:T.text }}>
-              {role==="store" ? myStore.name : "Hesabım"}
+              {role==="store" ? myStore.name : "Hesab─▒m"}
             </div>
             <div style={{ fontSize:13, color:T.muted, marginTop:2 }}>
-              {role==="store" ? myStore.bio : "Toptan alım araştırıyorum"}
+              {role==="store" ? myStore.bio : "Toptan al─▒m ara┼şt─▒r─▒yorum"}
             </div>
           </div>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
@@ -2062,14 +2060,14 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
               style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
                 border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
                 fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
-              Çıkış
+              ├ç─▒k─▒┼ş
             </button>
           </div>
         </div>
         {role!=="store" && (
           <div style={{ marginBottom:14, marginTop:10 }}>
             <div style={{ fontSize:12, fontWeight:700, color:T.text2, marginBottom:8,
-              textTransform:"uppercase", letterSpacing:.4 }}>Takip Edilen Mağazalar</div>
+              textTransform:"uppercase", letterSpacing:.4 }}>Takip Edilen Ma─şazalar</div>
             <div style={{ display:"flex", gap:10, overflowX:"auto", scrollbarWidth:"none" }}>
               {followedStores.map(s=>(
                 <div key={s.id} onClick={()=>onStore(s.id)}
@@ -2087,8 +2085,8 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
       </div>
       <div style={{ display:"flex", borderTop:"1px solid "+T.border, borderBottom:"1px solid "+T.border }}>
         {(role==="store"
-          ? [["urunler","📦 Ürünler"],["liked","❤️ Beğeni"],["saved","🔖 Kayıt"]]
-          : [["talepler","📋 Talepler"],["liked","❤️ Beğeni"],["saved","🔖 Kayıt"]]
+          ? [["urunler","­şôĞ ├£r├╝nler"],["liked","ÔØñ´©Å Be─şeni"],["saved","­şöû Kay─▒t"]]
+          : [["talepler","­şôï Talepler"],["liked","ÔØñ´©Å Be─şeni"],["saved","­şöû Kay─▒t"]]
         ).map(([id,label])=>(
           <button key={id} onClick={()=>setProfileTab(id)} style={{ flex:1, padding:"11px 0",
             background:"none", border:"none", cursor:"pointer", fontSize:11, fontWeight:700,
@@ -2106,7 +2104,7 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
               <img src={p.media[0]?.url||p.media[0]?.thumb} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
               <div style={{ position:"absolute", bottom:4, left:4, background:"rgba(0,0,0,.75)",
                 borderRadius:6, padding:"2px 8px", fontSize:11, fontWeight:700, color:p.inStock?T.green:T.rose }}>
-                {p.inStock?p.price+"₺":"Tükendi"}
+                {p.inStock?p.price+"Ôé║":"T├╝kendi"}
               </div>
             </div>
           ))}
@@ -2120,14 +2118,14 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
                 <img src={p.media[0].url||p.media[0].thumb} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                 <div style={{ position:"absolute", bottom:4, left:4, background:"rgba(0,0,0,.7)",
                   borderRadius:6, padding:"2px 8px", fontSize:11, fontWeight:700, color:T.green }}>
-                  {p.price}₺
+                  {p.price}Ôé║
                 </div>
               </div>
             ))}
             {(profileTab==="liked"?liked:saved).length===0 && (
               <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px 20px", color:T.muted }}>
-                <div style={{ fontSize:32, marginBottom:8 }}>{profileTab==="liked"?"❤️":"🔖"}</div>
-                <div>Henüz {profileTab==="liked"?"beğenilen":"kaydedilen"} ürün yok</div>
+                <div style={{ fontSize:32, marginBottom:8 }}>{profileTab==="liked"?"ÔØñ´©Å":"­şöû"}</div>
+                <div>Hen├╝z {profileTab==="liked"?"be─şenilen":"kaydedilen"} ├╝r├╝n yok</div>
               </div>
             )}
           </div>
@@ -2146,19 +2144,19 @@ function MyProfile({ role, onStore, onSendDM, onLogout }) {
 
 
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // TALEP EKRANLARI
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 const MOCK_TALEPLER = [];
 
 function TalepScreen({ talepler, onStore }) {
   if (!talepler || talepler.length === 0) return (
     <div style={{ display:"flex", flexDirection:"column", alignItems:"center",
       justifyContent:"center", gap:14, padding:"40px 24px" }}>
-      <div style={{ fontSize:48 }}>📋</div>
-      <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Henüz talep yok</div>
+      <div style={{ fontSize:48 }}>­şôï</div>
+      <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Hen├╝z talep yok</div>
       <div style={{ fontSize:13, color:T.muted, textAlign:"center", lineHeight:1.6 }}>
-        Ürünleri talep listesine ekleyip mağazaya bildir.
+        ├£r├╝nleri talep listesine ekleyip ma─şazaya bildir.
       </div>
     </div>
   );
@@ -2174,13 +2172,13 @@ function TalepScreen({ talepler, onStore }) {
               <div style={{ fontSize:11, color:T.muted }}>{t.date}</div>
             </div>
             <div style={{ padding:"4px 10px", borderRadius:8,
-              background:T.teal+"18", color:T.teal, fontSize:11, fontWeight:700 }}>✓ Gönderildi</div>
+              background:T.teal+"18", color:T.teal, fontSize:11, fontWeight:700 }}>Ô£ô G├Ânderildi</div>
           </div>
           <div style={{ padding:"10px 14px" }}>
             <button onClick={()=>onStore(t.storeId)} style={{ width:"100%", padding:"9px 0",
               borderRadius:10, background:"none", border:"1.5px solid "+T.border2,
               color:T.text2, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit" }}>
-              Mağazayla İletişime Geç →
+              Ma─şazayla ─░leti┼şime Ge├ğ ÔåÆ
             </button>
           </div>
         </div>
@@ -2191,9 +2189,9 @@ function TalepScreen({ talepler, onStore }) {
 }
 
 const DEMO_GELEN = [
-  { id:"t1", musteriAd:"Ahmet Y.", tarih:"Bugün 11:23",
-    urunler:[{ name:"Viskon Midi Elbise", variant:"Kırmızı", qty:12 },{ name:"Viskon Midi Elbise", variant:"Siyah", qty:12 }] },
-  { id:"t2", musteriAd:"Fatma K.", tarih:"Dün 16:44",
+  { id:"t1", musteriAd:"Ahmet Y.", tarih:"Bug├╝n 11:23",
+    urunler:[{ name:"Viskon Midi Elbise", variant:"K─▒rm─▒z─▒", qty:12 },{ name:"Viskon Midi Elbise", variant:"Siyah", qty:12 }] },
+  { id:"t2", musteriAd:"Fatma K.", tarih:"D├╝n 16:44",
     urunler:[{ name:"Viskon Midi Elbise", variant:"Beyaz", qty:24 }] },
 ];
 
@@ -2203,17 +2201,17 @@ function GelenTaleplerScreen() {
     <div style={{ height:"100%", overflowY:"auto", background:T.bg }}>
       <div style={{ padding:"14px 16px", borderBottom:"1px solid "+T.border }}>
         <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Gelen Talepler</div>
-        <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>Müşterilerin talep listesinden ilettiği ürünler</div>
+        <div style={{ fontSize:12, color:T.muted, marginTop:3 }}>M├╝┼şterilerin talep listesinden iletti─şi ├╝r├╝nler</div>
       </div>
       {talepler.map(t=>(
         <div key={t.id} style={{ margin:"10px 14px", background:T.card, border:"1px solid "+T.border, borderRadius:16, overflow:"hidden" }}>
           <div style={{ padding:"12px 14px", background:T.raised, borderBottom:"1px solid "+T.border, display:"flex", alignItems:"center", gap:10 }}>
-            <div style={{ width:36, height:36, borderRadius:18, background:T.brand+"22", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>👤</div>
+            <div style={{ width:36, height:36, borderRadius:18, background:T.brand+"22", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18 }}>­şæñ</div>
             <div style={{ flex:1 }}>
               <div style={{ fontWeight:700, fontSize:13, color:T.text }}>{t.musteriAd}</div>
               <div style={{ fontSize:11, color:T.muted }}>{t.tarih}</div>
             </div>
-            <div style={{ padding:"4px 10px", borderRadius:8, background:T.brand+"18", color:T.brand, fontSize:11, fontWeight:700 }}>🆕 Yeni</div>
+            <div style={{ padding:"4px 10px", borderRadius:8, background:T.brand+"18", color:T.brand, fontSize:11, fontWeight:700 }}>­şåò Yeni</div>
           </div>
           {t.urunler.map((u,i)=>(
             <div key={i} style={{ padding:"10px 14px", display:"flex", gap:10, borderBottom:"1px solid "+T.border, alignItems:"center" }}>
@@ -2227,7 +2225,7 @@ function GelenTaleplerScreen() {
           ))}
           <div style={{ padding:"10px 14px" }}>
             <div style={{ padding:"10px 14px", background:T.raised, borderRadius:12, fontSize:12, color:T.teal, textAlign:"center", fontWeight:700 }}>
-              ✓ Talep WhatsApp'a iletildi
+              Ô£ô Talep WhatsApp'a iletildi
             </div>
           </div>
         </div>
@@ -2237,9 +2235,9 @@ function GelenTaleplerScreen() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// UPLOAD — Supabase + video desteği
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// UPLOAD ÔÇö Supabase + video deste─şi
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -2265,7 +2263,7 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
   };
 
   const handlePublish = async () => {
-    if (!file) { toast.show("Lütfen mankenli bir fotoğraf seçin.", "error"); return; }
+    if (!file) { toast.show("L├╝tfen mankenli bir foto─şraf se├ğin.", "error"); return; }
     
     setUploading(true); setProg(10);
     try {
@@ -2279,18 +2277,18 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
       });
       setProg(90);
       try {
-        onNotify?.({ title: `${store?.name || 'Mağaza'} yeni ürün yayınladı`, body: name, image: imageUrl, meta: { productName: name, storeId: store?.id } });
+        onNotify?.({ title: `${store?.name || 'Ma─şaza'} yeni ├╝r├╝n yay─▒nlad─▒`, body: name, image: imageUrl, meta: { productName: name, storeId: store?.id } });
       } catch (err) { console.error('onNotify error', err); }
       try {
         fetch('https://ncebtxitvbbekbehesxy.functions.supabase.co/triggerNotification', {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ store_id: store?.id, title: `${store?.name || 'Mağaza'} yeni ürün paylaştı!`, body: name, url: '/', icon: imageUrl })
+          body: JSON.stringify({ store_id: store?.id, title: `${store?.name || 'Ma─şaza'} yeni ├╝r├╝n payla┼şt─▒!`, body: name, url: '/', icon: imageUrl })
         }).catch(e=>console.warn('triggerNotification call failed', e));
       } catch(e) { console.error('trigger call error', e); }
       setProg(100);
       setDone(true);
     } catch (err) {
-      toast.show("Yükleme hatası: " + (err?.message || "Lütfen tekrar deneyin"), "error");
+      toast.show("Y├╝kleme hatas─▒: " + (err?.message || "L├╝tfen tekrar deneyin"), "error");
     } finally {
       setUploading(false);
     }
@@ -2306,10 +2304,10 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
         <Ic n="check" size={40} color={T.green}/>
       </div>
       <div style={{ textAlign:"center" }}>
-        <div style={{ fontWeight:800, fontSize:20, color:T.text }}>Yayınlandı!</div>
-        <div style={{ fontSize:13, color:T.text2, marginTop:6 }}>"{name}" Supabase'e yüklendi.</div>
+        <div style={{ fontWeight:800, fontSize:20, color:T.text }}>Yay─▒nland─▒!</div>
+        <div style={{ fontSize:13, color:T.text2, marginTop:6 }}>"{name}" Supabase'e y├╝klendi.</div>
       </div>
-      <Btn full onClick={reset}>Yeni Ürün Ekle</Btn>
+      <Btn full onClick={reset}>Yeni ├£r├╝n Ekle</Btn>
     </div>
   );
 
@@ -2317,9 +2315,9 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
     <div style={{ height:"100%", display:"flex", flexDirection:"column", background:T.bg }}>
       <div style={{ padding:"14px 16px", borderBottom:`1px solid ${T.border}`,
         display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>Ürün / Reels Ekle</span>
+        <span style={{ fontWeight:800, fontSize:16, color:T.text }}>├£r├╝n / Reels Ekle</span>
         <Btn size="sm" onClick={handlePublish} disabled={!name||!price||!preview||uploading}>
-          {uploading?`${prog}%`:"Yayınla"}
+          {uploading?`${prog}%`:"Yay─▒nla"}
         </Btn>
       </div>
       <div style={{ flex:1, overflowY:"auto", padding:16, display:"flex", flexDirection:"column", gap:16 }}>
@@ -2343,7 +2341,7 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
               </button>
               <div style={{ position:"absolute", bottom:10, left:10, background:"rgba(0,0,0,.6)",
                 borderRadius:8, padding:"4px 10px", fontSize:11, fontWeight:700, color:"#fff" }}>
-                {mediaType==="video"?"🎬 Video hazır":"✓ Fotoğraf hazır"}
+                {mediaType==="video"?"­şÄ¼ Video haz─▒r":"Ô£ô Foto─şraf haz─▒r"}
               </div>
             </>
           ) : (
@@ -2353,13 +2351,13 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
                 <Ic n="video" size={32} color={T.muted}/>
               </div>
               <div style={{ fontWeight:700, fontSize:14, color:T.text2, marginBottom:4 }}>
-                Fotoğraf veya Video yükle
+                Foto─şraf veya Video y├╝kle
               </div>
-              <div style={{ fontSize:12, color:T.muted }}>Profesyonel mankenli çekimler</div>
-              <div style={{ fontSize:11, color:T.dim, marginTop:4 }}>JPG · PNG · MP4 · MOV · Max 50MB</div>
+              <div style={{ fontSize:12, color:T.muted }}>Profesyonel mankenli ├ğekimler</div>
+              <div style={{ fontSize:11, color:T.dim, marginTop:4 }}>JPG ┬À PNG ┬À MP4 ┬À MOV ┬À Max 50MB</div>
               <div style={{ marginTop:12, padding:"6px 16px", background:T.brandDim,
                 border:`1px solid ${T.brandBorder}`, borderRadius:20, display:"inline-block",
-                fontSize:12, color:T.brand, fontWeight:700 }}>Dosya Seç</div>
+                fontSize:12, color:T.brand, fontWeight:700 }}>Dosya Se├ğ</div>
             </div>
           )}
           <input ref={fileRef} type="file" accept="image/*,video/*" onChange={onFile} style={{ display:"none" }}/>
@@ -2367,24 +2365,24 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
 
         <div style={{ background:`${T.teal}10`, border:`1px solid ${T.teal}22`, borderRadius:12,
           padding:"10px 14px", fontSize:12, color:T.teal, display:"flex", gap:8 }}>
-          <span>☁️</span>
-          <span>Görsel/Video → <strong>products</strong> bucket · URL → <strong>products</strong> tablosu</span>
+          <span>Ôİü´©Å</span>
+          <span>G├Ârsel/Video ÔåÆ <strong>products</strong> bucket ┬À URL ÔåÆ <strong>products</strong> tablosu</span>
         </div>
 
-        <Field label="Ürün Adı *" value={name} onChange={setName} placeholder="Örn: Viskon Midi Elbise" icon="tag"/>
+        <Field label="├£r├╝n Ad─▒ *" value={name} onChange={setName} placeholder="├ûrn: Viskon Midi Elbise" icon="tag"/>
         <div>
           <div style={{ fontSize:11, fontWeight:700, color:T.muted, marginBottom:5,
-            textTransform:"uppercase", letterSpacing:.5 }}>Birim Fiyat (₺) *</div>
+            textTransform:"uppercase", letterSpacing:.5 }}>Birim Fiyat (Ôé║) *</div>
           <div style={{ display:"flex", alignItems:"center", background:T.raised,
             border:`1.5px solid ${T.border2}`, borderRadius:12, padding:"0 14px", gap:8 }}>
-            <span style={{ fontSize:20, fontWeight:800, color:T.green }}>₺</span>
+            <span style={{ fontSize:20, fontWeight:800, color:T.green }}>Ôé║</span>
             <input value={price} onChange={e=>setPrice(e.target.value.replace(/\D/g,""))} placeholder="285"
               style={{ flex:1, background:"none", border:"none", outline:"none", padding:"12px 0",
                 color:T.text, fontSize:20, fontWeight:700, fontFamily:"inherit" }}/>
             <span style={{ fontSize:12, color:T.muted }}>/ adet</span>
           </div>
         </div>
-        <Field label="Açıklama" value={desc} onChange={setDesc} multi placeholder="Kumaş, renkler, minimum lot…"/>
+        <Field label="A├ğ─▒klama" value={desc} onChange={setDesc} multi placeholder="Kuma┼ş, renkler, minimum lotÔÇĞ"/>
         <div>
           <div style={{ fontSize:11, fontWeight:700, color:T.muted, marginBottom:8,
             textTransform:"uppercase", letterSpacing:.5 }}>Minimum Lot (adet)</div>
@@ -2397,14 +2395,14 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
             ))}
           </div>
           {minLot && <div style={{ fontSize:11, color:T.teal, marginTop:6 }}>
-            ✓ Min. sipariş: {minLot} adet · Toplu alımda %5-15 indirim otomatik uygulanır
+            Ô£ô Min. sipari┼ş: {minLot} adet ┬À Toplu al─▒mda %5-15 indirim otomatik uygulan─▒r
           </div>}
         </div>
         <div>
           <div style={{ fontSize:11, fontWeight:700, color:T.muted, marginBottom:8,
             textTransform:"uppercase", letterSpacing:.5 }}>Koleksiyon</div>
           <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-            {(store?.collections||["İlkbahar 2026","Klasik Seri"]).map(c=>(
+            {(store?.collections||["─░lkbahar 2026","Klasik Seri"]).map(c=>(
               <button key={c} onClick={()=>setCol(x=>x===c?"":c)} style={{ padding:"6px 14px", borderRadius:20,
                 border:"none", cursor:"pointer", background:col===c?T.brand:T.raised,
                 color:col===c?"#fff":T.muted, fontSize:12, fontWeight:600,
@@ -2419,7 +2417,7 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
           <div>
             <div style={{ fontWeight:700, fontSize:14, color:T.text }}>Stok Durumu</div>
             <div style={{ fontSize:11, color:T.muted, marginTop:2 }}>
-              {inStock ? "Ürün stokta mevcut" : "Ürün stokta yok (Arşiv)"}
+              {inStock ? "├£r├╝n stokta mevcut" : "├£r├╝n stokta yok (Ar┼şiv)"}
             </div>
           </div>
           <div onClick={()=>setInStock(s=>!s)} style={{ cursor:"pointer",
@@ -2433,7 +2431,7 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
         {uploading && (
           <div>
             <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6, fontSize:12, color:T.muted }}>
-              <span>Supabase'e yükleniyor…</span>
+              <span>Supabase'e y├╝kleniyorÔÇĞ</span>
               <span style={{ color:T.brand, fontWeight:700 }}>{prog}%</span>
             </div>
             <div style={{ height:4, background:T.border, borderRadius:2, overflow:"hidden" }}>
@@ -2447,9 +2445,9 @@ function Upload({ store, storeUuid, userId, onNotify, toast, onUploaded }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// STORE SETTINGS — Firma İnfo, Logo, Güvenlik, İstatistikler
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// STORE SETTINGS ÔÇö Firma ─░nfo, Logo, G├╝venlik, ─░statistikler
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function StoreSettings({ onBack, storeId, role, onLogout }) {
   // Ensure only stores can access this
   if (role !== "store") return null;
@@ -2484,14 +2482,14 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
 
   const handleChangeEmail = () => {
     if (!newEmail) { setStoreSettingsMsg({ text:"Yeni e-posta girin", type:"error" }); return; }
-    setStoreSettingsMsg({ text:"E-posta " + newEmail + " olarak değiştirildi", type:"success" });
+    setStoreSettingsMsg({ text:"E-posta " + newEmail + " olarak de─şi┼ştirildi", type:"success" });
     setNewEmail("");
   };
 
   const handleChangePassword = () => {
-    if (!newPass || newPass !== confirmPass) { setStoreSettingsMsg({ text:"Şifreler eşleşmiyor", type:"error" }); return; }
-    if (newPass.length < 8) { setStoreSettingsMsg({ text:"Şifre en az 8 karakter olmalı", type:"error" }); return; }
-    setStoreSettingsMsg({ text:"Şifre başarıyla değiştirildi", type:"success" });
+    if (!newPass || newPass !== confirmPass) { setStoreSettingsMsg({ text:"┼Şifreler e┼şle┼şmiyor", type:"error" }); return; }
+    if (newPass.length < 8) { setStoreSettingsMsg({ text:"┼Şifre en az 8 karakter olmal─▒", type:"error" }); return; }
+    setStoreSettingsMsg({ text:"┼Şifre ba┼şar─▒yla de─şi┼ştirildi", type:"success" });
     setNewPass(""); setConfirmPass("");
   };
 
@@ -2503,8 +2501,8 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
   // Weekly stats mock data
   const weeklyStats = [
     { day: "Pzt", views: 120 },
-    { day: "Salı", views: 200 },
-    { day: "Çar", views: 150 },
+    { day: "Sal─▒", views: 200 },
+    { day: "├çar", views: 150 },
     { day: "Per", views: 300 },
     { day: "Cum", views: 280 },
     { day: "Cmt", views: 350 },
@@ -2519,18 +2517,18 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
         <button onClick={onBack} style={{ background:"none", border:"none", cursor:"pointer", marginRight:10 }}>
           <Ic n="arrow" color={T.text} size={22} sx={{ transform:"rotate(180deg)" }}/>
         </button>
-        <span style={{ fontWeight:800, fontSize:15, color:T.text, flex:1 }}>Mağaza Ayarları</span>
+        <span style={{ fontWeight:800, fontSize:15, color:T.text, flex:1 }}>Ma─şaza Ayarlar─▒</span>
         <button onClick={onLogout}
           style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
             border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
             fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
-          Çıkış
+          ├ç─▒k─▒┼ş
         </button>
       </div>
 
       {/* Tab switcher */}
       <div style={{ display:"flex", borderBottom:`1px solid ${T.border}`, background:T.surface, flexShrink:0 }}>
-        {[["info", "ℹ️ Bilgiler"], ["security", "🔒 Güvenlik"], ["stats", "📊 İstatistik"], ["legal", "📋 Legal"]].map(([id, label]) => (
+        {[["info", "Ôä╣´©Å Bilgiler"], ["security", "­şöÆ G├╝venlik"], ["stats", "­şôè ─░statistik"], ["legal", "­şôï Legal"]].map(([id, label]) => (
           <button key={id} onClick={() => setTab(id)} style={{
             flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
             fontSize: 12, fontWeight: 700, color: tab === id ? T.text : T.muted,
@@ -2545,7 +2543,7 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
       {storeSettingsMsg && (
         <div style={{ margin:"0 16px 12px", padding:"10px 14px", borderRadius:10, fontSize:13, fontWeight:700,
           background: storeSettingsMsg.type==="error" ? T.rose : T.green, color:"#fff" }}>
-          {storeSettingsMsg.type==="error"?"⚠️ ":"✓ "}{storeSettingsMsg.text}
+          {storeSettingsMsg.type==="error"?"ÔÜá´©Å ":"Ô£ô "}{storeSettingsMsg.text}
         </div>
       )}
 
@@ -2556,7 +2554,7 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
             {/* Logo */}
             <div>
               <div style={{ fontSize: 11, fontWeight: 700, color: T.muted, marginBottom: 8, textTransform: "uppercase" }}>
-                Mağaza Logosu (1:1 oranında)
+                Ma─şaza Logosu (1:1 oran─▒nda)
               </div>
               <div onClick={() => logoRef.current?.click()} style={{
                 width: "100%", height: 150, borderRadius: 12, overflow: "hidden",
@@ -2569,27 +2567,27 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
                   display: "flex", alignItems: "center", justifyContent: "center", opacity: 0, transition: "opacity .2s"
                 }} onMouseEnter={(e) => e.currentTarget.style.opacity = 1}
                   onMouseLeave={(e) => e.currentTarget.style.opacity = 0}>
-                  <span style={{ color: "#fff", fontSize: 20 }}>📸</span>
+                  <span style={{ color: "#fff", fontSize: 20 }}>­şô©</span>
                 </div>
               </div>
               <input ref={logoRef} type="file" accept="image/*" onChange={handleLogoUpload} style={{ display: "none" }} />
             </div>
 
             {/* Firm Name */}
-            <Field label="Firma Adı" value={firmName} onChange={setFirmName} placeholder="Ör: Atlaz Textil" icon="person" />
+            <Field label="Firma Ad─▒" value={firmName} onChange={setFirmName} placeholder="├ûr: Atlaz Textil" icon="person" />
 
             {/* Username */}
-            <Field label="Kullanıcı Adı" value={username} onChange={setUsername} placeholder="atlazstudio" icon="person" />
+            <Field label="Kullan─▒c─▒ Ad─▒" value={username} onChange={setUsername} placeholder="atlazstudio" icon="person" />
 
             {/* WhatsApp */}
-            <Field label="WhatsApp Numarası" value={whatsapp} onChange={setWhatsapp} type="tel" placeholder="5050000000" icon="phone" />
+            <Field label="WhatsApp Numaras─▒" value={whatsapp} onChange={setWhatsapp} type="tel" placeholder="5050000000" icon="phone" />
 
             {/* Address */}
-            <Field label="Adres" value={address} onChange={setAddress} placeholder="İstanbul, Fatih" icon="location" multi />
+            <Field label="Adres" value={address} onChange={setAddress} placeholder="─░stanbul, Fatih" icon="location" multi />
 
             {/* Description */}
-            <Field label="Mağaza Açıklaması" value={description} onChange={setDescription}
-              placeholder="Mağazanız hakkında bilgi…" multi />
+            <Field label="Ma─şaza A├ğ─▒klamas─▒" value={description} onChange={setDescription}
+              placeholder="Ma─şazan─▒z hakk─▒nda bilgiÔÇĞ" multi />
 
             <Btn full onClick={handleSaveInfo} sx={{ borderRadius: 12, height: 48 }}>Bilgileri Kaydet</Btn>
           </>
@@ -2599,20 +2597,20 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
         {tab === "security" && (
           <>
             <div style={{ background: `${T.amber}12`, border: `1px solid ${T.amber}28`, borderRadius: 12, padding: "12px 14px", fontSize: 12, color: T.amber }}>
-              ⚠️ Güvenlik ayarlarında değişiklik yapılırken dikkatli olunuz
+              ÔÜá´©Å G├╝venlik ayarlar─▒nda de─şi┼şiklik yap─▒l─▒rken dikkatli olunuz
             </div>
 
             <div>
-              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>E-posta Değiştir</div>
+              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>E-posta De─şi┼ştir</div>
               <Field label="Yeni E-posta" value={newEmail} onChange={setNewEmail} type="email" placeholder="yeni@email.com" icon="mail" />
-              <Btn full onClick={handleChangeEmail} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>E-postayı Değiştir</Btn>
+              <Btn full onClick={handleChangeEmail} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>E-postay─▒ De─şi┼ştir</Btn>
             </div>
 
             <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 16 }}>
-              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>Şifre Değiştir</div>
-              <Field label="Yeni Şifre" value={newPass} onChange={setNewPass} type="password" placeholder="••••••••" icon="lock" />
-              <Field label="Şifre Onayla" value={confirmPass} onChange={setConfirmPass} type="password" placeholder="••••••••" icon="lock" sx={{ marginTop: 8 }} />
-              <Btn full onClick={handleChangePassword} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>Şifre Değiştir</Btn>
+              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>┼Şifre De─şi┼ştir</div>
+              <Field label="Yeni ┼Şifre" value={newPass} onChange={setNewPass} type="password" placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó" icon="lock" />
+              <Field label="┼Şifre Onayla" value={confirmPass} onChange={setConfirmPass} type="password" placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó" icon="lock" sx={{ marginTop: 8 }} />
+              <Btn full onClick={handleChangePassword} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>┼Şifre De─şi┼ştir</Btn>
             </div>
 
             <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 16 }}>
@@ -2621,7 +2619,7 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
                 border: `1.5px solid ${T.rose}`, background: "transparent", color: T.rose,
                 fontWeight: 700, fontSize: 14, cursor: "pointer", fontFamily: "inherit"
               }}>
-                🗑️ Hesabı Kalıcı Olarak Sil
+                ­şùæ´©Å Hesab─▒ Kal─▒c─▒ Olarak Sil
               </button>
               {showDeleteConfirm && (
                 <div style={{
@@ -2632,13 +2630,13 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
                     background: T.surface, borderRadius: 16, padding: 20, maxWidth: 300,
                     border: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 14
                   }}>
-                    <div style={{ fontWeight: 800, fontSize: 16, color: T.text }}>Hesabı Sil?</div>
+                    <div style={{ fontWeight: 800, fontSize: 16, color: T.text }}>Hesab─▒ Sil?</div>
                     <div style={{ fontSize: 13, color: T.text2 }}>
-                      Bu işlem geri alınamaz. Mağaza ve tüm ürünler silinecektir.
+                      Bu i┼şlem geri al─▒namaz. Ma─şaza ve t├╝m ├╝r├╝nler silinecektir.
                     </div>
                     <div style={{ display: "flex", gap: 10 }}>
                       <Btn onClick={() => setShowDeleteConfirm(false)} sx={{ flex: 1, height: 40, borderRadius: 10, background: T.raised, color: T.text }}>
-                        İptal
+                        ─░ptal
                       </Btn>
                       <button onClick={handleDeleteAccount} style={{
                         flex: 1, padding: "10px 0", borderRadius: 10, border: "none",
@@ -2658,13 +2656,13 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
         {/* STATS TAB */}
         {tab === "stats" && (
           <>
-            {/* KPI kartları */}
+            {/* KPI kartlar─▒ */}
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, marginBottom:16 }}>
               {[
-                { label:"Takipçi", value:store.followers.toLocaleString("tr"), icon:"👥", color:T.brand },
-                { label:"Toplam Ürün", value:allProducts.length, icon:"📦", color:T.teal },
-                { label:"Beğeni", value:(allProducts.reduce((s,p)=>s+(p.likes||0),0)).toLocaleString("tr"), icon:"❤️", color:T.rose },
-                { label:"Bu Hafta Görüntü", value:"1.920", icon:"👁", color:T.amber },
+                { label:"Takip├ği", value:store.followers.toLocaleString("tr"), icon:"­şæÑ", color:T.brand },
+                { label:"Toplam ├£r├╝n", value:allProducts.length, icon:"­şôĞ", color:T.teal },
+                { label:"Be─şeni", value:(allProducts.reduce((s,p)=>s+(p.likes||0),0)).toLocaleString("tr"), icon:"ÔØñ´©Å", color:T.rose },
+                { label:"Bu Hafta G├Âr├╝nt├╝", value:"1.920", icon:"­şæü", color:T.amber },
               ].map(kpi=>(
                 <div key={kpi.label} style={{ background:T.raised, borderRadius:14, padding:"14px 14px",
                   border:"1px solid "+T.border2 }}>
@@ -2675,8 +2673,8 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
               ))}
             </div>
 
-            {/* Haftalık bar chart */}
-            <div style={{ fontWeight:800, fontSize:14, color:T.text, marginBottom:10 }}>Haftalık Görüntülenme</div>
+            {/* Haftal─▒k bar chart */}
+            <div style={{ fontWeight:800, fontSize:14, color:T.text, marginBottom:10 }}>Haftal─▒k G├Âr├╝nt├╝lenme</div>
             <div style={{ display:"flex", alignItems:"flex-end", gap:4, height:100,
               background:T.raised, borderRadius:12, padding:"12px 12px 8px" }}>
               {weeklyStats.map((stat, idx) => {
@@ -2696,8 +2694,8 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
               })}
             </div>
 
-            {/* En çok ilgi gören ürünler */}
-            <div style={{ fontWeight:800, fontSize:14, color:T.text, marginTop:16, marginBottom:10 }}>En Çok Beğenilen Ürünler</div>
+            {/* En ├ğok ilgi g├Âren ├╝r├╝nler */}
+            <div style={{ fontWeight:800, fontSize:14, color:T.text, marginTop:16, marginBottom:10 }}>En ├çok Be─şenilen ├£r├╝nler</div>
             {[...allProducts].sort((a,b)=>(b.likes||0)-(a.likes||0)).slice(0,3).map((p,i)=>(
               <div key={p.id} style={{ display:"flex", gap:10, alignItems:"center", padding:"8px 0",
                 borderBottom:"1px solid "+T.border }}>
@@ -2705,7 +2703,7 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
                 <img src={p.media[0]?.url} style={{ width:40, height:40, borderRadius:8, objectFit:"cover" }}/>
                 <div style={{ flex:1 }}>
                   <div style={{ fontSize:12, fontWeight:700, color:T.text }}>{p.name}</div>
-                  <div style={{ fontSize:11, color:T.muted }}>{(p.likes||0).toLocaleString("tr")} beğeni · {p.price}₺</div>
+                  <div style={{ fontSize:11, color:T.muted }}>{(p.likes||0).toLocaleString("tr")} be─şeni ┬À {p.price}Ôé║</div>
                 </div>
                 <div style={{ width:6, height:6, borderRadius:3,
                   background:p.inStock?T.green:T.rose }}/>
@@ -2718,7 +2716,7 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
         {tab === "legal" && (
           <>
             <div style={{ background: T.raised, border: `1px solid ${T.border2}`, borderRadius: 12, padding: "12px 14px", fontSize: 12, color: T.muted }}>
-              Toptangram'ın hukuki metinlerini burdan okuyabilirsiniz.
+              Toptangram'─▒n hukuki metinlerini burdan okuyabilirsiniz.
             </div>
             <button onClick={()=>setLegalType("eula")} style={{
               width: "100%", padding: "14px 16px", borderRadius: 12,
@@ -2726,8 +2724,8 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
               fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "inherit",
               display: "flex", alignItems: "center", justifyContent: "space-between"
             }}>
-              <span>📋 Kullanım Şartları (EULA)</span>
-              <span style={{ fontSize: 16 }}>›</span>
+              <span>­şôï Kullan─▒m ┼Şartlar─▒ (EULA)</span>
+              <span style={{ fontSize: 16 }}>ÔÇ║</span>
             </button>
             <button onClick={()=>setLegalType("privacy")} style={{
               width: "100%", padding: "14px 16px", borderRadius: 12,
@@ -2735,8 +2733,8 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
               fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "inherit",
               display: "flex", alignItems: "center", justifyContent: "space-between"
             }}>
-              <span>🔒 Gizlilik Politikası</span>
-              <span style={{ fontSize: 16 }}>›</span>
+              <span>­şöÆ Gizlilik Politikas─▒</span>
+              <span style={{ fontSize: 16 }}>ÔÇ║</span>
             </button>
           </>
         )}
@@ -2747,16 +2745,16 @@ function StoreSettings({ onBack, storeId, role, onLogout }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// CUSTOMER ACCOUNT — Profil, Adres, E-posta, Güvenlik + Legal
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// CUSTOMER ACCOUNT ÔÇö Profil, Adres, E-posta, G├╝venlik + Legal
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function CustomerAccount({ onBack, role, onLogout }) {
   // Ensure only customers can access this
   if (role !== "customer") return null;
 
   const [tab, setTab] = useState("profile");
-  const [fullName, setFullName] = useState("Ahmet Yılmaz");
-  const [address, setAddress] = useState("İstanbul, Fatih");
+  const [fullName, setFullName] = useState("Ahmet Y─▒lmaz");
+  const [address, setAddress] = useState("─░stanbul, Fatih");
   const [email, setEmail] = useState("ahmet@example.com");
   const [phone, setPhone] = useState("5050000000");
   const [newEmail, setNewEmail] = useState("");
@@ -2778,27 +2776,27 @@ function CustomerAccount({ onBack, role, onLogout }) {
 
   const handleChangeEmail = () => {
     if (!newEmail) { showMsg("Yeni e-posta girin", "error"); return; }
-    showMsg("E-posta " + newEmail + " olarak değiştirildi");
+    showMsg("E-posta " + newEmail + " olarak de─şi┼ştirildi");
     setEmail(newEmail); setNewEmail("");
   };
 
   const handleChangePassword = () => {
-    if (!newPass || newPass !== confirmPass) { showMsg("Şifreler eşleşmiyor", "error"); return; }
-    if (newPass.length < 8) { showMsg("Şifre en az 8 karakter olmalı", "error"); return; }
-    showMsg("Şifre başarıyla değiştirildi");
+    if (!newPass || newPass !== confirmPass) { showMsg("┼Şifreler e┼şle┼şmiyor", "error"); return; }
+    if (newPass.length < 8) { showMsg("┼Şifre en az 8 karakter olmal─▒", "error"); return; }
+    showMsg("┼Şifre ba┼şar─▒yla de─şi┼ştirildi");
     setNewPass(""); setConfirmPass("");
   };
 
   const handleDeleteAccount = async () => {
     setShowDeleteConfirm(false);
     try {
-      // Gerçek implementasyonda Supabase Auth admin API kullanılır
+      // Ger├ğek implementasyonda Supabase Auth admin API kullan─▒l─▒r
       // const { error } = await supabase.auth.admin.deleteUser(userId);
       localStorage.removeItem("toptangram_session");
-      showMsg("Hesap silindi. Yönlendiriliyorsunuz…");
+      showMsg("Hesap silindi. Y├ÂnlendiriliyorsunuzÔÇĞ");
       setTimeout(() => window.location.reload(), 1500);
     } catch (err) {
-      showMsg("Hesap silme hatası: " + (err?.message || "Lütfen daha sonra tekrar deneyin"), "error");
+      showMsg("Hesap silme hatas─▒: " + (err?.message || "L├╝tfen daha sonra tekrar deneyin"), "error");
     }
   };
 
@@ -2814,24 +2812,24 @@ function CustomerAccount({ onBack, role, onLogout }) {
         <button onClick={onBack} style={{ background: "none", border: "none", cursor: "pointer", marginRight: 10 }}>
           <Ic n="close" color={T.text} size={22} />
         </button>
-        <span style={{ fontWeight: 800, fontSize: 15, color: T.text, flex: 1 }}>Profil Ayarlarım</span>
+        <span style={{ fontWeight: 800, fontSize: 15, color: T.text, flex: 1 }}>Profil Ayarlar─▒m</span>
         <button onClick={onLogout}
           style={{ padding:"7px 14px", borderRadius:10, background:T.raised,
             border:"1.5px solid "+T.border2, cursor:"pointer", fontSize:12,
             fontWeight:700, color:T.rose, fontFamily:"inherit" }}>
-          Çıkış
+          ├ç─▒k─▒┼ş
         </button>
       </div>
 
       {customerMsg && (
         <div style={{ margin:"0 16px 10px", padding:"10px 14px", borderRadius:10, fontSize:13, fontWeight:700,
           background: customerMsg.type==="error" ? T.rose : T.green, color:"#fff" }}>
-          {customerMsg.type==="error"?"⚠️ ":"✓ "}{customerMsg.text}
+          {customerMsg.type==="error"?"ÔÜá´©Å ":"Ô£ô "}{customerMsg.text}
         </div>
       )}
       {/* Tab switcher */}
       <div style={{ display: "flex", borderBottom: `1px solid ${T.border}`, background: T.surface }}>
-        {[["profile", "👤 Profil"], ["security", "🔒 Güvenlik"], ["legal", "📋 Legal"]].map(([id, label]) => (
+        {[["profile", "­şæñ Profil"], ["security", "­şöÆ G├╝venlik"], ["legal", "­şôï Legal"]].map(([id, label]) => (
           <button key={id} onClick={() => setTab(id)} style={{
             flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
             fontSize: 12, fontWeight: 700, color: tab === id ? T.text : T.muted,
@@ -2846,10 +2844,10 @@ function CustomerAccount({ onBack, role, onLogout }) {
         {/* PROFILE TAB - Customer Personal Information Only */}
         {tab === "profile" && (
           <>
-            <Field label="Ad-Soyad" value={fullName} onChange={setFullName} placeholder="Ahmet Yılmaz" icon="person" />
+            <Field label="Ad-Soyad" value={fullName} onChange={setFullName} placeholder="Ahmet Y─▒lmaz" icon="person" />
             <Field label="E-posta" value={email} onChange={setEmail} type="email" placeholder="ahmet@example.com" icon="mail" disabled />
             <Field label="Telefon" value={phone} onChange={setPhone} type="tel" placeholder="5050000000" icon="phone" />
-            <Field label="Teslimat Adresi" value={address} onChange={setAddress} placeholder="İstanbul, Fatih" icon="location" multi />
+            <Field label="Teslimat Adresi" value={address} onChange={setAddress} placeholder="─░stanbul, Fatih" icon="location" multi />
             <Btn full onClick={handleSaveProfile} sx={{ borderRadius: 12, height: 48 }}>Bilgileri Kaydet</Btn>
           </>
         )}
@@ -2858,11 +2856,11 @@ function CustomerAccount({ onBack, role, onLogout }) {
         {tab === "security" && (
           <>
             <div style={{ background: `${T.amber}12`, border: `1px solid ${T.amber}28`, borderRadius: 12, padding: "12px 14px", fontSize: 12, color: T.amber }}>
-              ⚠️ Hesap güvenliğiniz için önemli işlemleri sadece şifreli yapınız
+              ÔÜá´©Å Hesap g├╝venli─şiniz i├ğin ├Ânemli i┼şlemleri sadece ┼şifreli yap─▒n─▒z
             </div>
 
             <div>
-              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>E-posta Değiştir</div>
+              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>E-posta De─şi┼ştir</div>
               <div style={{
                 background: T.raised, border: `1.5px solid ${T.border2}`, borderRadius: 12,
                 padding: "12px 14px", fontSize: 12, color: T.muted, marginBottom: 8
@@ -2870,14 +2868,14 @@ function CustomerAccount({ onBack, role, onLogout }) {
                 Mevcut: {email}
               </div>
               <Field label="Yeni E-posta" value={newEmail} onChange={setNewEmail} type="email" placeholder="yeni@email.com" icon="mail" />
-              <Btn full onClick={handleChangeEmail} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>E-postayı Değiştir</Btn>
+              <Btn full onClick={handleChangeEmail} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>E-postay─▒ De─şi┼ştir</Btn>
             </div>
 
             <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 16 }}>
-              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>Şifre Değiştir</div>
-              <Field label="Yeni Şifre" value={newPass} onChange={setNewPass} type="password" placeholder="••••••••" icon="lock" />
-              <Field label="Şifre Onayla" value={confirmPass} onChange={setConfirmPass} type="password" placeholder="••••••••" icon="lock" sx={{ marginTop: 8 }} />
-              <Btn full onClick={handleChangePassword} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>Şifre Değiştir</Btn>
+              <div style={{ fontWeight: 700, fontSize: 14, color: T.text, marginBottom: 12 }}>┼Şifre De─şi┼ştir</div>
+              <Field label="Yeni ┼Şifre" value={newPass} onChange={setNewPass} type="password" placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó" icon="lock" />
+              <Field label="┼Şifre Onayla" value={confirmPass} onChange={setConfirmPass} type="password" placeholder="ÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇóÔÇó" icon="lock" sx={{ marginTop: 8 }} />
+              <Btn full onClick={handleChangePassword} sx={{ borderRadius: 12, height: 44, marginTop: 8 }}>┼Şifre De─şi┼ştir</Btn>
             </div>
 
             <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 16 }}>
@@ -2886,7 +2884,7 @@ function CustomerAccount({ onBack, role, onLogout }) {
                 border: `1.5px solid ${T.rose}`, background: "transparent", color: T.rose,
                 fontWeight: 700, fontSize: 14, cursor: "pointer", fontFamily: "inherit"
               }}>
-                🗑️ Hesabı Kalıcı Olarak Sil
+                ­şùæ´©Å Hesab─▒ Kal─▒c─▒ Olarak Sil
               </button>
               {showDeleteConfirm && (
                 <div style={{
@@ -2897,13 +2895,13 @@ function CustomerAccount({ onBack, role, onLogout }) {
                     background: T.surface, borderRadius: 16, padding: 20, maxWidth: 320,
                     border: `1px solid ${T.border}`, display: "flex", flexDirection: "column", gap: 14
                   }}>
-                    <div style={{ fontWeight: 800, fontSize: 16, color: T.text }}>Hesabı Sil?</div>
+                    <div style={{ fontWeight: 800, fontSize: 16, color: T.text }}>Hesab─▒ Sil?</div>
                     <div style={{ fontSize: 13, color: T.text2, lineHeight: 1.6 }}>
-                      Bu işlem geri alınamaz. Sipariş geçmişi, beğeniler ve tüm verileri silinecektir. Supabase veritabanından kalıcı olarak kaldırılacaksınız.
+                      Bu i┼şlem geri al─▒namaz. Sipari┼ş ge├ğmi┼şi, be─şeniler ve t├╝m verileri silinecektir. Supabase veritaban─▒ndan kal─▒c─▒ olarak kald─▒r─▒lacaks─▒n─▒z.
                     </div>
                     <div style={{ display: "flex", gap: 10 }}>
                       <Btn onClick={() => setShowDeleteConfirm(false)} sx={{ flex: 1, height: 40, borderRadius: 10, background: T.raised, color: T.text }}>
-                        İptal
+                        ─░ptal
                       </Btn>
                       <button onClick={handleDeleteAccount} style={{
                         flex: 1, padding: "10px 0", borderRadius: 10, border: "none",
@@ -2924,7 +2922,7 @@ function CustomerAccount({ onBack, role, onLogout }) {
         {tab === "legal" && (
           <>
             <div style={{ background: T.raised, border: `1px solid ${T.border2}`, borderRadius: 12, padding: "12px 14px", fontSize: 12, color: T.muted }}>
-              Toptangram'ın hukuki metinlerini burdan okuyabilirsiniz.
+              Toptangram'─▒n hukuki metinlerini burdan okuyabilirsiniz.
             </div>
             <button onClick={()=>setLegalType("eula")} style={{
               width: "100%", padding: "14px 16px", borderRadius: 12,
@@ -2932,8 +2930,8 @@ function CustomerAccount({ onBack, role, onLogout }) {
               fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "inherit",
               display: "flex", alignItems: "center", justifyContent: "space-between"
             }}>
-              <span>📋 Kullanım Şartları (EULA)</span>
-              <span style={{ fontSize: 16 }}>›</span>
+              <span>­şôï Kullan─▒m ┼Şartlar─▒ (EULA)</span>
+              <span style={{ fontSize: 16 }}>ÔÇ║</span>
             </button>
             <button onClick={()=>setLegalType("privacy")} style={{
               width: "100%", padding: "14px 16px", borderRadius: 12,
@@ -2941,8 +2939,8 @@ function CustomerAccount({ onBack, role, onLogout }) {
               fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "inherit",
               display: "flex", alignItems: "center", justifyContent: "space-between"
             }}>
-              <span>🔒 Gizlilik Politikası</span>
-              <span style={{ fontSize: 16 }}>›</span>
+              <span>­şöÆ Gizlilik Politikas─▒</span>
+              <span style={{ fontSize: 16 }}>ÔÇ║</span>
             </button>
           </>
         )}
@@ -2953,9 +2951,9 @@ function CustomerAccount({ onBack, role, onLogout }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
-// TAB BAR — cart + messages tabs added
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// TAB BAR ÔÇö cart + messages tabs added
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function TabBar({ active, set, role, cartCount, msgCount }) {
   const tabs = role==="store"
     ? [{id:"feed",n:"home"},{id:"explore",n:"search"},{id:"upload",n:"plus"},{id:"talepler",n:"cart"},{id:"profile",n:"person"}]
@@ -2990,13 +2988,13 @@ function TabBar({ active, set, role, cartCount, msgCount }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // REPORT/COMPLAINT MODAL (Moderasyon & Apple/Google Policy)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 
-// ═══════════════════════════════════════════════════════════════
-// FİYAT TEKLİFİ MODAL
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// F─░YAT TEKL─░F─░ MODAL
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function OfferModal({ product, onClose }) {
   const [qty, setQty] = useState("24");
   const [note, setNote] = useState("");
@@ -3009,7 +3007,7 @@ function OfferModal({ product, onClose }) {
   const discountedTotal = Math.round(total * (1 - discount/100));
 
   const handleSend = () => {
-    const msg = `Merhaba! "${product.name}" ürününüzden ${offerQty} adet almak istiyorum.${discount>0?" %"+discount+" lot indirimi bekliyorum.":""} Toplam: ${discountedTotal.toLocaleString("tr")}₺ olur mu?${note ? "\n\nNot: "+note : ""}`;
+    const msg = `Merhaba! "${product.name}" ├╝r├╝n├╝n├╝zden ${offerQty} adet almak istiyorum.${discount>0?" %"+discount+" lot indirimi bekliyorum.":""} Toplam: ${discountedTotal.toLocaleString("tr")}Ôé║ olur mu?${note ? "\n\nNot: "+note : ""}`;
     const phone = String(product.storePhone||"").replace(/[^0-9]/g,"");
     const waUrl = "https://wa.me/"+phone+"?text="+encodeURIComponent(msg);
     window.open(waUrl, "_blank");
@@ -3021,9 +3019,9 @@ function OfferModal({ product, onClose }) {
     <div style={{ position:"absolute", inset:0, zIndex:600, background:"rgba(0,0,0,.8)",
       display:"flex", alignItems:"center", justifyContent:"center" }} onClick={onClose}>
       <div style={{ background:T.surface, borderRadius:20, padding:32, textAlign:"center", border:"1px solid "+T.border }}>
-        <div style={{ fontSize:48, marginBottom:12 }}>✅</div>
-        <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Teklif Gönderildi!</div>
-        <div style={{ fontSize:12, color:T.muted, marginTop:6 }}>WhatsApp açılıyor…</div>
+        <div style={{ fontSize:48, marginBottom:12 }}>Ô£à</div>
+        <div style={{ fontWeight:800, fontSize:16, color:T.text }}>Teklif G├Ânderildi!</div>
+        <div style={{ fontSize:12, color:T.muted, marginTop:6 }}>WhatsApp a├ğ─▒l─▒yorÔÇĞ</div>
       </div>
     </div>
   );
@@ -3034,12 +3032,12 @@ function OfferModal({ product, onClose }) {
       <div onClick={e=>e.stopPropagation()} style={{ width:"100%", background:T.surface, borderRadius:"20px 20px 0 0", border:"1px solid "+T.border2 }}>
         <div style={{ padding:"10px 16px 0" }}>
           <div style={{ width:36, height:4, background:T.dim, borderRadius:2, margin:"0 auto 14px" }}/>
-          <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:4 }}>💰 Fiyat Teklifi Ver</div>
-          <div style={{ fontSize:12, color:T.muted, marginBottom:16 }}>{product.name} · {product.storeName}</div>
+          <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:4 }}>­şÆ░ Fiyat Teklifi Ver</div>
+          <div style={{ fontSize:12, color:T.muted, marginBottom:16 }}>{product.name} ┬À {product.storeName}</div>
         </div>
         <div style={{ padding:"0 16px 32px", display:"flex", flexDirection:"column", gap:14 }}>
           <div>
-            <div style={{ fontSize:11, fontWeight:800, color:T.muted, marginBottom:8, textTransform:"uppercase" }}>Kaç Adet?</div>
+            <div style={{ fontSize:11, fontWeight:800, color:T.muted, marginBottom:8, textTransform:"uppercase" }}>Ka├ğ Adet?</div>
             <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
               {["12","24","48","96"].map(v=>(
                 <button key={v} onClick={()=>setQty(v)} style={{
@@ -3047,33 +3045,33 @@ function OfferModal({ product, onClose }) {
                   background:qty===v?T.brand:T.raised, color:qty===v?"#fff":T.text2,
                   fontWeight:700, fontSize:13, cursor:"pointer", fontFamily:"inherit" }}>{v} adet</button>
               ))}
-              <input value={qty} onChange={e=>setQty(e.target.value.replace(/[^0-9]/g,""))} placeholder="Diğer"
+              <input value={qty} onChange={e=>setQty(e.target.value.replace(/[^0-9]/g,""))} placeholder="Di─şer"
                 style={{ width:80, padding:"8px 12px", borderRadius:20, border:"2px solid "+T.border2,
                   background:T.raised, color:T.text, fontWeight:700, fontSize:13, fontFamily:"inherit", outline:"none", textAlign:"center" }}/>
             </div>
           </div>
           <div style={{ background:T.raised, borderRadius:14, padding:"14px" }}>
             <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-              <span style={{ fontSize:13, color:T.text2 }}>{offerQty} × {unitPrice}₺</span>
-              <span style={{ fontWeight:700, color:T.text }}>{total.toLocaleString("tr")}₺</span>
+              <span style={{ fontSize:13, color:T.text2 }}>{offerQty} ├ù {unitPrice}Ôé║</span>
+              <span style={{ fontWeight:700, color:T.text }}>{total.toLocaleString("tr")}Ôé║</span>
             </div>
             {discount > 0 && (
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:6 }}>
-                <span style={{ fontSize:12, color:T.teal }}>🎁 Lot İndirimi ({discount}%)</span>
-                <span style={{ color:T.teal, fontWeight:700 }}>−{(total-discountedTotal).toLocaleString("tr")}₺</span>
+                <span style={{ fontSize:12, color:T.teal }}>­şÄü Lot ─░ndirimi ({discount}%)</span>
+                <span style={{ color:T.teal, fontWeight:700 }}>ÔêÆ{(total-discountedTotal).toLocaleString("tr")}Ôé║</span>
               </div>
             )}
             <div style={{ height:1, background:T.border, margin:"8px 0" }}/>
             <div style={{ display:"flex", justifyContent:"space-between" }}>
               <span style={{ fontSize:14, fontWeight:800, color:T.text }}>Toplam Teklif</span>
-              <span style={{ fontSize:18, fontWeight:900, color:T.green }}>{discountedTotal.toLocaleString("tr")}₺</span>
+              <span style={{ fontSize:18, fontWeight:900, color:T.green }}>{discountedTotal.toLocaleString("tr")}Ôé║</span>
             </div>
           </div>
-          <Field label="Ek Not" value={note} onChange={setNote} multi placeholder="Kumaş, renk, teslimat…"/>
+          <Field label="Ek Not" value={note} onChange={setNote} multi placeholder="Kuma┼ş, renk, teslimatÔÇĞ"/>
           <button onClick={handleSend} style={{ padding:"14px 0", borderRadius:14, background:T.wa, border:"none",
             color:"#fff", fontWeight:800, fontSize:15, cursor:"pointer", fontFamily:"inherit",
             display:"flex", alignItems:"center", justifyContent:"center", gap:8 }}>
-            💬 WhatsApp ile Teklif Gönder
+            ­şÆ¼ WhatsApp ile Teklif G├Ânder
           </button>
         </div>
       </div>
@@ -3088,7 +3086,7 @@ function ReportModal({ itemId, itemType, onClose }) {
 
   const [reportErr, setReportErr] = useState("");
   const handleReport = async () => {
-    if (!reason) { setReportErr("Lütfen bir neden seçin"); return; }
+    if (!reason) { setReportErr("L├╝tfen bir neden se├ğin"); return; }
     setReportErr("");
     setSubmitted(true);
     try {
@@ -3112,21 +3110,21 @@ function ReportModal({ itemId, itemType, onClose }) {
       <div onClick={e=>e.stopPropagation()} style={{ width:"100%", background:T.surface,
         borderRadius:"20px 20px 0 0", padding:"40px 16px", border:`1px solid ${T.border2}` }}>
         <div style={{ textAlign:"center" }}>
-          <div style={{ fontSize:40, marginBottom:12 }}>✓</div>
-          <div style={{ fontWeight:800, fontSize:16, color:T.text, marginBottom:6 }}>Şikayet Alındı</div>
-          <div style={{ fontSize:13, color:T.muted }}>İçeriği inceleyeceğiz. Bilinveri için teşekkür ederiz.</div>
+          <div style={{ fontSize:40, marginBottom:12 }}>Ô£ô</div>
+          <div style={{ fontWeight:800, fontSize:16, color:T.text, marginBottom:6 }}>┼Şikayet Al─▒nd─▒</div>
+          <div style={{ fontSize:13, color:T.muted }}>─░├ğeri─şi inceleyece─şiz. Bilinveri i├ğin te┼şekk├╝r ederiz.</div>
         </div>
       </div>
     </div>
   );
 
   const reasons = [
-    "Uygunsuz içerik",
-    "Sahte ürün",
-    "Yanıltıcı bilgi",
-    "Spam/İstenmeyen",
-    "IP İhlali",
-    "Diğer"
+    "Uygunsuz i├ğerik",
+    "Sahte ├╝r├╝n",
+    "Yan─▒lt─▒c─▒ bilgi",
+    "Spam/─░stenmeyen",
+    "IP ─░hlali",
+    "Di─şer"
   ];
 
   return (
@@ -3135,7 +3133,7 @@ function ReportModal({ itemId, itemType, onClose }) {
       <div onClick={e=>e.stopPropagation()} style={{ width:"100%", background:T.surface,
         borderRadius:"20px 20px 0 0", padding:"20px 16px 36px", border:`1px solid ${T.border2}` }}>
         <div style={{ width:36, height:4, background:T.dim, borderRadius:2, margin:"0 auto 20px" }}/>
-        <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:16 }}>Şikayet Et / Bildir</div>
+        <div style={{ fontWeight:800, fontSize:15, color:T.text, marginBottom:16 }}>┼Şikayet Et / Bildir</div>
         <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:14 }}>
           {reasons.map(r => (
             <button key={r} onClick={()=>setReason(r)} style={{
@@ -3145,22 +3143,22 @@ function ReportModal({ itemId, itemType, onClose }) {
             }}>{r}</button>
           ))}
         </div>
-        <Field label="Ek Detay" value={details} onChange={setDetails} multi placeholder="Sorun hakkında başka bilgi…"/>
+        <Field label="Ek Detay" value={details} onChange={setDetails} multi placeholder="Sorun hakk─▒nda ba┼şka bilgiÔÇĞ"/>
         {reportErr && (
           <div style={{ padding:"8px 12px", background:T.rose, borderRadius:8, color:"#fff",
-            fontSize:12, fontWeight:700, marginBottom:8 }}>⚠️ {reportErr}</div>
+            fontSize:12, fontWeight:700, marginBottom:8 }}>ÔÜá´©Å {reportErr}</div>
         )}
         <Btn full onClick={handleReport} sx={{ marginTop:14, height:44, borderRadius:12 }}>
-          Şikayeti Gönder
+          ┼Şikayeti G├Ânder
         </Btn>
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // BLOCK USER MODAL
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function BlockUserModal({ userId, userName, onClose, onBlock }) {
   const [blocked, setBlocked] = useState(false);
 
@@ -3174,9 +3172,9 @@ function BlockUserModal({ userId, userName, onClose, onBlock }) {
       display:"flex", alignItems:"center", justifyContent:"center" }} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{ background:T.surface, borderRadius:16,
         padding:24, maxWidth:280, border:`1px solid ${T.border}`, textAlign:"center" }}>
-        <div style={{ fontSize:36, marginBottom:12 }}>🚫</div>
+        <div style={{ fontSize:36, marginBottom:12 }}>­şÜ½</div>
         <div style={{ fontWeight:800, fontSize:16, color:T.text, marginBottom:4 }}>Engellendi</div>
-        <div style={{ fontSize:12, color:T.muted }}>{userName} artık sizin profilinizi göremez</div>
+        <div style={{ fontSize:12, color:T.muted }}>{userName} art─▒k sizin profilinizi g├Âremez</div>
       </div>
     </div>
   );
@@ -3187,11 +3185,11 @@ function BlockUserModal({ userId, userName, onClose, onBlock }) {
       <div onClick={e=>e.stopPropagation()} style={{ background:T.surface, borderRadius:16,
         padding:24, maxWidth:280, border:`1px solid ${T.border}`, display:"flex", flexDirection:"column", gap:14 }}>
         <div>
-          <div style={{ fontWeight:800, fontSize:16, color:T.text, marginBottom:4 }}>"{userName}" kullanıcısını engelle?</div>
-          <div style={{ fontSize:12, color:T.muted }}>Engellenen kullanıcılar sizin profilinizi göremez ve sizle mesajlaşamaz.</div>
+          <div style={{ fontWeight:800, fontSize:16, color:T.text, marginBottom:4 }}>"{userName}" kullan─▒c─▒s─▒n─▒ engelle?</div>
+          <div style={{ fontSize:12, color:T.muted }}>Engellenen kullan─▒c─▒lar sizin profilinizi g├Âremez ve sizle mesajla┼şamaz.</div>
         </div>
         <div style={{ display:"flex", gap:10 }}>
-          <Btn onClick={onClose} v="outline" sx={{ flex:1, height:40, borderRadius:10 }}>İptal</Btn>
+          <Btn onClick={onClose} v="outline" sx={{ flex:1, height:40, borderRadius:10 }}>─░ptal</Btn>
           <button onClick={handleBlock} style={{
             flex:1, padding:"10px 0", borderRadius:10, border:"none",
             background:T.rose, color:"#fff", fontWeight:700, fontSize:13,
@@ -3203,9 +3201,9 @@ function BlockUserModal({ userId, userName, onClose, onBlock }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // NOTIFICATIONS MODAL
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function NotificationsModal({ items, onClose }) {
   return (
     <div style={{ position:"absolute", inset:0, zIndex:400, background:"rgba(0,0,0,.6)", display:"flex", alignItems:"flex-end" }} onClick={onClose}>
@@ -3215,7 +3213,7 @@ function NotificationsModal({ items, onClose }) {
           <button onClick={onClose} style={{ background:"none", border:"none", cursor:"pointer" }}><Ic n="close" color={T.text} size={18}/></button>
         </div>
         <div style={{ overflowY:"auto", maxHeight:420 }}>
-          {items.length===0 && <div style={{ textAlign:"center", color:T.muted, padding:30 }}>Hiç bildirim yok</div>}
+          {items.length===0 && <div style={{ textAlign:"center", color:T.muted, padding:30 }}>Hi├ğ bildirim yok</div>}
           {items.map((n,i)=> (
             <div key={i} style={{ padding:"12px", borderBottom:`1px solid ${T.border}`, display:"flex", gap:10, alignItems:"center" }}>
               <div style={{ width:44, height:44, borderRadius:10, background:T.raised, flexShrink:0 }}>
@@ -3225,7 +3223,7 @@ function NotificationsModal({ items, onClose }) {
                 <div style={{ fontWeight:800, fontSize:13, color:T.text }}>{n.title}</div>
                 <div style={{ fontSize:12, color:T.muted }}>{n.body}</div>
               </div>
-              <div style={{ fontSize:11, color:T.muted }}>{n.timeAgo||"Şimdi"}</div>
+              <div style={{ fontSize:11, color:T.muted }}>{n.timeAgo||"┼Şimdi"}</div>
             </div>
           ))}
         </div>
@@ -3234,63 +3232,63 @@ function NotificationsModal({ items, onClose }) {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // LEGAL MODALS (EULA & Privacy Policy)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function LegalModal({ type, onClose }) {
   const isEULA = type === "eula";
-  const title = isEULA ? "Kullanım Şartları (EULA)" : "Gizlilik Politikası";
+  const title = isEULA ? "Kullan─▒m ┼Şartlar─▒ (EULA)" : "Gizlilik Politikas─▒";
   
   const content = isEULA ? `
-TOPTANGRAM KULLANICI SÖZLEŞMESİ
+TOPTANGRAM KULLANICI S├ûZLE┼ŞMES─░
 
-Son Güncelleme: Mart 2026
+Son G├╝ncelleme: Mart 2026
 
-1. HİZMET AÇIKLAMASI
-Toptangram, toptan giyim ürünleri pazarlaması için kullanılan bir mobil platformdur.
+1. H─░ZMET A├çIKLAMASI
+Toptangram, toptan giyim ├╝r├╝nleri pazarlamas─▒ i├ğin kullan─▒lan bir mobil platformdur.
 
 2. YASAL SORUMLULUK
-• Kullanıcılar paylaştığı içerikten sorumludur
-• Platform, uygunsuz içerikleri kaldırma hakkını saklı tutar
-• Yasadışı faaliyetler raporlanır
+ÔÇó Kullan─▒c─▒lar payla┼şt─▒─ş─▒ i├ğerikten sorumludur
+ÔÇó Platform, uygunsuz i├ğerikleri kald─▒rma hakk─▒n─▒ sakl─▒ tutar
+ÔÇó Yasad─▒┼ş─▒ faaliyetler raporlan─▒r
 
-3. ÜRÜN VERİLERİ
-• Satıcılar doğru fiyat ve stok bilgisi sağlamalı
-• Müşteriler toptan siparişleri kabul ederler
+3. ├£R├£N VER─░LER─░
+ÔÇó Sat─▒c─▒lar do─şru fiyat ve stok bilgisi sa─şlamal─▒
+ÔÇó M├╝┼şteriler toptan sipari┼şleri kabul ederler
 
-4. DİPLERİN DÜZENI
-• Topseller karşılaştırılan tüm şikayetlere cevap vermesi gerekir
-• Hileli etkinlikler yasaklanmıştır
+4. D─░PLER─░N D├£ZENI
+ÔÇó Topseller kar┼ş─▒la┼şt─▒r─▒lan t├╝m ┼şikayetlere cevap vermesi gerekir
+ÔÇó Hileli etkinlikler yasaklanm─▒┼şt─▒r
 
-5. HİZMET SONLANDIRMASI
-Platform, hüküm ihlali durumunda hesapları sonlandırabilir.
+5. H─░ZMET SONLANDIRMASI
+Platform, h├╝k├╝m ihlali durumunda hesaplar─▒ sonland─▒rabilir.
   ` : `
-TOPTANGRAM GİZLİLİK POLİTİKASI
+TOPTANGRAM G─░ZL─░L─░K POL─░T─░KASI
 
-Son Güncelleme: Mart 2026
+Son G├╝ncelleme: Mart 2026
 
-1. TOPLANAN VERİLER
-• Ad, e-posta, telefon, adres (kullanıcı tarafından sağlanan)
-• Tarama geçmişi, beğeniler, kaydedilenler
-• Cihaz bilgisi (IP, browser)
+1. TOPLANAN VER─░LER
+ÔÇó Ad, e-posta, telefon, adres (kullan─▒c─▒ taraf─▒ndan sa─şlanan)
+ÔÇó Tarama ge├ğmi┼şi, be─şeniler, kaydedilenler
+ÔÇó Cihaz bilgisi (IP, browser)
 
-2. VERİ KULLANIMI
-• Hizmet sunmak için gerekli veriler kullanılır
-• Pazarlama amaçlı kullanım isteğe bağlıdır
-• Üçüncü taraflarla paylaştırılmaz
+2. VER─░ KULLANIMI
+ÔÇó Hizmet sunmak i├ğin gerekli veriler kullan─▒l─▒r
+ÔÇó Pazarlama ama├ğl─▒ kullan─▒m iste─şe ba─şl─▒d─▒r
+ÔÇó ├£├ğ├╝nc├╝ taraflarla payla┼şt─▒r─▒lmaz
 
-3. ÇEREZLER
-Platform, deneyimi geliştirmek için çerezler kullanır.
+3. ├çEREZLER
+Platform, deneyimi geli┼ştirmek i├ğin ├ğerezler kullan─▒r.
 
 4. KULLANICI HAKLARI
-• Verilerinize erişim talebinde bulunabilir
-• Verilerinizin silinmesini isteyebilir
-• Pazarlama e-postalarını iptal edebilir
+ÔÇó Verilerinize eri┼şim talebinde bulunabilir
+ÔÇó Verilerinizin silinmesini isteyebilir
+ÔÇó Pazarlama e-postalar─▒n─▒ iptal edebilir
 
-5. GÜVENLIK
-Veriler TLS şifreleme ile korunur.
+5. G├£VENLIK
+Veriler TLS ┼şifreleme ile korunur.
 
-6. İLETİŞİM
+6. ─░LET─░┼Ş─░M
 privacy@toptangram.com
   `;
 
@@ -3309,22 +3307,22 @@ privacy@toptangram.com
         </div>
         <div style={{ flex:1, overflowY:"auto", padding:16, fontSize:12, color:T.text2, lineHeight:1.8 }}>
           {content.split('\n').map((line, i) => (
-            <div key={i} style={{ marginBottom: line.trim().startsWith('•') ? 8 : 4 }}>
+            <div key={i} style={{ marginBottom: line.trim().startsWith('ÔÇó') ? 8 : 4 }}>
               {line}
             </div>
           ))}
         </div>
         <div style={{ padding:"14px 16px", borderTop:`1px solid ${T.border}` }}>
-          <Btn full onClick={onClose} sx={{ height:44, borderRadius:12 }}>Anladım</Btn>
+          <Btn full onClick={onClose} sx={{ height:44, borderRadius:12 }}>Anlad─▒m</Btn>
         </div>
       </div>
     </div>
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // SPLASH SCREEN (Loading)
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 function SplashScreen() {
   return (
     <div style={{ height:"100%", background:T.bg, display:"flex", flexDirection:"column",
@@ -3334,7 +3332,7 @@ function SplashScreen() {
         <div style={{ fontSize:24, fontWeight:900, letterSpacing:"-1px", background:T.gradBrand,
           WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", fontFamily:"Georgia,serif",
           marginBottom:6 }}>Toptangram</div>
-        <div style={{ fontSize:12, color:T.muted }}>Yükleniyor…</div>
+        <div style={{ fontSize:12, color:T.muted }}>Y├╝kleniyorÔÇĞ</div>
       </div>
       <div style={{ width:40, height:3, borderRadius:2, background:T.border, overflow:"hidden" }}>
         <div style={{ height:"100%", width:"60%", background:T.brand, borderRadius:2,
@@ -3344,9 +3342,9 @@ function SplashScreen() {
   );
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 // ROOT APP
-// ═══════════════════════════════════════════════════════════════
+// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
 export default function App() {
   const toast = useToast();
   const [onboarded, setOnboarded] = useState(false);
@@ -3384,7 +3382,7 @@ export default function App() {
   // Simulate network error handling
   useEffect(() => {
     const handleOnline = () => setErrorMsg(null);
-    const handleOffline = () => setErrorMsg("Bağlantı Hatası: Lütfen internetinizi kontrol edin");
+    const handleOffline = () => setErrorMsg("Ba─şlant─▒ Hatas─▒: L├╝tfen internetinizi kontrol edin");
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
     return () => {
@@ -3393,17 +3391,14 @@ export default function App() {
     };
   }, []);
   
-  // Hydration sonrası Supabase session oku
+  // Hydration sonras─▒ localStorage + Supabase session oku
   useEffect(() => {
     setHydrated(true);
-    // Eski sahte localStorage session'ı temizle
-    try {
-      if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
-      localStorage.removeItem("toptangram_session");
-    } catch {}
-
     const init = async () => {
-      // Supabase'den gerçek session kontrol
+      try {
+        if (localStorage.getItem("toptangram_onboarded")) setOnboarded(true);
+      } catch {}
+      // Supabase session kontrol
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
@@ -3415,15 +3410,14 @@ export default function App() {
       }
     };
     init();
-
-    // Auth state değişikliklerini dinle
+    // Auth state de─şi┼şikliklerini dinle
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_OUT") {
-        setAuthed(false); setRole("customer"); setUserId(null); setMyStoreId(null); setTab("feed");
-      } else if (event === "SIGNED_IN" && session?.user) {
+      if (event === "SIGNED_OUT") { setAuthed(false); setRole("customer"); setUserId(null); setMyStoreId(null); setTab("feed"); }
+      if ((event === "SIGNED_IN" || event === "TOKEN_REFRESHED") && session?.user) {
         const { data: store } = await supabase.from("stores").select("id").eq("user_id", session.user.id).maybeSingle();
         const r = store ? "store" : "customer";
-        setRole(r); setUserId(session.user.id);
+        setRole(r);
+        setUserId(session.user.id);
         if (store) setMyStoreId(store.id);
         setAuthed(true);
       }
@@ -3462,7 +3456,7 @@ export default function App() {
   // Register service worker and subscribe to push (called when user opts in)
   const registerAndSubscribe = async (userId=null, storeId=null) => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      console.warn('Tarayıcınız push bildirimlerini desteklemiyor'); return null;
+      console.warn('Taray─▒c─▒n─▒z push bildirimlerini desteklemiyor'); return null;
       return null;
     }
     try {
@@ -3533,9 +3527,9 @@ export default function App() {
     setInteractedTags(prev => [...new Set([...prev, ...(product.tags||[] )])]);
   }, []);
 
-  // DM butonu — sadece müşteri mağazayla mesajlaşabilir
+  // DM butonu ÔÇö sadece m├╝┼şteri ma─şazayla mesajla┼şabilir
   const handleSendDM = useCallback((product) => {
-    if (role === "store") return; // mağazalar birbirine DM atamaz (B2B kısıt)
+    if (role === "store") return; // ma─şazalar birbirine DM atamaz (B2B k─▒s─▒t)
     setDmStoreId(product.storeId);
     setTab("messages");
     setStoreId(null);
@@ -3544,24 +3538,24 @@ export default function App() {
   const changeTab = useCallback((t) => { setTab(t); setStoreId(null); }, []);
   const msgCount = INIT_MESSAGES.reduce((s,m)=>s+m.unread, 0);
 
-  // Gerçek ürünleri Supabase'den çek
+  // Ger├ğek ├╝r├╝nleri Supabase'den ├ğek
   const [realProducts, setRealProducts] = useState([]);
   useEffect(() => {
     const load = async () => {
       try {
         const { data } = await supabase
           .from("products")
-          .select("id, name, price, image_url, store_id, whatsapp_number, created_at, in_stock, min_lot, tags, likes")
+          .select("*, stores(id, name, username, avatar_url, phone, city, verified, followers)")
           .eq("in_stock", true)
           .order("created_at", { ascending: false })
           .limit(50);
         if (data && data.length > 0) {
           const mapped = data.map(p => ({
             id: p.id,
-            storeId: p.store_id,
+            storeId: p.store_uuid || p.store_id,
             name: p.name,
             price: p.price,
-            description: "",
+            description: p.description || "",
             tags: p.tags || [],
             inStock: p.in_stock !== false,
             minLot: p.min_lot || 1,
@@ -3571,17 +3565,17 @@ export default function App() {
             media: [{ type:"image", url: p.image_url, thumb: p.image_url }],
             variants: [],
             timeAgo: "yeni",
-            storeVerified: false,
-            storeUsername: "",
-            storeAvatar: "",
-            storePhone: p.whatsapp_number || "",
-            storeCity: "",
-            storeName: "",
+            storeVerified: p.stores?.verified || false,
+            storeUsername: p.stores?.username || "",
+            storeAvatar: p.stores?.avatar_url || "",
+            storePhone: p.whatsapp_number || p.stores?.phone || "",
+            storeCity: p.stores?.city || "",
+            storeName: p.stores?.name || "",
             createdAt: p.created_at,
           }));
           setRealProducts(mapped);
         }
-      } catch(e) { console.error("Ürün yükleme hatası:", e); }
+      } catch(e) { console.error("├£r├╝n y├╝kleme hatas─▒:", e); }
     };
     load();
   }, [authed]);
@@ -3602,7 +3596,7 @@ export default function App() {
       minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center" }}>
       <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
         <Logo size={52}/>
-        <div style={{ fontSize:13, color:"#6b6b8a", fontWeight:600 }}>Yükleniyor…</div>
+        <div style={{ fontSize:13, color:"#6b6b8a", fontWeight:600 }}>Y├╝kleniyorÔÇĞ</div>
       </div>
     </div>
   );
@@ -3642,7 +3636,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Notification bell — sadece giriş sonrası göster */}
+        {/* Notification bell ÔÇö sadece giri┼ş sonras─▒ g├Âster */}
         {authed && !storeId && tab!=="profile" && tab!=="upload" && <div style={{ position:"absolute", top:48, right:18, zIndex:60 }}>
           <button onClick={async ()=>{
             if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') {
@@ -3680,8 +3674,8 @@ export default function App() {
                   {tab==="messages" && <Messages initialStoreId={dmStoreId} onClearInitial={()=>setDmStoreId(null)}/>}
                   {tab==="talepler" && role==="store" && <GelenTaleplerScreen/>}
                   {tab==="upload"   && role==="store" && <Upload store={STORES[0]} storeUuid={myStoreId} userId={userId} onNotify={handleNewNotification} toast={toast} onUploaded={()=>{
-  // Ürün yüklenince feed'i yenile
-  supabase.from("products").select("id, name, price, image_url, store_id, whatsapp_number, created_at, in_stock, min_lot, tags, likes").eq("in_stock",true).order("created_at",{ascending:false}).limit(50).then(({data})=>{
+  // ├£r├╝n y├╝klenince feed'i yenile
+  supabase.from("products").select("*, stores(id,name,username,avatar_url,phone,city,verified,followers)").eq("in_stock",true).order("created_at",{ascending:false}).limit(50).then(({data})=>{
     if(data?.length) setRealProducts(data.map(p=>({
       id:p.id, storeId:p.store_uuid||p.store_id, name:p.name, price:p.price,
       description:p.description||"", tags:p.tags||[], inStock:p.in_stock!==false,
@@ -3706,10 +3700,10 @@ export default function App() {
                       display:"flex", alignItems:"center", justifyContent:"space-between", gap:10 }}>
                       <div style={{ display:"flex", alignItems:"center", gap:8 }}>
                         <div style={{ width:8, height:8, borderRadius:4, background:T.rose }}/>
-                        <span style={{ fontSize:12, fontWeight:700, color:T.rose }}>Bağlantı Kesildi</span>
-                        <span style={{ fontSize:11, color:T.muted }}>İnternet bağlantınızı kontrol edin</span>
+                        <span style={{ fontSize:12, fontWeight:700, color:T.rose }}>Ba─şlant─▒ Kesildi</span>
+                        <span style={{ fontSize:11, color:T.muted }}>─░nternet ba─şlant─▒n─▒z─▒ kontrol edin</span>
                       </div>
-                      <div style={{ fontSize:11, color:T.muted }}>Önbellek görüntüleniyor</div>
+                      <div style={{ fontSize:11, color:T.muted }}>├ûnbellek g├Âr├╝nt├╝leniyor</div>
                     </div>
                   )}
                 </>
